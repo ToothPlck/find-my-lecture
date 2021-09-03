@@ -222,7 +222,7 @@ public class StudentHandlerController {
         model.addAttribute("rooms", roomService.getRoomsForTimeTable());
         model.addAttribute("modules", moduleService.getModulesForTimeTable());
         model.addAttribute("batches", batchService.getBatchesForTimeTable());
-        return "update_timetable";
+        return "handler_update_timetable";
     }
 
     @PostMapping("/handler/update/timetable/{timetableId}")

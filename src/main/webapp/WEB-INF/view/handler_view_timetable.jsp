@@ -34,21 +34,22 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <a class="nav-link" style="color: #FFFAF0" aria-current="page"
+                        <a class="nav-link" style="color: #ffdf9e" aria-current="page"
                            href="${pageContext.request.contextPath}/handler/home">Home</a>
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/handler/register">Register</a>
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/handler/view/students">Students</a>
-                        <a class="nav-link" style="color: #ffdf9e"
-                           href="${pageContext.request.contextPath}/handler/view/timetable">Timetable</a>
+                        <a class="nav-link" style="color: #FFFAF0"
+                           href="${pageContext.request.contextPath}/handler/view/timetable">Timetable : <a
+                                class="nav-link" style="color: #FFFAF0"
+                                href="${pageContext.request.contextPath}/handler/add/timetable">Add</a></a>
                     </div>
                     <div class="navbar-nav">
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/handler/view/account">My
                             Account</a>
-                        <a class="nav-link" style="color: #ffdf9e; cursor: pointer" onclick="logout()">Logout</a><a
-                            href="${pageContext.request.contextPath}/logout" id="logout"></a>
+                        <a class="nav-link" style="color: #ffdf9e" href="${pageContext.request.contextPath}/logout">Logout</a>
                     </div>
                 </div>
             </div>
@@ -56,17 +57,11 @@
     </nav>
 </div>
 
-<div class="container justify-content-center">
-    <div class="container text-center">
-        <label style="margin-top: 100px; color: #414141; font-size: xx-large;">Welcome ${loggedUser.firstname} to
-            FML!</label>
-    </div>
-</div>
 <div class="container">
-    <div style="margin-top: 50px;">
-        <form:form modelAttribute="schedules" method="get">
+    <div style="margin-top: 100px;">
+        <form:form modelAttribute="timeTable" method="get">
             <div class="col-lg-12 col-md-12 col-sm-12 container justify-content-center">
-                <h1 style="color: #414141;">Schedules For Today</h1>
+                <h1 style="color: #414141;">Time Table</h1>
 
                 <table class="table" style="width: 100%; margin-top: 25px;">
                     <thead>
@@ -77,10 +72,12 @@
                         <th style="width: 15%; color: #414141;">Start time</th>
                         <th style="width: 15%; color: #414141;">End time</th>
                         <th style="width: 15%; color: #414141;">Class room</th>
+                        <th style="width: 5%; color: #414141;">Update</th>
+                        <th style="width: 5%; color: #414141;">Delete</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${schedules}" var="timeTable">
+                    <c:forEach items="${timeTable}" var="timeTable">
                         <tr>
                             <td>${timeTable.modules.moduleName}</td>
                             <td>
@@ -92,6 +89,12 @@
                             <td>${timeTable.startTime}</td>
                             <td>${timeTable.endTme}</td>
                             <td>${timeTable.rooms.roomName}</td>
+                            <td><a type="button" class="btn btn-outline-info"
+                                   href="${pageContext.request.contextPath}/handler/update/timetable/${timeTable.timeTableId}">Update</a>
+                            </td>
+                            <td><a type="button" class="btn btn-outline-danger"
+                                   href="${pageContext.request.contextPath}/handler/delete/timetable/${timeTable.timeTableId}">Delete</a>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -100,14 +103,13 @@
         </form:form>
     </div>
 </div>
-
 <div class="container-fluid" style="margin-top: 120px;">
     <nav class="fixed-bottom" style="background-color: #414141">
         <footer class="text-center text-lg-start" style="padding: 10px 0">
             <div class="text-center p-3" style="color: #998d88">
                 © 2020 Copyright:
                 <a style="color: #998d88;" class="text-center p-3"
-                   href="${pageContext.request.contextPath}/handler/home">Find
+                   href="${pageContext.request.contextPath}/handler/view/timetable">Find
                     My Lecture</a>
             </div>
         </footer>
@@ -115,18 +117,3 @@
 </div>
 </body>
 </html>
-<script>
-    function logout() {
-        Swal.fire({
-            icon: 'question',
-            title: 'Sure you want to logout?',
-            showCancelButton: true,
-            confirmButtonText: `Yes!`,
-            cancelButtonText: 'Nope!',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('logout').click();
-            }
-        })
-    }
-</script>
