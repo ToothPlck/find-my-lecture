@@ -533,21 +533,23 @@ public class TimeTableServiceImplementation implements TimeTableService {
         Batch studentsBatch = student.getBatch();
         String[] thisWeek = week();
 
-        for (TimeTable timeTable : timeTableRepo.findSchedulesForBatch(studentsBatch.getBatchId())) {
-            for (String daysOfWeek : thisWeek) {
-                if ((LocalDate.parse(daysOfWeek).isAfter(LocalDate.now())) || LocalDate.parse(daysOfWeek).equals(LocalDate.now())) {
-                    if (timeTable.getDate().equals(Date.valueOf(daysOfWeek))) {
-                        TimeTableDto timeTableDto = new TimeTableDto();
+        if(studentsBatch != null) {
+            for (TimeTable timeTable : timeTableRepo.findSchedulesForBatch(studentsBatch.getBatchId())) {
+                for (String daysOfWeek : thisWeek) {
+                    if ((LocalDate.parse(daysOfWeek).isAfter(LocalDate.now())) || LocalDate.parse(daysOfWeek).equals(LocalDate.now())) {
+                        if (timeTable.getDate().equals(Date.valueOf(daysOfWeek))) {
+                            TimeTableDto timeTableDto = new TimeTableDto();
 
-                        timeTableDto.setTimeTableId(timeTable.getTimeTableId());
-                        timeTableDto.setModules(timeTable.getModule());
-                        timeTableDto.setDate(timeTable.getDate().toString());
-                        timeTableDto.setBatches(timeTable.getBatches());
-                        timeTableDto.setRooms(timeTable.getRoom());
-                        timeTableDto.setStartTime(timeTable.getStartTime().toString());
-                        timeTableDto.setEndTme(timeTable.getEndTime().toString());
+                            timeTableDto.setTimeTableId(timeTable.getTimeTableId());
+                            timeTableDto.setModules(timeTable.getModule());
+                            timeTableDto.setDate(timeTable.getDate().toString());
+                            timeTableDto.setBatches(timeTable.getBatches());
+                            timeTableDto.setRooms(timeTable.getRoom());
+                            timeTableDto.setStartTime(timeTable.getStartTime().toString());
+                            timeTableDto.setEndTme(timeTable.getEndTime().toString());
 
-                        timeTableDtoList.add(timeTableDto);
+                            timeTableDtoList.add(timeTableDto);
+                        }
                     }
                 }
             }

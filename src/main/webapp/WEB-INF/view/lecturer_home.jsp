@@ -6,7 +6,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Student - View Account</title>
+    <title>FML -Time Tables</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -34,11 +34,11 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <a class="nav-link" style="color: #ffdf9e" aria-current="page"
+                        <a class="nav-link" style="color: #FFFAF0" aria-current="page"
                            href="${pageContext.request.contextPath}/lecturer/home">Home</a>
                     </div>
                     <div class="navbar-nav">
-                        <a class="nav-link" style="color: #FFFAF0"
+                        <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/lecturer/view/account">My Account</a>
                         <a class="nav-link" style="color: #ffdf9e; cursor: pointer" onclick="logout()">Logout</a><a
                             href="${pageContext.request.contextPath}/logout" id="logout"></a>
@@ -48,42 +48,46 @@
         </nav>
     </nav>
 </div>
-<div class="controller">
-    <div style="margin-top: 120px;">
-        <form:form modelAttribute="loggedUser" method="get">
-            <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center">
-                <h1 style="color: #414141;">${loggedUser.username} - Profile</h1>
-                <div class="mb-3">
-                    <label style="color: #414141;" class="form-label">Username</label>
-                    <form:input path="username" class="form-control" disabled="true" type="text"/>
-                </div>
-                <div class="mb-3">
-                    <label style="color: #414141;" class="form-label">First name</label>
-                    <form:input path="firstname" class="form-control" disabled="true" type="text"/>
-                </div>
-                <div class="mb-3">
-                    <label style="color: #414141;" class="form-label">Last name</label>
-                    <form:input path="lastname" class="form-control" disabled="true" type="text"/>
-                </div>
-                <div class="mb-3">
-                    <label style="color: #414141;" class="form-label">email</label>
-                    <form:input path="email" class="form-control" disabled="true" type="text"/>
-                </div>
-                <div class="mb-3">
-                    <label style="color: #414141;" class="form-label">Phone</label>
-                    <form:input path="contactNumber" class="form-control" disabled="true" type="text"/>
-                </div>
-                <div class="col text-center">
-                    <a class="btn btn" style="color: floralwhite; border-color: #414141; background-color: #414141"
-                       href="${pageContext.request.contextPath}/lecturer/update/account">Update
-                        Account</a>
-                </div>
-            </div>
-            <div>
-                <p style="display: none" id="errorMessage">${error}</p>
-            </div>
-            <div>
-                <p style="display: none" id="successMessage">${success}</p>
+<div class="container justify-content-center">
+    <div class="container text-center">
+        <label style="margin-top: 100px; color: #414141; font-size: xx-large;">Welcome ${loggedUser.firstname} to
+            FML!</label>
+    </div>
+</div>
+<div class="container">
+    <div style="margin-top: 50px;">
+        <form:form modelAttribute="schedules" method="get">
+            <div class="col-lg-12 col-md-12 col-sm-12 container justify-content-center">
+                <h1 style="color: #414141;">Schedules For The Week</h1>
+
+                <table class="table" style="width: 100%; margin-top: 25px;">
+                    <thead>
+                    <tr>
+                        <th style="width: 15%; color: #414141;">Module</th>
+                        <th style="width: 25%; color: #414141;">Batch/s</th>
+                        <th style="width: 15%; color: #414141;">Date</th>
+                        <th style="width: 15%; color: #414141;">Start time</th>
+                        <th style="width: 15%; color: #414141;">End time</th>
+                        <th style="width: 15%; color: #414141;">Class room</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${schedules}" var="timeTable">
+                        <tr>
+                            <td>${timeTable.modules.moduleName}</td>
+                            <td>
+                                <c:forEach items="${timeTable.batches}" var="batch">
+                                    ${batch.batchCode}<br>
+                                </c:forEach>
+                            </td>
+                            <td>${timeTable.date}</td>
+                            <td>${timeTable.startTime}</td>
+                            <td>${timeTable.endTme}</td>
+                            <td>${timeTable.rooms.roomName}</td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
             </div>
         </form:form>
     </div>
@@ -94,7 +98,7 @@
             <div class="text-center p-3" style="color: #998d88">
                 © 2020 Copyright:
                 <a style="color: #998d88;" class="text-center p-3"
-                   href="${pageContext.request.contextPath}/lecturer/view/account">Find
+                   href="${pageContext.request.contextPath}/lecturer/home">Find
                     My Lecture</a>
             </div>
         </footer>

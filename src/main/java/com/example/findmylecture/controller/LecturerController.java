@@ -52,6 +52,8 @@ public class LecturerController {
     @GetMapping("/lecturer/view/account")
     public String viewAccount(Model model, Authentication authentication) {
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
+        model.addAttribute("error", "");
+        model.addAttribute("success", "");
         return "lecturer_view_account";
     }
 
@@ -59,13 +61,25 @@ public class LecturerController {
     @GetMapping("/lecturer/update/account")
     public String updateAccount(Model model, Authentication authentication) {
         model.addAttribute("loggedUser", userService.updatable(authentication.getName()));
+        model.addAttribute("error", "");
+        model.addAttribute("success", "");
         return "lecturer_update_account";
     }
 
     @PostMapping("/lecturer/update/account")
-    public String updateAccount(@ModelAttribute("loggedUser") UserDto userDto, Authentication authentication) throws Exception {
-        userService.updateProfile(userDto, authentication.getName());
-        return "redirect:/lecturer/view/account";
+    public String updateAccount(@ModelAttribute("loggedUser") UserDto userDto, Authentication authentication, Model model) throws Exception {
+        try {
+            userService.updateProfile(userDto, authentication.getName());
+            model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
+            model.addAttribute("error", "");
+            model.addAttribute("success", "Account updated");
+        } catch (Exception exception) {
+            model.addAttribute("loggedUser", userService.updatable(authentication.getName()));
+            model.addAttribute("error", exception.getMessage());
+            model.addAttribute("success", "");
+            return "lecturer_update_account";
+        }
+        return "lecturer_view_account";
     }
 
 }

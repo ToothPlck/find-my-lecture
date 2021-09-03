@@ -40,7 +40,8 @@
                     <div class="navbar-nav">
                         <a class="nav-link" style="color: #FFFAF0"
                            href="${pageContext.request.contextPath}/student/view/account">My Account</a>
-                        <a class="nav-link" style="color: #ffdf9e" href="${pageContext.request.contextPath}/logout">Logout</a>
+                        <a class="nav-link" style="color: #ffdf9e; cursor: pointer" onclick="logout()">Logout</a><a
+                            href="${pageContext.request.contextPath}/logout" id="logout"></a>
                     </div>
                 </div>
             </div>
@@ -78,6 +79,12 @@
                         Account</a>
                 </div>
             </div>
+            <div>
+                <p style="display: none" id="errorMessage">${error}</p>
+            </div>
+            <div>
+                <p style="display: none" id="successMessage">${success}</p>
+            </div>
         </form:form>
     </div>
 </div>
@@ -95,3 +102,18 @@
 </div>
 </body>
 </html>
+<script>
+    function logout() {
+        Swal.fire({
+            icon: 'question',
+            title: 'Sure you want to logout?',
+            showCancelButton: true,
+            confirmButtonText: `Yes!`,
+            cancelButtonText: 'Nope!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('logout').click();
+            }
+        })
+    }
+</script>

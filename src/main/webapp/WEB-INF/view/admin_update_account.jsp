@@ -122,7 +122,6 @@
 </div>
 </body>
 </html>
-
 <script>
     window.onload = function () {
         const errorMessage = document.getElementById("errorMessage").innerHTML;
@@ -223,8 +222,8 @@
             }
         } else {
             Swal.fire({
-                title: 'Registering...',
-                html: 'Hold on a few seconds while we register the user!',
+                title: 'Updating...',
+                html: 'Hold on a few seconds while we update your account!',
                 timer: 10000,
                 timerProgressBar: false,
             });

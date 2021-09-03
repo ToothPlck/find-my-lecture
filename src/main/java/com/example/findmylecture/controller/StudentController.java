@@ -50,20 +50,36 @@ public class StudentController {
 
     //======================================================================================================view account
     @GetMapping("/student/view/account")
-    public String viewAccount(Model model, Authentication authentication){
+    public String viewAccount(Model model, Authentication authentication) {
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
+        model.addAttribute("error", "");
+        model.addAttribute("success", "");
         return "student_view_account";
     }
+
     //====================================================================================================update account
     @GetMapping("/student/update/account")
-    public String updateAccount(Model model, Authentication authentication){
+    public String updateAccount(Model model, Authentication authentication) {
         model.addAttribute("loggedUser", userService.updatable(authentication.getName()));
+        model.addAttribute("error", "");
+        model.addAttribute("success", "");
         return "student_update_account";
     }
+
     @PostMapping("/student/update/account")
-    public String updateAccount(@ModelAttribute("loggedUser") UserDto userDto, Authentication authentication) throws Exception {
-        userService.updateProfile(userDto, authentication.getName());
-        return "redirect:/student/view/account";
+    public String updateAccount(@ModelAttribute("loggedUser") UserDto userDto, Authentication authentication, Model model) throws Exception {
+        try {
+            userService.updateProfile(userDto, authentication.getName());
+            model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
+            model.addAttribute("error", "");
+            model.addAttribute("success", "Account updated");
+        } catch (Exception exception) {
+            model.addAttribute("loggedUser", userService.updatable(authentication.getName()));
+            model.addAttribute("error", exception.getMessage());
+            model.addAttribute("success", "");
+            return "student_update_account";
+        }
+        return "student_view_account";
     }
 
 }
