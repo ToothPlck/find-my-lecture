@@ -316,22 +316,27 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public void updateStudentBatch(String username, UserDto userDto) {
-        User student = new User();
+    public void updateStudentBatch(String username, UserDto userDto) throws Exception {
+        try {
+            User student = new User();
 
-        Optional<User> thisUser = Optional.ofNullable(userRepo.findUserByUsername(username));
-        if (thisUser.isPresent()) {
-            student = thisUser.get();
-        }
-
-        if (userDto.getBatch() != null) {
-            if (!userDto.getBatch().getBatchCode().equals("")) {
-                student.setBatch(userDto.getBatch());
+            Optional<User> thisUser = Optional.ofNullable(userRepo.findUserByUsername(username));
+            if (thisUser.isPresent()) {
+                student = thisUser.get();
             }
-        }
 
-        userRepo.save(student);
-        emailService.updateStudentBatch(student);
+            if (userDto.getBatch() != null) {
+                if (!userDto.getBatch().getBatchCode().equals("")) {
+                    if (!student.getBatch().getBatchCode().equals(userDto.getBatch().getBatchCode())) {
+                        student.setBatch(userDto.getBatch());
+                        userRepo.save(student);
+                        emailService.updateStudentBatch(student);
+                    }
+                }
+            }
+        } catch (Exception exception) {
+            throw new Exception("An error occurred while assigning the student to the batch!");
+        }
     }
 
     @Override

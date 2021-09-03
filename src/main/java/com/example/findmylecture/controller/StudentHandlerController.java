@@ -74,8 +74,7 @@ public class StudentHandlerController {
             model.addAttribute("batches", batchService.findAllAssignableBatches());
             model.addAttribute("error", "");
             model.addAttribute("success", "Student registered successfully!");
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
             model.addAttribute("userForm", new UserDto());
             model.addAttribute("batches", batchService.findAllAssignableBatches());
@@ -111,8 +110,7 @@ public class StudentHandlerController {
             model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
             model.addAttribute("error", "");
             model.addAttribute("success", "Account updated successfully!");
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             model.addAttribute("loggedUser", userService.updatable(authentication.getName()));
             model.addAttribute("error", exception.getMessage());
             model.addAttribute("success", "");
@@ -134,7 +132,7 @@ public class StudentHandlerController {
 
     //====================================================================================================update student
     @GetMapping("/handler/update/student/{username}")
-    public String updateStudent(@PathVariable(value = "username") String username, Model model, Authentication authentication) throws Exception{
+    public String updateStudent(@PathVariable(value = "username") String username, Model model, Authentication authentication) throws Exception {
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
         model.addAttribute("student", userService.findByUsername(username));
         model.addAttribute("error", "");
@@ -143,15 +141,14 @@ public class StudentHandlerController {
     }
 
     @PostMapping("/handler/update/student/{username}")
-    public String updateStudent(@PathVariable(value = "username") String username, UserDto userDto, Authentication authentication, Model model) throws Exception{
+    public String updateStudent(@PathVariable(value = "username") String username, UserDto userDto, Authentication authentication, Model model) throws Exception {
         try {
             userService.updateStudent(userDto, username);
             model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
             model.addAttribute("students", userService.findAllStudents());
             model.addAttribute("error", "");
             model.addAttribute("success", "The student has been updated successfully!");
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
             model.addAttribute("student", userService.findByUsername(username));
             model.addAttribute("error", exception.getMessage());
@@ -166,16 +163,29 @@ public class StudentHandlerController {
     public String updateStudentBatch(@PathVariable(value = "username") String username, Model model, Authentication authentication) {
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
         model.addAttribute("studentBatch", userService.findStudentsBatch(username));
-        model.addAttribute("allBatches", batchService.findAllBatches());
+        model.addAttribute("allBatches", batchService.findAllAssignableBatches());
         model.addAttribute("error", "");
         model.addAttribute("success", "");
         return "handler_update_student_batch";
     }
 
     @PostMapping("/handler/update/student/batch/{username}")
-    public String updateStudentBatch(@PathVariable(value = "username") String username, UserDto userDto, Model model, Authentication authentication) throws Exception{
-        userService.updateStudentBatch(username, userDto);
-        return "redirect:/handler/update/student/" + username;
+    public String updateStudentBatch(@PathVariable(value = "username") String username, UserDto userDto, Model model, Authentication authentication) throws Exception {
+        try {
+            userService.updateStudentBatch(username, userDto);
+            model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
+            model.addAttribute("student", userService.findByUsername(username));
+            model.addAttribute("error", "");
+            model.addAttribute("success", "The student has been assigned to the new batch successfully!");
+        } catch (Exception exception) {
+            model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
+            model.addAttribute("studentBatch", userService.findStudentsBatch(username));
+            model.addAttribute("allBatches", batchService.findAllAssignableBatches());
+            model.addAttribute("error", exception.getMessage());
+            model.addAttribute("success", "");
+            return "handler_update_student_batch";
+        }
+        return "handler_update_student";
     }
 
     @GetMapping("/handler/update/student/batch/{username}/de-assign")
@@ -186,7 +196,7 @@ public class StudentHandlerController {
 
     //====================================================================================================delete student
     @RequestMapping("/handler/delete/student/{username}")
-    public String deleteStudent(@PathVariable(value = "username") String username, Model model, Authentication authentication) throws Exception{
+    public String deleteStudent(@PathVariable(value = "username") String username, Model model, Authentication authentication) throws Exception {
         try {
             userService.deleteUserByUsername(username);
             model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
@@ -231,10 +241,10 @@ public class StudentHandlerController {
 
     //=================================================================================================search time table
     @GetMapping("/handler/search/timetable")
-    public String searchTimeTable(Model model, Authentication authentication, HttpServletRequest request){
+    public String searchTimeTable(Model model, Authentication authentication, HttpServletRequest request) {
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
         String keyword = request.getParameter("keyword");
-        System.out.println(keyword+"\n\n\n\n\n\n"+request);
+        System.out.println(keyword + "\n\n\n\n\n\n" + request);
         model.addAttribute("timeTable", timeTableService.searchTimetable(keyword));
         return "handler_view_timetable";
     }

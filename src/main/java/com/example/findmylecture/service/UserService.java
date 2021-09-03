@@ -22,7 +22,7 @@ public interface UserService {
 
     UserDto findStudentsBatch(String username);
 
-    void updateStudentBatch(String username, UserDto userDto);
+    void updateStudentBatch(String username, UserDto userDto) throws Exception;
 
     void deAssignStudentBatch(String username);
 

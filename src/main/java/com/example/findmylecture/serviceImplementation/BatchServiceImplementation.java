@@ -28,12 +28,12 @@ public class BatchServiceImplementation implements BatchService {
         List<Batch> batchesWithBatchCode = batchRepo.findByBatchCode(batchDto.getBatchCode());
         if (batchesWithBatchCode.size() != 0) {
             throw new Exception("Another batch with the entered batch code already exists in the system! Please try again with a different batch code.");
-        } else if (batchDto.getBatchPeriod() < 3 || batchDto.getBatchPeriod() > 48) {
-            throw new Exception("A batches duration can be between minimum three (3) to maximum forty-eight (48) months!");
+        } else if (batchDto.getBatchPeriod() < 3 || batchDto.getBatchPeriod() > 60) {
+            throw new Exception("A batches duration can be between minimum three (3) to maximum sixty (60) months!");
         } else if (LocalDate.parse(batchDto.getIntakeDate()).isBefore(LocalDate.now())) {
             throw new Exception("The selected Intake date for the batch is set in a previous date! Please select a future date for the Intake date.");
-        } else if (batchDto.getModules().size() > 8) {
-            throw new Exception("The batch has too many modules assigned to it! The max limit of modules for a batch is eight (8).");
+        } else if (batchDto.getModules().size() > 16) {
+            throw new Exception("The batch has too many modules assigned to it! The max limit of modules for a batch is sixteen (16).");
         }
 
         Batch batch = new Batch();
@@ -118,7 +118,7 @@ public class BatchServiceImplementation implements BatchService {
             }
         }
         if (batchDto.getBatchPeriod() < 3 || batchDto.getBatchPeriod() > 48) {
-            throw new Exception("A batches duration can be between minimum three (3) to maximum forty-eight (48) months!");
+            throw new Exception("A batches duration can be between minimum three (3) to maximum sixty (60) months!");
         }
         if (LocalDate.parse(batchDto.getIntakeDate()).isBefore(LocalDate.now())) {
             throw new Exception("The selected Intake date for the batch is set in a previous date! Please select a future date for the Intake date.");
@@ -141,8 +141,8 @@ public class BatchServiceImplementation implements BatchService {
 
     @Override
     public void updateBatchModules(Long batchId, BatchDto batchDto) throws Exception {
-        if (batchDto.getModules().size() > 8) {
-            throw new Exception("The batch has too many modules assigned to it! The max limit of modules for a batch is eight (8).");
+        if (batchDto.getModules().size() > 16) {
+            throw new Exception("The batch has too many modules assigned to it! The max limit of modules for a batch is sixteen (16).");
         }
         if (batchDto.getModules().size() != 0) {
             Batch allModules = new Batch();
