@@ -226,16 +226,35 @@ public class StudentHandlerController {
     }
 
     @PostMapping("/handler/add/timetable")
-    public String addTimeTable(@ModelAttribute("timetableForm") TimeTableDto timeTableDto) throws Exception {
-        timeTableService.save(timeTableDto);
-        return "redirect:/handler/add/timetable";
+    public String addTimeTable(@ModelAttribute("timetableForm") TimeTableDto timeTableDto, Model model, Authentication authentication) throws Exception {
+        try {
+            timeTableService.save(timeTableDto);
+            model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
+            model.addAttribute("timetableForm", new TimeTableDto());
+            model.addAttribute("rooms", roomService.getRoomsForTimeTable());
+            model.addAttribute("modules", moduleService.getModulesForTimeTable());
+            model.addAttribute("batches", batchService.getBatchesForTimeTable());
+            model.addAttribute("error", "");
+            model.addAttribute("success", "Schedule added successfully");
+        } catch (Exception exception) {
+            model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
+            model.addAttribute("timetableForm", new TimeTableDto());
+            model.addAttribute("rooms", roomService.getRoomsForTimeTable());
+            model.addAttribute("modules", moduleService.getModulesForTimeTable());
+            model.addAttribute("batches", batchService.getBatchesForTimeTable());
+            model.addAttribute("error", exception.getMessage());
+            model.addAttribute("success", "");
+        }
+        return "handler_add_timetable";
     }
 
     //===================================================================================================view time table
     @GetMapping("/handler/view/timetable")
-    public String viewTimeTable(Model model, Authentication authentication, String keyword) {
+    public String viewTimeTable(Model model, Authentication authentication) {
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
         model.addAttribute("timeTable", timeTableService.getTimeTable());
+        model.addAttribute("error", "");
+        model.addAttribute("success", "");
         return "handler_view_timetable";
     }
 
@@ -246,6 +265,8 @@ public class StudentHandlerController {
         String keyword = request.getParameter("keyword");
         System.out.println(keyword + "\n\n\n\n\n\n" + request);
         model.addAttribute("timeTable", timeTableService.searchTimetable(keyword));
+        model.addAttribute("error", "");
+        model.addAttribute("success", "");
         return "handler_view_timetable";
     }
 
@@ -257,20 +278,49 @@ public class StudentHandlerController {
         model.addAttribute("rooms", roomService.getRoomsForTimeTable());
         model.addAttribute("modules", moduleService.getModulesForTimeTable());
         model.addAttribute("batches", batchService.getBatchesForTimeTable());
+        model.addAttribute("error", "");
+        model.addAttribute("success", "");
         return "handler_update_timetable";
     }
 
     @PostMapping("/handler/update/timetable/{timetableId}")
-    public String updateTimeTable(@PathVariable(value = "timetableId") Long timetableId, TimeTableDto timeTableDto) throws Exception {
-        timeTableService.updateTimetable(timetableId, timeTableDto);
-        return "redirect:/handler/view/timetable";
+    public String updateTimeTable(@PathVariable(value = "timetableId") Long timetableId, TimeTableDto timeTableDto, Authentication authentication, Model model) throws Exception {
+        try {
+            timeTableService.updateTimetable(timetableId, timeTableDto);
+            model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
+            model.addAttribute("timeTable", timeTableService.getTimeTable());
+            model.addAttribute("error", "");
+            model.addAttribute("success", "Schedule updated successfully!");
+        } catch (Exception exception) {
+            model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
+            model.addAttribute("timetable", timeTableService.findTimetableByTimetableId(timetableId));
+            model.addAttribute("rooms", roomService.getRoomsForTimeTable());
+            model.addAttribute("modules", moduleService.getModulesForTimeTable());
+            model.addAttribute("batches", batchService.getBatchesForTimeTable());
+            model.addAttribute("error", exception.getMessage());
+            model.addAttribute("success", "");
+            return "handler_update_timetable";
+        }
+        return "handler_view_timetable";
     }
 
     //=================================================================================================delete time table
     @RequestMapping("/handler/delete/timetable/{timetableId}")
-    public String deleteTimeTable(@PathVariable(value = "timetableId") Long timetableId) {
-        timeTableService.deleteTimeTable(timetableId);
-        return "redirect:/handler/view/timetable";
+    public String deleteTimeTable(@PathVariable(value = "timetableId") Long timetableId, Model model, Authentication authentication) throws Exception {
+        try {
+            timeTableService.deleteTimeTable(timetableId);
+            model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
+            model.addAttribute("timeTable", timeTableService.getTimeTable());
+            model.addAttribute("error", "");
+            model.addAttribute("success", "Schedule deleted successfully");
+        } catch (Exception exception) {
+            model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
+            model.addAttribute("timeTable", timeTableService.getTimeTable());
+            model.addAttribute("error", exception.getMessage());
+            model.addAttribute("success", "");
+            return "handler_view_timetable";
+        }
+        return "handler_view_timetable";
     }
 
 }

@@ -14,7 +14,7 @@ public interface TimeTableService {
 
     void updateTimetable(Long timetableId, TimeTableDto timeTableDto) throws Exception;
 
-    void deleteTimeTable(Long timetableId);
+    void deleteTimeTable(Long timetableId) throws Exception;
 
     void updateWhereRoom(Long roomId);
 

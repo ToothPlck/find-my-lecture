@@ -125,7 +125,7 @@
 
         if (errorMessage !== "") {
             Swal.fire({
-                title: "Error occurred while deleting!!!",
+                title: "Error occurred!!!",
                 text: errorMessage,
                 icon: "error",
             });

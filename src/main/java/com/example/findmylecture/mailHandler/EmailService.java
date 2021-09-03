@@ -47,11 +47,11 @@ public class EmailService {
         mailSender.send(message);
     }
 
-    public void deAssignBatch(User user) {
+    public void deAssignBatch(String batchCode, String email) {
         message.setFrom("findmylecture@gmail.com");
-        message.setTo(user.getEmail());
+        message.setTo(email);
         message.setSubject("De-assigned from batch!");
-        message.setText("You have been removed from the following batch: " + user.getBatch().getBatchCode() + "\n" +
+        message.setText("You have been removed from the following batch: " + batchCode + "\n" +
                 "You will be assigned to a new batch as soon as possible.\n" +
                 "Thank you for your patience.");
 

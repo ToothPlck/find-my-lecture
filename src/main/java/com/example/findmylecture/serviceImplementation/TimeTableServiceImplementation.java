@@ -18,6 +18,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
@@ -53,6 +54,18 @@ public class TimeTableServiceImplementation implements TimeTableService {
     public void save(TimeTableDto timeTableDto) throws Exception {
         TimeTable timeTable = new TimeTable();
 
+        if (LocalTime.parse(timeTableDto.getStartTime()).isAfter(LocalTime.parse(timeTableDto.getEndTme()))) {
+            throw new Exception("The schedule end time is set before the schedules start time! Please try again with correct time slots.");
+        } else {
+            LocalTime start = LocalTime.parse(timeTableDto.getStartTime());
+            LocalTime end = LocalTime.parse(timeTableDto.getEndTme());
+            if (start.until(end, ChronoUnit.MINUTES) < 10) {
+                throw new Exception("The minimum time period for a schedule is ten (10) minutes! Please try again with a time difference of over ten minutes.");
+            } else if (start.until(end, ChronoUnit.HOURS) > 5) {
+                throw new Exception("The maximum time period for a schedule is five (5) hours! Please try again with a time difference of under 5 hours.");
+            }
+        }
+
         timeTable.setTimeTableId(timeTableDto.getTimeTableId());
         timeTable.setDate(Date.valueOf(timeTableDto.getDate()));
         timeTable.setStartTime(LocalTime.parse(timeTableDto.getStartTime()));
@@ -82,30 +95,30 @@ public class TimeTableServiceImplementation implements TimeTableService {
         List<TimeTable> schedulesOnDate = timeTableRepo.findBatchesByDate(Date.valueOf(timeTableDto.getDate()));
 
         for (Batch batch : timeTableDto.getBatches()) {
-            if (batch.getUsers().size() == 0) {
-                throw new Exception("The following batch does not have any students assigned to it :" + batch.getBatchCode());
-            } else {
-                for (TimeTable schedule : schedulesOnDate) {
-                    if (schedule.getBatches().contains(batch)) {
-                        if ((LocalTime.parse(timeTableDto.getStartTime()).isAfter(schedule.getStartTime()))
-                                &&
-                                LocalTime.parse(timeTableDto.getStartTime()).isBefore(schedule.getEndTime())) {
-                            throw new Exception("The selected batch/s has other schedules during the entered time slot!");
-                        } else if ((LocalTime.parse(timeTableDto.getEndTme()).isAfter(schedule.getStartTime()))
-                                &&
-                                LocalTime.parse(timeTableDto.getEndTme()).isBefore(schedule.getEndTime())) {
-                            throw new Exception("The selected batch/s has other schedules during the entered time slot!");
-                        } else if (LocalTime.parse(timeTableDto.getStartTime()) == schedule.getStartTime()) {
-                            throw new Exception("The selected batch/s has other schedules during the entered time slot!");
-                        } else if (LocalTime.parse(timeTableDto.getEndTme()) == schedule.getEndTime()) {
-                            throw new Exception("The selected batch/s has other schedules during the entered time slot!");
-                        } else if ((LocalTime.parse(timeTableDto.getStartTime()).isBefore(schedule.getStartTime()))
-                                &&
-                                LocalTime.parse(timeTableDto.getEndTme()).isAfter(schedule.getEndTime())) {
-                            throw new Exception("The selected batch/s has other schedules during the entered time slot!");
-                        }
+//            if (batch.getUsers().size() == 0) {
+//                throw new Exception("The following batch does not have any students assigned to it :" + batch.getBatchCode());
+//            } else {
+            for (TimeTable schedule : schedulesOnDate) {
+                if (schedule.getBatches().contains(batch)) {
+                    if ((LocalTime.parse(timeTableDto.getStartTime()).isAfter(schedule.getStartTime()))
+                            &&
+                            LocalTime.parse(timeTableDto.getStartTime()).isBefore(schedule.getEndTime())) {
+                        throw new Exception("The selected batch/s has other schedules during the entered time slot!");
+                    } else if ((LocalTime.parse(timeTableDto.getEndTme()).isAfter(schedule.getStartTime()))
+                            &&
+                            LocalTime.parse(timeTableDto.getEndTme()).isBefore(schedule.getEndTime())) {
+                        throw new Exception("The selected batch/s has other schedules during the entered time slot!");
+                    } else if (LocalTime.parse(timeTableDto.getStartTime()) == schedule.getStartTime()) {
+                        throw new Exception("The selected batch/s has other schedules during the entered time slot!");
+                    } else if (LocalTime.parse(timeTableDto.getEndTme()) == schedule.getEndTime()) {
+                        throw new Exception("The selected batch/s has other schedules during the entered time slot!");
+                    } else if ((LocalTime.parse(timeTableDto.getStartTime()).isBefore(schedule.getStartTime()))
+                            &&
+                            LocalTime.parse(timeTableDto.getEndTme()).isAfter(schedule.getEndTime())) {
+                        throw new Exception("The selected batch/s has other schedules during the entered time slot!");
                     }
                 }
+
             }
         }
 
@@ -149,17 +162,19 @@ public class TimeTableServiceImplementation implements TimeTableService {
         List<TimeTableDto> timeTableDtoList = new ArrayList<>();
 
         for (TimeTable timeTable : timeTableRepo.findAll()) {
-            TimeTableDto timeTableDto = new TimeTableDto();
+            if (LocalDate.parse(timeTable.getDate().toString()).isAfter(LocalDate.now().minusDays(1))) {
+                TimeTableDto timeTableDto = new TimeTableDto();
 
-            timeTableDto.setTimeTableId(timeTable.getTimeTableId());
-            timeTableDto.setModules(timeTable.getModule());
-            timeTableDto.setDate(timeTable.getDate().toString());
-            timeTableDto.setBatches(timeTable.getBatches());
-            timeTableDto.setRooms(timeTable.getRoom());
-            timeTableDto.setStartTime(timeTable.getStartTime().toString());
-            timeTableDto.setEndTme(timeTable.getEndTime().toString());
+                timeTableDto.setTimeTableId(timeTable.getTimeTableId());
+                timeTableDto.setModules(timeTable.getModule());
+                timeTableDto.setDate(timeTable.getDate().toString());
+                timeTableDto.setBatches(timeTable.getBatches());
+                timeTableDto.setRooms(timeTable.getRoom());
+                timeTableDto.setStartTime(timeTable.getStartTime().toString());
+                timeTableDto.setEndTme(timeTable.getEndTime().toString());
 
-            timeTableDtoList.add(timeTableDto);
+                timeTableDtoList.add(timeTableDto);
+            }
         }
         return timeTableDtoList;
     }
@@ -190,6 +205,17 @@ public class TimeTableServiceImplementation implements TimeTableService {
         }
 
         if (timeTableDto != null) {
+            if (LocalTime.parse(timeTableDto.getStartTime()).isAfter(LocalTime.parse(timeTableDto.getEndTme()))) {
+                throw new Exception("The schedule end time is set before the schedules start time! Please try again with correct time slots.");
+            } else {
+                LocalTime start = LocalTime.parse(timeTableDto.getStartTime());
+                LocalTime end = LocalTime.parse(timeTableDto.getEndTme());
+                if (start.until(end, ChronoUnit.MINUTES) < 10) {
+                    throw new Exception("The minimum time period for a schedule is ten (10) minutes! Please try again with a time difference of over ten minutes.");
+                } else if (start.until(end, ChronoUnit.HOURS) > 5) {
+                    throw new Exception("The maximum time period for a schedule is five (5) hours! Please try again with a time difference of under 5 hours.");
+                }
+            }
 
             List<TimeTable> schedulesWithClassroom = timeTableRepo.findByClassroomAndDate(timeTableDto.getRooms().getRoomId(), Date.valueOf(timeTableDto.getDate()));
             for (TimeTable scheduleWithClassroom : schedulesWithClassroom) {
@@ -218,37 +244,36 @@ public class TimeTableServiceImplementation implements TimeTableService {
 
             for (Batch batch : timeTableDto.getBatches()) {
                 if (!timeTable.getBatches().contains(batch)) {
-                    if (batch.getUsers().size() == 0) {
-                        throw new Exception("The following batch does not have any students assigned to it :" + batch.getBatchCode());
-                    } else {
-                        for (TimeTable schedule : schedulesOnDate) {
-                            if (schedule != timeTable) {
-                                if (schedule.getBatches().contains(batch)) {
-                                    if ((LocalTime.parse(timeTableDto.getStartTime()).isAfter(schedule.getStartTime()))
-                                            &&
-                                            LocalTime.parse(timeTableDto.getStartTime()).isBefore(schedule.getEndTime())) {
-                                        throw new Exception("The selected batch/s has other schedules during the entered time slot!");
-                                    } else if ((LocalTime.parse(timeTableDto.getEndTme()).isAfter(schedule.getStartTime()))
-                                            &&
-                                            LocalTime.parse(timeTableDto.getEndTme()).isBefore(schedule.getEndTime())) {
-                                        throw new Exception("The selected batch/s has other schedules during the entered time slot!");
-                                    } else if (LocalTime.parse(timeTableDto.getStartTime()) == schedule.getStartTime()) {
-                                        throw new Exception("The selected batch/s has other schedules during the entered time slot!");
-                                    } else if (LocalTime.parse(timeTableDto.getEndTme()) == schedule.getEndTime()) {
-                                        throw new Exception("The selected batch/s has other schedules during the entered time slot!");
-                                    } else if ((LocalTime.parse(timeTableDto.getStartTime()).isBefore(schedule.getStartTime()))
-                                            &&
-                                            LocalTime.parse(timeTableDto.getEndTme()).isAfter(schedule.getEndTime())) {
-                                        throw new Exception("The selected batch/s has other schedules during the entered time slot!");
-                                    }
+//                    if (batch.getUsers().size() == 0) {
+//                        throw new Exception("The following batch does not have any students assigned to it :" + batch.getBatchCode());
+//                    } else {
+                    for (TimeTable schedule : schedulesOnDate) {
+                        if (schedule != timeTable) {
+                            if (schedule.getBatches().contains(batch)) {
+                                if ((LocalTime.parse(timeTableDto.getStartTime()).isAfter(schedule.getStartTime()))
+                                        &&
+                                        LocalTime.parse(timeTableDto.getStartTime()).isBefore(schedule.getEndTime())) {
+                                    throw new Exception("The selected batch/s has other schedules during the entered time slot!");
+                                } else if ((LocalTime.parse(timeTableDto.getEndTme()).isAfter(schedule.getStartTime()))
+                                        &&
+                                        LocalTime.parse(timeTableDto.getEndTme()).isBefore(schedule.getEndTime())) {
+                                    throw new Exception("The selected batch/s has other schedules during the entered time slot!");
+                                } else if (LocalTime.parse(timeTableDto.getStartTime()) == schedule.getStartTime()) {
+                                    throw new Exception("The selected batch/s has other schedules during the entered time slot!");
+                                } else if (LocalTime.parse(timeTableDto.getEndTme()) == schedule.getEndTime()) {
+                                    throw new Exception("The selected batch/s has other schedules during the entered time slot!");
+                                } else if ((LocalTime.parse(timeTableDto.getStartTime()).isBefore(schedule.getStartTime()))
+                                        &&
+                                        LocalTime.parse(timeTableDto.getEndTme()).isAfter(schedule.getEndTime())) {
+                                    throw new Exception("The selected batch/s has other schedules during the entered time slot!");
                                 }
                             }
                         }
+
                     }
                 }
             }
 
-//            User lecturer = moduleRepo.findEmailOfLecturerByModuleId(timeTable.getModule().getModuleId());
             User lecturer = userRepo.findEmailOfLecturerByModuleId(timeTable.getModule().getModuleId());
             List<Module> lecturerModules = moduleRepo.findModulesByUsername(lecturer.getUsername());
 
@@ -325,29 +350,31 @@ public class TimeTableServiceImplementation implements TimeTableService {
     }
 
     @Override
-    public void deleteTimeTable(Long timetableId) {
+    public void deleteTimeTable(Long timetableId) throws Exception {
+        try {
+            String moduleName = timeTableRepo.getModuleNameOfTimetable(timetableId);
+            List<Batch> batchList = timeTableRepo.getBatchesOfTimeTable(timetableId);
+            Module module = timeTableRepo.getModule(timetableId);
 
-        String moduleName = timeTableRepo.getModuleNameOfTimetable(timetableId);
-        List<Batch> batchList = timeTableRepo.getBatchesOfTimeTable(timetableId);
-        Module module = timeTableRepo.getModule(timetableId);
+            timeTableRepo.deleteById(timetableId);
 
-        timeTableRepo.deleteById(timetableId);
-
-        //send email to all students in the batches
-        if (batchList.size() != 0) {
-            for (Batch batches : batchList) {
-                List<User> users = batches.getUsers();
-                for (User user : users) {
-                    emailService.deleteTimetableStudent(user.getEmail(), moduleName);
+            //send email to all students in the batches
+            if (batchList.size() != 0) {
+                for (Batch batches : batchList) {
+                    List<User> users = batches.getUsers();
+                    for (User user : users) {
+                        emailService.deleteTimetableStudent(user.getEmail(), moduleName);
+                    }
                 }
             }
-        }
 
-        //send email to the lecturer of the module
-        Long moduleId = module.getModuleId();
-//        User lecturer = moduleRepo.findEmailOfLecturerByModuleId(moduleId);
-        User lecturer = userRepo.findEmailOfLecturerByModuleId(moduleId);
-        emailService.deleteTimetableLecturer(lecturer.getEmail(), moduleName);
+            //send email to the lecturer of the module
+            Long moduleId = module.getModuleId();
+            User lecturer = userRepo.findEmailOfLecturerByModuleId(moduleId);
+            emailService.deleteTimetableLecturer(lecturer.getEmail(), moduleName);
+        } catch (Exception exception) {
+            throw new Exception("An error occurred while deleting the schedule!");
+        }
     }
 
     @Override
@@ -408,17 +435,19 @@ public class TimeTableServiceImplementation implements TimeTableService {
         List<TimeTableDto> timeTableDtoList = new ArrayList<>();
         System.out.println(keyword + "\n\n\n\n\n\n");
         for (TimeTable timeTable : timeTableRepo.findByKeyword(keyword)) {
-            TimeTableDto timeTableDto = new TimeTableDto();
+            if (LocalDate.parse(timeTable.getDate().toString()).isAfter(LocalDate.now().minusDays(1))) {
+                TimeTableDto timeTableDto = new TimeTableDto();
 
-            timeTableDto.setTimeTableId(timeTable.getTimeTableId());
-            timeTableDto.setModules(timeTable.getModule());
-            timeTableDto.setDate(timeTable.getDate().toString());
-            timeTableDto.setBatches(timeTable.getBatches());
-            timeTableDto.setRooms(timeTable.getRoom());
-            timeTableDto.setStartTime(timeTable.getStartTime().toString());
-            timeTableDto.setEndTme(timeTable.getEndTime().toString());
+                timeTableDto.setTimeTableId(timeTable.getTimeTableId());
+                timeTableDto.setModules(timeTable.getModule());
+                timeTableDto.setDate(timeTable.getDate().toString());
+                timeTableDto.setBatches(timeTable.getBatches());
+                timeTableDto.setRooms(timeTable.getRoom());
+                timeTableDto.setStartTime(timeTable.getStartTime().toString());
+                timeTableDto.setEndTme(timeTable.getEndTime().toString());
 
-            timeTableDtoList.add(timeTableDto);
+                timeTableDtoList.add(timeTableDto);
+            }
         }
         return timeTableDtoList;
     }

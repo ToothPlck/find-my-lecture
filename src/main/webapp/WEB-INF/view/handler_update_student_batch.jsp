@@ -57,18 +57,20 @@
     </nav>
 </div>
 <div class="container">
-    <div style="margin-top: 100px;">
+    <div style="margin-top: 170px;">
         <form:form method="post" modelAttribute="studentBatch" id="formSubmit">
-            <div class="col-lg-4 col-md-4 col-sm-4 container justify-content-center">
+            <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center">
                 <h1 style="color: #414141;">Update Assigned Batch</h1>
                 <label style="color: #414141;" class="form-label">Username</label>
                 <form:input path="username" class="form-control" disabled="true" type="text"/>
 
                 <label style="color: #414141;" class="form-label">Current Batch</label>
-                <form:input path="batch.batchCode" class="form-control" disabled="true" type="text"/>
-                <a type="button" class="btn btn-outline-danger"
-                   href="/handler/update/student/batch/${studentBatch.username}/de-assign">De-assign from batch</a>
-
+                <p style="display: none" id="batchCode">${studentBatch.batch.batchCode}</p>
+                <input class="form-control" disabled="disabled" value="${studentBatch.batch.batchCode}" type="text"/>
+                <div class="col text-center" style="margin-top: 15px;" id="deAssignButton">
+                    <a type="button" class="btn btn-outline-danger"
+                       href="/handler/update/student/batch/${studentBatch.username}/de-assign">De-assign from batch</a>
+                </div>
                 <div class="mb-3">
                     <label style="color: #414141;" class="form-label">Batches</label>
                     <form:select path="batch" class="form-control">
@@ -85,6 +87,10 @@
                         Update
                     </button>
                 </div>
+                <div class="col text-center">
+                    <a href="${pageContext.request.contextPath}/handler/update/student/${studentBatch.username}"
+                       style="color: #414141">< Back</a>
+                </div>
             </div>
             <div>
                 <p style="display: none" id="errorMessage">${error}</p>
@@ -95,5 +101,67 @@
         </form:form>
     </div>
 </div>
+<div class="container-fluid">
+    <nav class="fixed-bottom" style="background-color: #414141">
+        <footer class="text-center text-lg-start" style="padding: 10px 0">
+            <div class="text-center p-3" style="color: #998d88">
+                © 2020 Copyright:
+                <a style="color: #998d88;" class="text-center p-3"
+                   href="${pageContext.request.contextPath}/handler/update/student/${studentBatch.username}">Find
+                    My Lecture</a>
+            </div>
+        </footer>
+    </nav>
+</div>
 </body>
 </html>
+<script>
+    window.onload = function () {
+        const errorMessage = document.getElementById("errorMessage").innerHTML;
+        const successMessage = document.getElementById("successMessage").innerHTML;
+        const batchCode = document.getElementById("batchCode").innerHTML;
+
+        if (errorMessage !== "") {
+            Swal.fire({
+                title: "Error occurred while updating the user!!!",
+                text: errorMessage,
+                icon: "error",
+            });
+        }
+        if (successMessage !== "") {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: successMessage,
+                showConfirmButton: false,
+                timer: 3000
+            });
+        }
+        if (batchCode === "") {
+            document.getElementById("deAssignButton").style.display = "none";
+        }
+    }
+    const form = document.getElementById('formSubmit');
+    form.addEventListener('submit', function (event) {
+        Swal.fire({
+            title: 'Updating...',
+            html: 'Hold on a few seconds while we update the student!',
+            timer: 10000,
+            timerProgressBar: false,
+        });
+    });
+
+    function logout() {
+        Swal.fire({
+            icon: 'question',
+            title: 'Sure you want to logout?',
+            showCancelButton: true,
+            confirmButtonText: `Yes!`,
+            cancelButtonText: 'Nope!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('logout').click();
+            }
+        })
+    }
+</script>

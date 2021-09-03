@@ -46,7 +46,8 @@
                     <div class="navbar-nav">
                         <a class="nav-link" style="color: #FFFAF0"
                            href="${pageContext.request.contextPath}/handler/view/account">My Account</a>
-                        <a class="nav-link" style="color: #ffdf9e" href="${pageContext.request.contextPath}/logout">Logout</a>
+                        <a class="nav-link" style="color: #ffdf9e; cursor: pointer" onclick="logout()">Logout</a><a
+                            href="${pageContext.request.contextPath}/logout" id="logout"></a>
                     </div>
                 </div>
             </div>
@@ -101,3 +102,18 @@
 </div>
 </body>
 </html>
+<script>
+    function logout() {
+        Swal.fire({
+            icon: 'question',
+            title: 'Sure you want to logout?',
+            showCancelButton: true,
+            confirmButtonText: `Yes!`,
+            cancelButtonText: 'Nope!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('logout').click();
+            }
+        })
+    }
+</script>

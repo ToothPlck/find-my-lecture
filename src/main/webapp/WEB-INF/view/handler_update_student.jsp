@@ -80,18 +80,18 @@
                     <form:input path="contactNumber" id="phone" type="text" maxlength="10" class="form-control"/>
                 </div>
                 <div class="mb-3">
-                    <label style="color: #414141;" class="form-label">Current Batch : ${student.batch.batchCode}</label>
-                    <div class="col text-center">
-                        <a type="button" class="btn btn-outline-info"
-                           href="${pageContext.request.contextPath}/handler/update/student/batch/${student.username}">
-                            Update / De-Assign Batch
-                        </a>
-                    </div>
-                    <br>
+                    <label style="color: #414141;" class="form-label">Current Batch</label>
+                    <form:input path="batch.batchCode" class="form-control" disabled="true" type="text"/>
+                </div>
+                <div class="col text-center">
+                    <a type="button" class="btn btn-outline-info"
+                       href="${pageContext.request.contextPath}/handler/update/student/batch/${student.username}">
+                        Update / De-Assign Batch
+                    </a>
                 </div>
                 <div class="col text-center">
                     <button type="submit" id="button" class="btn btn"
-                            style="color: floralwhite; border-color: #414141; background-color: #414141">
+                            style="color: floralwhite; border-color: #414141; background-color: #414141; margin-top: 10px;">
                         Update ${student.username}
                     </button>
                 </div>
@@ -200,7 +200,7 @@
         } else {
             Swal.fire({
                 title: 'Updating...',
-                html: 'Hold on a few seconds while we update the user!',
+                html: 'Hold on a few seconds while we update the student!',
                 timer: 10000,
                 timerProgressBar: false,
             });

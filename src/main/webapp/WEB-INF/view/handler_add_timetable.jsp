@@ -19,6 +19,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
             integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
             crossorigin="anonymous"></script>
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet"
+          type="text/css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body style="background-color: floralwhite">
@@ -50,7 +54,8 @@
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/handler/view/account">My
                             Account</a>
-                        <a class="nav-link" style="color: #ffdf9e" href="${pageContext.request.contextPath}/logout">Logout</a>
+                        <a class="nav-link" style="color: #ffdf9e; cursor: pointer" onclick="logout()">Logout</a><a
+                            href="${pageContext.request.contextPath}/logout" id="logout"></a>
                     </div>
                 </div>
             </div>
@@ -63,18 +68,20 @@
         <form:form id="formSubmit" modelAttribute="timetableForm" method="post">
             <div class="col-lg-4 col-md-4 col-sm-4 container justify-content-center">
                 <h1 style="color: #414141; margin-bottom: 25px;">Schedule Lecture</h1>
-
                 <div class="mb-3">
-                    <label style="color: #414141;" class="form-label">Select Batch/s :</label>
-                    <form:select path="batches" class="form-control">
-                        <c:forEach items="${batches}" var="batches">
-                            <form:option cssStyle="color: #414141"
-                                         value="${batches.batchId}">${batches.batchCode}</form:option>
-                        </c:forEach>
-                    </form:select>
+                    <label style="color: #414141;" class="form-label">Schedule Date</label>
+                    <form:input path="date" id="datepicker" type="text" autocomplete="off" class="form-control"/>
                 </div>
                 <div class="mb-3">
-                    <label style="color: #414141;" class="form-label">Select a Module :</label>
+                    <label style="color: #414141;" class="form-label">Select Start time</label>
+                    <form:input path="startTime" id="startTime" type="time" class="form-control"/>
+                </div>
+                <div class="mb-3">
+                    <label style="color: #414141;" class="form-label">Select End time</label>
+                    <form:input path="endTme" id="endTime" type="time" class="form-control"/>
+                </div>
+                <div class="mb-3">
+                    <label style="color: #414141;" class="form-label">Select a Module</label>
                     <form:select path="modules" class="form-control">
                         <c:forEach items="${modules}" var="module">
                             <form:option cssStyle="color: #414141"
@@ -83,7 +90,7 @@
                     </form:select>
                 </div>
                 <div class="mb-3">
-                    <label style="color: #414141;" class="form-label">Select a Class room :</label>
+                    <label style="color: #414141;" class="form-label">Select a Class room</label>
                     <form:select path="rooms" class="form-control">
                         <c:forEach items="${rooms}" var="room">
                             <form:option cssStyle="color: #414141"
@@ -92,16 +99,13 @@
                     </form:select>
                 </div>
                 <div class="mb-3">
-                    <label style="color: #414141;" class="form-label">Schedule Date :</label>
-                    <form:input path="date" id="date" type="date" class="form-control"/>
-                </div>
-                <div class="mb-3">
-                    <label style="color: #414141;" class="form-label">Select Start time :</label>
-                    <form:input path="startTime" id="startTime" type="time" class="form-control"/>
-                </div>
-                <div class="mb-3">
-                    <label style="color: #414141;" class="form-label">Select End time :</label>
-                    <form:input path="endTme" id="endTime" type="time" class="form-control"/>
+                    <label style="color: #414141;" class="form-label">Select Batch/s</label>
+                    <form:select path="batches" class="form-control">
+                        <c:forEach items="${batches}" var="batches">
+                            <form:option cssStyle="color: #414141"
+                                         value="${batches.batchId}">${batches.batchCode}</form:option>
+                        </c:forEach>
+                    </form:select>
                 </div>
                 <div class="col text-center">
                     <button type="submit" id="button" class="btn btn"
@@ -109,6 +113,16 @@
                         Add Schedule
                     </button>
                 </div>
+                <div class="col text-center">
+                    <a href="${pageContext.request.contextPath}/handler/view/timetable"
+                       style="color: #414141">< Back</a>
+                </div>
+            </div>
+            <div>
+                <p style="display: none" id="errorMessage">${error}</p>
+            </div>
+            <div>
+                <p style="display: none" id="successMessage">${success}</p>
             </div>
         </form:form>
     </div>
@@ -128,3 +142,82 @@
 </div>
 </body>
 </html>
+<script>
+    $(function () {
+        $("#datepicker").datepicker({dateFormat: "yy-mm-dd", minDate: 0, maxDate: "+60M"}).val()
+    });
+
+    window.onload = function () {
+        const errorMessage = document.getElementById("errorMessage").innerHTML;
+        const successMessage = document.getElementById("successMessage").innerHTML;
+
+        if (errorMessage !== "") {
+            Swal.fire({
+                title: "Error occurred while scheduling!!!",
+                text: errorMessage,
+                icon: "error",
+            });
+        }
+        if (successMessage !== "") {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: successMessage,
+                showConfirmButton: false,
+                timer: 3000
+            });
+        }
+    }
+
+    const form = document.getElementById('formSubmit');
+
+    form.addEventListener('submit', function (event) {
+        const date = $("#datepicker").val();
+        const startTime = $("#startTime").val();
+        const endTime = $("#endTime").val();
+
+        if (startTime.length < 1) {
+            event.preventDefault();
+            Swal.fire({
+                title: "Error in start time!!!",
+                text: "The start time cannot be empty!",
+                icon: "error",
+            });
+        } else if (endTime.length < 1) {
+            event.preventDefault();
+            Swal.fire({
+                title: "Error in end time!!!",
+                text: "The end time cannot be empty!",
+                icon: "error",
+            });
+        } else if (date === "") {
+            event.preventDefault();
+            Swal.fire({
+                title: "Error in date!!!",
+                text: "The date cannot be empty!",
+                icon: "error",
+            });
+        } else {
+            Swal.fire({
+                title: 'Scheduling...',
+                html: 'Hold on a few seconds while we add the schedule!',
+                timer: 10000,
+                timerProgressBar: false,
+            });
+        }
+    });
+
+    function logout() {
+        Swal.fire({
+            icon: 'question',
+            title: 'Sure you want to logout?',
+            showCancelButton: true,
+            confirmButtonText: `Yes!`,
+            cancelButtonText: 'Nope!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('logout').click();
+            }
+        })
+    }
+</script>

@@ -327,7 +327,7 @@ public class UserServiceImplementation implements UserService {
 
             if (userDto.getBatch() != null) {
                 if (!userDto.getBatch().getBatchCode().equals("")) {
-                    if (!student.getBatch().getBatchCode().equals(userDto.getBatch().getBatchCode())) {
+                    if (userDto.getBatch() != student.getBatch()) {
                         student.setBatch(userDto.getBatch());
                         userRepo.save(student);
                         emailService.updateStudentBatch(student);
@@ -348,10 +348,13 @@ public class UserServiceImplementation implements UserService {
             student = thisUser.get();
         }
 
+        String currentBatch = student.getBatch().getBatchCode();
+        String studentEmail = student.getEmail();
+
         student.setBatch(null);
 
         userRepo.save(student);
-        emailService.deAssignBatch(student);
+        emailService.deAssignBatch(currentBatch, studentEmail);
     }
 
     @Override
@@ -402,6 +405,9 @@ public class UserServiceImplementation implements UserService {
         List<User> users = userRepo.findByBatch(batchId);
         if (users.size() != 0) {
             for (User user : users) {
+                String currentBatchCode = user.getBatch().getBatchCode();
+                String studentEmail = user.getEmail();
+
                 student.setUsername(user.getUsername());
                 student.setFirstname(user.getFirstname());
                 student.setLastname(user.getLastname());
@@ -413,7 +419,7 @@ public class UserServiceImplementation implements UserService {
                 student.setBatch(null);
 
                 userRepo.save(student);
-                emailService.deAssignBatch(student);
+                emailService.deAssignBatch(currentBatchCode, studentEmail);
             }
         }
     }
