@@ -47,7 +47,8 @@
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/handler/view/account">My
                             Account</a>
-                        <a class="nav-link" style="color: #ffdf9e" href="${pageContext.request.contextPath}/logout">Logout</a>
+                        <a class="nav-link" style="color: #ffdf9e; cursor: pointer" onclick="logout()">Logout</a><a
+                            href="${pageContext.request.contextPath}/logout" id="logout"></a>
                     </div>
                 </div>
             </div>
@@ -87,12 +88,18 @@
                                    href="${pageContext.request.contextPath}/handler/update/student/${student.username}">Update</a>
                             </td>
                             <td><a type="button" class="btn btn-outline-danger"
-                                   href="${pageContext.request.contextPath}/handler/delete/student/${student.username}">Delete</a>
+                                   onclick="confirmDelete('${student.username}')">Delete</a>
                             </td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
+            </div>
+            <div>
+                <p style="display: none" id="errorMessage">${error}</p>
+            </div>
+            <div>
+                <p style="display: none" id="successMessage">${success}</p>
             </div>
         </form:form>
     </div>
@@ -111,3 +118,61 @@
 </div>
 </body>
 </html>
+<script>
+    window.onload = function () {
+        const errorMessage = document.getElementById("errorMessage").innerHTML;
+        const successMessage = document.getElementById("successMessage").innerHTML;
+
+        if (errorMessage !== "") {
+            Swal.fire({
+                title: "Error occurred while deleting!!!",
+                text: errorMessage,
+                icon: "error",
+            });
+        }
+        if (successMessage !== "") {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: successMessage,
+                showConfirmButton: false,
+                timer: 3000
+            });
+        }
+    }
+
+    function confirmDelete(name) {
+        Swal.fire({
+            icon: 'question',
+            title: 'Sure you want to delete the student?',
+            text: 'This action cannot be reversed!',
+            showCancelButton: true,
+            confirmButtonText: `Yes!`,
+            cancelButtonText: 'Nope!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/handler/delete/student/' + name;
+                Swal.fire({
+                    title: 'Deleting...',
+                    html: 'Hold on a few seconds while we delete the student!',
+                    timer: 10000,
+                    timerProgressBar: false,
+                });
+            }
+        })
+    }
+
+    function logout() {
+        Swal.fire({
+            icon: 'question',
+            title: 'Sure you want to logout?',
+            showCancelButton: true,
+            confirmButtonText: `Yes!`,
+            cancelButtonText: 'Nope!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('logout').click();
+            }
+        })
+    }
+</script>

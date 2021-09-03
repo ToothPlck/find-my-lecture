@@ -252,7 +252,16 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public void updateStudent(UserDto userDto, String username) {
+    public void updateStudent(UserDto userDto, String username) throws Exception {
+        List<User> usersWithEmail = userRepo.findByEmail(userDto.getEmail());
+        if (usersWithEmail.size() != 0) {
+            for (User userWithEmail : usersWithEmail) {
+                if (!username.equals(userWithEmail.getUsername())) {
+                    throw new Exception("Another user with the entered email already exists in the system!\nPlease try again with a different email.");
+                }
+            }
+        }
+
         User student = new User();
 
         Optional<User> thisUser = Optional.ofNullable(userRepo.findUserByUsername(username));

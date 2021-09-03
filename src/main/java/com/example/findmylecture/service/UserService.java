@@ -16,7 +16,7 @@ public interface UserService {
 
     void saveStudent(UserDto userDto) throws Exception;
 
-    void updateStudent(UserDto userDto, String username);
+    void updateStudent(UserDto userDto, String username) throws Exception;
 
     void updateLecturer(String username, UserDto userDto) throws Exception;
 

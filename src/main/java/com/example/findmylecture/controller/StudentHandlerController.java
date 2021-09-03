@@ -127,21 +127,38 @@ public class StudentHandlerController {
     public String viewStudents(Model model, Authentication authentication) {
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
         model.addAttribute("students", userService.findAllStudents());
+        model.addAttribute("error", "");
+        model.addAttribute("success", "");
         return "handler_view_students";
     }
 
     //====================================================================================================update student
     @GetMapping("/handler/update/student/{username}")
-    public String updateStudent(@PathVariable(value = "username") String username, Model model, Authentication authentication) {
+    public String updateStudent(@PathVariable(value = "username") String username, Model model, Authentication authentication) throws Exception{
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
         model.addAttribute("student", userService.findByUsername(username));
+        model.addAttribute("error", "");
+        model.addAttribute("success", "");
         return "handler_update_student";
     }
 
     @PostMapping("/handler/update/student/{username}")
-    public String updateStudent(@PathVariable(value = "username") String username, UserDto userDto) {
-        userService.updateStudent(userDto, username);
-        return "redirect:/handler/view/students";
+    public String updateStudent(@PathVariable(value = "username") String username, UserDto userDto, Authentication authentication, Model model) throws Exception{
+        try {
+            userService.updateStudent(userDto, username);
+            model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
+            model.addAttribute("students", userService.findAllStudents());
+            model.addAttribute("error", "");
+            model.addAttribute("success", "The student has been updated successfully!");
+        }
+        catch (Exception exception){
+            model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
+            model.addAttribute("student", userService.findByUsername(username));
+            model.addAttribute("error", exception.getMessage());
+            model.addAttribute("success", "");
+            return "handler_update_student";
+        }
+        return "handler_view_students";
     }
 
     //====================================================================================update/de-assign student batch
@@ -150,11 +167,13 @@ public class StudentHandlerController {
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
         model.addAttribute("studentBatch", userService.findStudentsBatch(username));
         model.addAttribute("allBatches", batchService.findAllBatches());
+        model.addAttribute("error", "");
+        model.addAttribute("success", "");
         return "handler_update_student_batch";
     }
 
     @PostMapping("/handler/update/student/batch/{username}")
-    public String updateStudentBatch(@PathVariable(value = "username") String username, UserDto userDto) {
+    public String updateStudentBatch(@PathVariable(value = "username") String username, UserDto userDto, Model model, Authentication authentication) throws Exception{
         userService.updateStudentBatch(username, userDto);
         return "redirect:/handler/update/student/" + username;
     }
@@ -167,14 +186,20 @@ public class StudentHandlerController {
 
     //====================================================================================================delete student
     @RequestMapping("/handler/delete/student/{username}")
-    public String deleteStudent(@PathVariable(value = "username") String username, Model model) {
+    public String deleteStudent(@PathVariable(value = "username") String username, Model model, Authentication authentication) throws Exception{
         try {
             userService.deleteUserByUsername(username);
+            model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
+            model.addAttribute("students", userService.findAllStudents());
+            model.addAttribute("error", "");
             model.addAttribute("success", username + " has been deleted successfully");
         } catch (Exception exception) {
-            model.addAttribute("error", username + " cannot be deleted. Try again later");
+            model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
+            model.addAttribute("students", userService.findAllStudents());
+            model.addAttribute("success", "");
+            model.addAttribute("error", exception.getMessage());
         }
-        return "redirect:/handler/view/students";
+        return "handler_view_students";
     }
 
 
