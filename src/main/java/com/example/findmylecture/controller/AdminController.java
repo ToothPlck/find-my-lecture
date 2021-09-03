@@ -7,12 +7,15 @@ import com.example.findmylecture.dto.UserDto;
 import com.example.findmylecture.service.*;
 import com.example.findmylecture.validator.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/admin")
+@PreAuthorize("hasAuthority('3')")
 public class AdminController {
 
     @Autowired
