@@ -33,4 +33,6 @@ public interface UserService {
     void removeBatchFromStudents(Long batchId) throws Exception;
 
     UserDto updatable(String name);
+
+    Long getUserRole(String name);
 }

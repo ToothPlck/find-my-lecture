@@ -47,7 +47,8 @@
                 <div class="col text-center">
                     <button type="submit" class="btn btn"
                             style="color: floralwhite; border-color: #414141; background-color: #414141">
-                        Submit -></button>
+                        Submit ->
+                    </button>
                 </div>
             </div>
             <div>
@@ -73,7 +74,6 @@
 <script>
     window.onload = function () {
         const errorMessage = document.getElementById("errorMessage").innerHTML;
-
         if (errorMessage !== "") {
             Swal.fire({
                 title: "Error occurred while registering!!!",

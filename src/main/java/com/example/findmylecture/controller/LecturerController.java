@@ -2,46 +2,28 @@ package com.example.findmylecture.controller;
 
 import com.example.findmylecture.dto.UserDto;
 import com.example.findmylecture.service.*;
-import com.example.findmylecture.validator.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/lecturer/")
+@PreAuthorize("hasAuthority('2')")
 public class LecturerController {
 
     @Autowired
     private UserService userService;
     @Autowired
     private TimeTableService timeTableService;
-    @Autowired
-    private RoomService roomService;
-    @Autowired
-    private RoleService roleService;
-    @Autowired
-    private ModuleService moduleService;
-    @Autowired
-    private BatchService batchService;
-
-    @Autowired
-    private UserValidator userValidator;
-    @Autowired
-    private TimeTableValidator timeTableValidator;
-    @Autowired
-    private RoomValidator roomValidator;
-    @Autowired
-    private RoleValidator roleValidator;
-    @Autowired
-    private ModuleValidator moduleValidator;
-    @Autowired
-    private BatchValidator batchValidator;
 
     //=========================================================================================================Home page
-    @GetMapping("/lecturer/home")
+    @GetMapping("home")
     public String home(Model model, Authentication authentication) {
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
         model.addAttribute("schedules", timeTableService.lecturersSchedulesForThisWeek(authentication.getName()));
@@ -49,7 +31,7 @@ public class LecturerController {
     }
 
     //======================================================================================================view account
-    @GetMapping("/lecturer/view/account")
+    @GetMapping("view/account")
     public String viewAccount(Model model, Authentication authentication) {
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
         model.addAttribute("error", "");
@@ -58,7 +40,7 @@ public class LecturerController {
     }
 
     //====================================================================================================update account
-    @GetMapping("/lecturer/update/account")
+    @GetMapping("update/account")
     public String updateAccount(Model model, Authentication authentication) {
         model.addAttribute("loggedUser", userService.updatable(authentication.getName()));
         model.addAttribute("error", "");
@@ -66,8 +48,8 @@ public class LecturerController {
         return "lecturer_update_account";
     }
 
-    @PostMapping("/lecturer/update/account")
-    public String updateAccount(@ModelAttribute("loggedUser") UserDto userDto, Authentication authentication, Model model) throws Exception {
+    @PostMapping("update/account")
+    public String updateAccount(@ModelAttribute("loggedUser") UserDto userDto, Authentication authentication, Model model) {
         try {
             userService.updateProfile(userDto, authentication.getName());
             model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));

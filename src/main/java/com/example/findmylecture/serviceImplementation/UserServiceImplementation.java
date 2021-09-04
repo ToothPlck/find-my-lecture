@@ -214,6 +214,12 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    public Long getUserRole(String name) {
+        User user = userRepo.findUserByUsername(name);
+        return user.getRole().getRoleId();
+    }
+
+    @Override
     public List<UserDto> findAllLecturers() {
         List<UserDto> lecturerList = new ArrayList<>();
 

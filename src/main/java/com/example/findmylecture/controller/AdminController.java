@@ -5,7 +5,6 @@ import com.example.findmylecture.dto.ModuleDto;
 import com.example.findmylecture.dto.RoomDto;
 import com.example.findmylecture.dto.UserDto;
 import com.example.findmylecture.service.*;
-import com.example.findmylecture.validator.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -14,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/")
 @PreAuthorize("hasAuthority('3')")
 public class AdminController {
 
@@ -31,22 +30,8 @@ public class AdminController {
     @Autowired
     private BatchService batchService;
 
-    @Autowired
-    private UserValidator userValidator;
-    @Autowired
-    private TimeTableValidator timeTableValidator;
-    @Autowired
-    private RoomValidator roomValidator;
-    @Autowired
-    private RoleValidator roleValidator;
-    @Autowired
-    private ModuleValidator moduleValidator;
-    @Autowired
-    private BatchValidator batchValidator;
-
-
     //=========================================================================================================Home page
-    @GetMapping("/admin/home")
+    @GetMapping("home")
     public String home(Model model, Authentication authentication) {
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
         model.addAttribute("schedules", timeTableService.schedulesForToday());
@@ -55,7 +40,7 @@ public class AdminController {
 
 
     //==========================================================================================================Register
-    @GetMapping("/admin/register")
+    @GetMapping("register")
     public String register(Model model, Authentication authentication) {
         model.addAttribute("userForm", new UserDto());
         model.addAttribute("userRoles", roleService.getStaffRoles());
@@ -65,7 +50,7 @@ public class AdminController {
         return "admin_register";
     }
 
-    @PostMapping("/admin/register")
+    @PostMapping("register")
     public String register(@ModelAttribute("userForm") UserDto userDto, Model model, Authentication authentication) throws Exception {
         try {
             userService.save(userDto);
@@ -87,7 +72,7 @@ public class AdminController {
 
 
     //======================================================================================================view account
-    @GetMapping("/admin/view/account")
+    @GetMapping("view/account")
     public String viewAccount(Model model, Authentication authentication) {
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
         model.addAttribute("error", "");
@@ -104,15 +89,14 @@ public class AdminController {
         return "admin_update_account";
     }
 
-    @PostMapping("/admin/update/account")
-    public String updateAccount(@ModelAttribute("loggedUser") UserDto userDto, Authentication authentication, Model model) throws Exception{
+    @PostMapping("update/account")
+    public String updateAccount(@ModelAttribute("loggedUser") UserDto userDto, Authentication authentication, Model model) {
         try {
             userService.updateProfile(userDto, authentication.getName());
             model.addAttribute("loggedUser", userService.updatable(authentication.getName()));
             model.addAttribute("error", "");
             model.addAttribute("success", "Account updated successfully!");
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             model.addAttribute("loggedUser", userService.updatable(authentication.getName()));
             model.addAttribute("error", exception.getMessage());
             model.addAttribute("success", "");
@@ -123,7 +107,7 @@ public class AdminController {
 
     //==================================================================================================================
     //====================================================================================================view lecturers
-    @GetMapping("/admin/view/lecturers")
+    @GetMapping("view/lecturers")
     public String viewLecturers(Model model, Authentication authentication) {
         model.addAttribute("lecturers", userService.findAllLecturers());
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
@@ -133,7 +117,7 @@ public class AdminController {
     }
 
     //===================================================================================================update lecturer
-    @GetMapping("/admin/update/lecturer/{username}")
+    @GetMapping("update/lecturer/{username}")
     public String updateLecturer(@PathVariable(value = "username") String username, Model model, Authentication authentication) {
         model.addAttribute("lecturer", userService.findByUsername(username));
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
@@ -142,8 +126,8 @@ public class AdminController {
         return "admin_update_lecturer";
     }
 
-    @PostMapping("/admin/update/lecturer/{username}")
-    public String updateLecturer(@PathVariable(value = "username") String username, UserDto userDto, Model model, Authentication authentication) throws Exception {
+    @PostMapping("update/lecturer/{username}")
+    public String updateLecturer(@PathVariable(value = "username") String username, UserDto userDto, Model model, Authentication authentication) {
         try {
             userService.updateLecturer(username, userDto);
             model.addAttribute("lecturers", userService.findAllLecturers());
@@ -161,8 +145,8 @@ public class AdminController {
     }
 
     //===================================================================================================delete lecturer
-    @RequestMapping("/admin/delete/lecturer/{username}")
-    public String deleteLecturer(@PathVariable(value = "username") String username, Model model, Authentication authentication) throws Exception {
+    @RequestMapping("delete/lecturer/{username}")
+    public String deleteLecturer(@PathVariable(value = "username") String username, Model model, Authentication authentication) {
         try {
             moduleService.deAssignLecturerFromModules(username);
             userService.deleteUserByUsername(username);
@@ -182,7 +166,7 @@ public class AdminController {
 
     //==================================================================================================================
     //==========================================================================================================Add room
-    @GetMapping("/admin/add/room")
+    @GetMapping("add/room")
     public String addRoom(Model model, Authentication authentication) {
         model.addAttribute("roomForm", new RoomDto());
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
@@ -191,8 +175,8 @@ public class AdminController {
         return "admin_add_room";
     }
 
-    @PostMapping("/admin/add/room")
-    public String addRoom(@ModelAttribute("roomForm") RoomDto roomDto, Authentication authentication, Model model) throws Exception {
+    @PostMapping("add/room")
+    public String addRoom(@ModelAttribute("roomForm") RoomDto roomDto, Authentication authentication, Model model) {
         try {
             roomService.save(roomDto);
             model.addAttribute("rooms", roomService.findAllRooms());
@@ -210,7 +194,7 @@ public class AdminController {
     }
 
     //========================================================================================================view rooms
-    @GetMapping("/admin/view/rooms")
+    @GetMapping("view/rooms")
     public String viewRooms(Model model, Authentication authentication) {
         model.addAttribute("rooms", roomService.findAllRooms());
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
@@ -220,7 +204,7 @@ public class AdminController {
     }
 
     //=======================================================================================================update room
-    @GetMapping("/admin/update/room/{roomId}")
+    @GetMapping("update/room/{roomId}")
     public String updateRoom(@PathVariable(value = "roomId") Long roomId, Model model, Authentication authentication) {
         model.addAttribute("room", roomService.findByRoomId(roomId));
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
@@ -229,8 +213,8 @@ public class AdminController {
         return "admin_update_rooms";
     }
 
-    @PostMapping("/admin/update/room/{roomId}")
-    public String updateRoom(@PathVariable(value = "roomId") Long roomId, RoomDto roomDto, Authentication authentication, Model model) throws Exception {
+    @PostMapping("update/room/{roomId}")
+    public String updateRoom(@PathVariable(value = "roomId") Long roomId, RoomDto roomDto, Authentication authentication, Model model) {
         try {
             roomService.updateRoom(roomId, roomDto);
             model.addAttribute("rooms", roomService.findAllRooms());
@@ -248,8 +232,8 @@ public class AdminController {
     }
     //=======================================================================================================delete room
 
-    @GetMapping("/admin/delete/room/{roomId}")
-    public String deleteRoom(@PathVariable(value = "roomId") Long roomId, Authentication authentication, Model model) throws Exception {
+    @GetMapping("delete/room/{roomId}")
+    public String deleteRoom(@PathVariable(value = "roomId") Long roomId, Authentication authentication, Model model) {
         try {
             timeTableService.updateWhereRoom(roomId);
             roomService.deleteRoomByRoomId(roomId);
@@ -269,7 +253,7 @@ public class AdminController {
 
     //==================================================================================================================
     //=========================================================================================================add batch
-    @GetMapping("/admin/add/batch")
+    @GetMapping("add/batch")
     public String addBatch(Model model, Authentication authentication) {
         model.addAttribute("batchForm", new BatchDto());
         model.addAttribute("modules", moduleService.getModulesForBatch());
@@ -279,8 +263,8 @@ public class AdminController {
         return "admin_add_batch";
     }
 
-    @PostMapping("/admin/add/batch")
-    public String addBatch(@ModelAttribute("batchForm") BatchDto batchDto, Model model, Authentication authentication) throws Exception {
+    @PostMapping("add/batch")
+    public String addBatch(@ModelAttribute("batchForm") BatchDto batchDto, Model model, Authentication authentication) {
         try {
             batchService.saveBatch(batchDto);
             model.addAttribute("batches", batchService.findAllBatches());
@@ -299,7 +283,7 @@ public class AdminController {
     }
 
     //======================================================================================================view batches
-    @GetMapping("/admin/view/batches")
+    @GetMapping("view/batches")
     public String viewBatches(Model model, Authentication authentication) {
         model.addAttribute("batches", batchService.findAllBatches());
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
@@ -309,7 +293,7 @@ public class AdminController {
     }
 
     //======================================================================================================update batch
-    @GetMapping("/admin/update/batch/{batchId}")
+    @GetMapping("update/batch/{batchId}")
     public String updateBatch(@PathVariable(value = "batchId") Long batchId, Model model, Authentication authentication) {
         model.addAttribute("batch", batchService.findBatchByBatchId(batchId));
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
@@ -318,8 +302,8 @@ public class AdminController {
         return "admin_update_batch";
     }
 
-    @PostMapping("/admin/update/batch/{batchId}")
-    public String updateBatch(@PathVariable(value = "batchId") Long batchId, BatchDto batchDto, Authentication authentication, Model model) throws Exception {
+    @PostMapping("update/batch/{batchId}")
+    public String updateBatch(@PathVariable(value = "batchId") Long batchId, BatchDto batchDto, Authentication authentication, Model model) {
         try {
             batchService.updateBatch(batchId, batchDto);
             model.addAttribute("batches", batchService.findAllBatches());
@@ -338,7 +322,7 @@ public class AdminController {
     }
 
     //==============================================================================================update batch modules
-    @GetMapping("/admin/update/batch/modules/{batchId}")
+    @GetMapping("update/batch/modules/{batchId}")
     public String updateBatchModules(@PathVariable(value = "batchId") Long batchId, Model model, Authentication authentication) {
         model.addAttribute("batchModules", batchService.findBatchByBatchId(batchId));
         model.addAttribute("allModules", moduleService.getModulesForBatch());
@@ -348,8 +332,8 @@ public class AdminController {
         return "admin_update_batch_modules";
     }
 
-    @PostMapping("/admin/update/batch/modules/{batchId}")
-    public String updateBatchModules(@PathVariable(value = "batchId") Long batchId, BatchDto batchDto, Authentication authentication, Model model) throws Exception {
+    @PostMapping("update/batch/modules/{batchId}")
+    public String updateBatchModules(@PathVariable(value = "batchId") Long batchId, BatchDto batchDto, Authentication authentication, Model model) {
         try {
             batchService.updateBatchModules(batchId, batchDto);
             model.addAttribute("batchModules", batchService.findBatchByBatchId(batchId));
@@ -368,15 +352,15 @@ public class AdminController {
         return "admin_update_batch_modules";
     }
 
-    @GetMapping("/admin/update/{batchId}/modules/{moduleId}/de-assign")
+    @GetMapping("update/{batchId}/modules/{moduleId}/de-assign")
     public String deAssignModule(@PathVariable(value = "moduleId") Long moduleId, @PathVariable(value = "batchId") Long batchId) {
         batchService.deAssignModuleFromBatch(batchId, moduleId);
         return "redirect:/admin/update/batch/modules/" + batchId;
     }
 
     //======================================================================================================delete batch
-    @GetMapping("/admin/delete/batch/{batchId}")
-    public String deleteBatch(@PathVariable(value = "batchId") Long batchId, Model model, Authentication authentication) throws Exception {
+    @GetMapping("delete/batch/{batchId}")
+    public String deleteBatch(@PathVariable(value = "batchId") Long batchId, Model model, Authentication authentication) {
         try {
             userService.removeBatchFromStudents(batchId);
             timeTableService.removeTimetable(batchId);
@@ -397,7 +381,7 @@ public class AdminController {
 
     //==================================================================================================================
     //========================================================================================================Add module
-    @GetMapping("/admin/add/module")
+    @GetMapping("add/module")
     public String addModule(Model model, Authentication authentication) {
         model.addAttribute("moduleForm", new ModuleDto());
         model.addAttribute("lecturer", userService.findAllLecturers());
@@ -407,8 +391,8 @@ public class AdminController {
         return "admin_add_module";
     }
 
-    @PostMapping("/admin/add/module")
-    public String addModule(@ModelAttribute("moduleForm") ModuleDto moduleDto, Model model, Authentication authentication) throws Exception {
+    @PostMapping("add/module")
+    public String addModule(@ModelAttribute("moduleForm") ModuleDto moduleDto, Model model, Authentication authentication) {
         try {
             moduleService.save(moduleDto);
             model.addAttribute("modules", moduleService.getAllModules());
@@ -427,7 +411,7 @@ public class AdminController {
     }
 
     //======================================================================================================view modules
-    @GetMapping("/admin/view/modules")
+    @GetMapping("view/modules")
     public String viewModules(Model model, Authentication authentication) {
         model.addAttribute("modules", moduleService.getAllModules());
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
@@ -437,7 +421,7 @@ public class AdminController {
     }
 
     //=====================================================================================================update module
-    @GetMapping("admin/update/module/{moduleId}")
+    @GetMapping("update/module/{moduleId}")
     public String updateModule(@PathVariable(value = "moduleId") Long moduleId, Model model, Authentication authentication) {
         model.addAttribute("module", moduleService.findModuleByModuleId(moduleId));
         model.addAttribute("lecturers", userService.findAllLecturers());
@@ -447,8 +431,8 @@ public class AdminController {
         return "admin_update_module";
     }
 
-    @PostMapping("/admin/update/module/{moduleId}")
-    public String updateModule(@PathVariable(value = "moduleId") Long moduleId, ModuleDto moduleDto, Model model, Authentication authentication) throws Exception {
+    @PostMapping("update/module/{moduleId}")
+    public String updateModule(@PathVariable(value = "moduleId") Long moduleId, ModuleDto moduleDto, Model model, Authentication authentication) {
         try {
             moduleService.updateModule(moduleId, moduleDto);
             model.addAttribute("modules", moduleService.getAllModules());
@@ -466,7 +450,7 @@ public class AdminController {
         return "admin_view_modules";
     }
 
-    @GetMapping("admin/update/{moduleId}/lecturer/{username}/de-assign")
+    @GetMapping("update/{moduleId}/lecturer/{username}/de-assign")
     public String deAssignLecturer(@PathVariable(value = "moduleId") Long moduleId, @PathVariable(value = "username") String username, Authentication authentication, Model model) {
         moduleService.deAssignLecturerFromModule(moduleId, username);
         model.addAttribute("module", moduleService.findModuleByModuleId(moduleId));
@@ -477,7 +461,7 @@ public class AdminController {
         return "admin_update_module";
     }
 
-    @GetMapping("/admin/update/module/lecturer/{moduleId}")
+    @GetMapping("update/module/lecturer/{moduleId}")
     public String updateModuleLecturer(@PathVariable(value = "moduleId") Long moduleId, Model model, Authentication authentication) {
         model.addAttribute("moduleLecturer", moduleService.findModuleByModuleId(moduleId));
         model.addAttribute("allLecturers", userService.findAllLecturers());
@@ -487,8 +471,8 @@ public class AdminController {
         return "admin_update_module_lecturer";
     }
 
-    @PostMapping("/admin/update/module/lecturer/{moduleId}")
-    public String updateModuleLecturer(@PathVariable(value = "moduleId") Long moduleId, ModuleDto moduleDto, Model model, Authentication authentication) throws Exception {
+    @PostMapping("update/module/lecturer/{moduleId}")
+    public String updateModuleLecturer(@PathVariable(value = "moduleId") Long moduleId, ModuleDto moduleDto, Model model, Authentication authentication) {
         try {
             moduleService.updateModuleLecturer(moduleId, moduleDto);
             model.addAttribute("module", moduleService.findModuleByModuleId(moduleId));
@@ -508,8 +492,8 @@ public class AdminController {
     }
 
     //=====================================================================================================delete module
-    @GetMapping("/admin/delete/module/{moduleId}")
-    public String deleteModule(@PathVariable("moduleId") Long moduleId, Model model, Authentication authentication) throws Exception {
+    @GetMapping("delete/module/{moduleId}")
+    public String deleteModule(@PathVariable("moduleId") Long moduleId, Model model, Authentication authentication) {
         try {
             moduleService.deleteModuleByModuleId(moduleId);
             model.addAttribute("modules", moduleService.getAllModules());
