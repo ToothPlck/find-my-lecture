@@ -81,7 +81,7 @@ public class AdminController {
     }
 
     //====================================================================================================update account
-    @GetMapping("/admin/update/account")
+    @GetMapping("update/account")
     public String updateAccount(Model model, Authentication authentication) {
         model.addAttribute("loggedUser", userService.updatable(authentication.getName()));
         model.addAttribute("error", "");
