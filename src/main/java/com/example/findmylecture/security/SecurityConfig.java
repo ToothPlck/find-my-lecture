@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/handler/**").hasAuthority("4")
                 .antMatchers("/lecturer/**").hasAuthority("2")
                 .antMatchers("/student/**").hasAuthority("1")
-                .antMatchers("/mobile/api/**")
+                .antMatchers("/mobile/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
