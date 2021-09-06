@@ -231,7 +231,7 @@ public class UserServiceImplementation implements UserService {
             userDto.setLastname(user.getLastname());
             userDto.setContactNumber(user.getContactNumber());
             userDto.setEmail(user.getEmail());
-            userDto.setModules(user.getModules());
+//            userDto.setModules(user.getModules());
 
             lecturerList.add(userDto);
         }

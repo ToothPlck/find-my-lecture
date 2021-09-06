@@ -66,10 +66,10 @@
     </nav>
 </div>
 <div class="container">
-    <div style="margin-top: 150px;">
+    <div style="margin-top: 120px;">
         <form:form id="formSubmit" method="post" modelAttribute="batchForm">
             <div class="col-lg-4 col-md-4 col-sm-4 container justify-content-center">
-                <h1 style="color: #414141;">Add Batch</h1>
+                <h2 style="color: #414141;">Add Batch</h2>
                 <div class="mb-3">
                     <label style="color: #414141;" class="form-label">Batch Code</label>
                     <form:input path="batchCode" id="batchCode" type="text" class="form-control" autofocus="autofocus"/>
@@ -84,7 +84,7 @@
                 </div>
                 <div class="mb-3 col text-center">
                     <label style="color: #414141;" class="form-label">Assign Modules</label>
-                    <form:select path="modules" size="4" cssStyle="width: 300px;" multiple="multiple">
+                    <form:select path="modules" size="6" cssStyle="width: 300px; overflow: auto" multiple="multiple">
                         <c:forEach items="${modules}" var="module">
                             <form:option value="${module.moduleId}" label="${module.moduleName}"/>
                         </c:forEach>
@@ -129,7 +129,7 @@
 
 
     $(function () {
-        $("#datepicker").datepicker({dateFormat: "yy-mm-dd", minDate: +1, maxDate: "+12M"}).val()
+        $("#datepicker").datepicker({dateFormat: "yy-mm-dd", minDate: +1, maxDate: "+36M"}).val()
     });
 
     window.onload = function () {

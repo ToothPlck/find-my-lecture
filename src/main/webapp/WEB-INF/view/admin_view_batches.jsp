@@ -72,12 +72,12 @@
                 <table class="table" style="width: 100%; margin-top: 25px;">
                     <thead>
                     <tr>
-                        <th style="width: 20%; color: #414141;">Batch code</th>
+                        <th style="width: 15%; color: #414141;">Batch code</th>
                         <th style="width: 15%; color: #414141;">Batch period</th>
                         <th style="width: 20%; color: #414141;">Batch intake date</th>
-                        <th style="width: 25%; color: #414141;">Batch Modules</th>
-                        <th style="width: 10%; color: #414141;">Update</th>
-                        <th style="width: 10%; color: #414141;">Delete</th>
+                        <th style="width: 40%; color: #414141;">Batch Modules</th>
+                        <th style="width: 5%; color: #414141;">Update</th>
+                        <th style="width: 5%; color: #414141;">Delete</th>
                     </tr>
                     </thead>
                     <tbody>

@@ -69,12 +69,12 @@
                 <h1 style="color: #414141;">Add Module</h1>
                 <div class="mb-3">
                     <label style="color: #414141;" class="form-label">Module Name</label>
-                    <form:input path="moduleName" id="moduleName" type="text" class="form-control"
+                    <form:input path="moduleName" id="moduleName" type="text" class="form-control" maxlength="50"
                                 autofocus="autofocus"/>
                 </div>
                 <div class="mb-3">
                     <label style="color: #414141;" class="form-label">Description</label>
-                    <form:input path="moduleDescription" id="description" type="textarea" class="form-control"/>
+                    <form:input path="moduleDescription" id="description" maxlength="200" type="textarea" class="form-control"/>
                 </div>
                 <div class="mb-3">
                     <label style="color: #414141;" class="form-label">Lecturer</label>

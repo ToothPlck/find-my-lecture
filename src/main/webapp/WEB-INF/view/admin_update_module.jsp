@@ -62,10 +62,10 @@
     </nav>
 </div>
 <div class="container">
-    <div style="margin-top: 200px;">
+    <div style="margin-top: 120px;">
         <form:form id="formSubmit" modelAttribute="module" method="post">
             <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center">
-                <h1 style="color: #414141;">Update Module : ${module.moduleName}</h1>
+                <h2 style="color: #414141;">Update Module : ${module.moduleName}</h2>
                 <div class="mb-3">
                     <label style="color: #414141;" class="form-label">Update Module name</label>
                     <form:input path="moduleName" id="moduleName" type="text" class="form-control"

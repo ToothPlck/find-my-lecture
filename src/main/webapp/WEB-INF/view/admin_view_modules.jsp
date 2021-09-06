@@ -73,12 +73,12 @@
                     <table>
                         <thead>
                         <tr>
-                            <th style="width: 15%; color: #414141;">Module name</th>
-                            <th style="width: 15%; color: #414141;">Module description</th>
+                            <th style="width: 25%; color: #414141;">Module name</th>
+                            <th style="width: 25%; color: #414141;">Module description</th>
                             <th style="width: 20%; color: #414141;">Lecturer</th>
-                            <th style="width: 30%; color: #414141;">Batches</th>
-                            <th style="width: 10%; color: #414141;">Update</th>
-                            <th style="width: 10%; color: #414141;">Delete</th>
+                            <th style="width: 20%; color: #414141;">Batches</th>
+                            <th style="width: 5%; color: #414141;">Update</th>
+                            <th style="width: 5%; color: #414141;">Delete</th>
                         </tr>
                         </thead>
                         <tbody>
