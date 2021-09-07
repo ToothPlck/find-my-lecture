@@ -43,11 +43,7 @@
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/admin/view/batches">Batches</a>
                         <a class="nav-link" style="color: #FFFAF0"
-                           href="${pageContext.request.contextPath}/admin/view/modules">Modules
-                            :
-                            <a class="nav-link" style="color: #FFFAF0"
-                               href="${pageContext.request.contextPath}/admin/add/module">Add</a>
-                        </a>
+                           href="${pageContext.request.contextPath}/admin/view/modules">Modules</a>
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/admin/view/rooms">Class rooms</a>
                     </div>
@@ -63,10 +59,10 @@
     </nav>
 </div>
 <div class="container">
-    <div style="margin-top: 150px;">
+    <div style="margin-top: 180px;">
         <form:form id="formSubmit" modelAttribute="moduleForm" method="post">
             <div class="col-lg-4 col-md-4 col-sm-4 container justify-content-center">
-                <h1 style="color: #414141;">Add Module</h1>
+                <h2 style="color: #414141;">Add Module</h2>
                 <div class="mb-3">
                     <label style="color: #414141;" class="form-label">Module Name</label>
                     <form:input path="moduleName" id="moduleName" type="text" class="form-control" maxlength="50"
@@ -74,7 +70,8 @@
                 </div>
                 <div class="mb-3">
                     <label style="color: #414141;" class="form-label">Description</label>
-                    <form:input path="moduleDescription" id="description" maxlength="200" type="textarea" class="form-control"/>
+                    <form:input path="moduleDescription" id="description" maxlength="200" type="textarea"
+                                class="form-control"/>
                 </div>
                 <div class="mb-3">
                     <label style="color: #414141;" class="form-label">Lecturer</label>
@@ -92,7 +89,7 @@
                         Add Module
                     </button>
                 </div>
-                <div class="col text-center">
+                <div class="col text-center mt-2">
                     <a href="${pageContext.request.contextPath}/admin/view/modules"
                        style="color: #414141">< Back</a>
                 </div>
@@ -152,7 +149,6 @@
 
         const moduleName = $("#moduleName").val();
         const description = $("#description").val();
-        // const lecturer = $("#lecturer").val();
 
         if (moduleName.length < 3 || moduleName.length > 50 || moduleName.match(moduleNameFormat)) {
             event.preventDefault();

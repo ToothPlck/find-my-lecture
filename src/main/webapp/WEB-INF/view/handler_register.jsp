@@ -60,7 +60,7 @@
     <div style="margin-top: 80px;">
         <form:form id="formSubmit" modelAttribute="userForm" method="post">
             <div class="col-lg-4 col-md-4 col-sm-4 container justify-content-center">
-                <h1 style="color: #414141;">Register</h1>
+                <h2 style="color: #414141;">Register</h2>
 
                 <div class="mb-3">
                     <label style="color: #414141;" class="form-label">First Name</label>
@@ -155,7 +155,7 @@
 
         const mailFormat = /[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]{2,3}/;
         const nameFormat = /[^a-zA-Z\s]+/;
-        const nicFormat = /^\d+$/;
+        const nicFormat = /^[0-9]{10}$/;
         const nicFormat2 = /^[0-9]{9}V$/;
         const contactFormat = /^\d+$/;
 
@@ -194,7 +194,7 @@
                     "-> Example email format: youremail@email.com",
                 icon: "error",
             });
-        } else if (!nic.match(nicFormat2)) {
+        } else if (!(nic.match(nicFormat2) || nic.match(nicFormat))) {
             event.preventDefault();
             Swal.fire({
                 title: "Error in nic!!!",

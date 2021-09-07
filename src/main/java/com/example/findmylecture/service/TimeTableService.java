@@ -16,9 +16,9 @@ public interface TimeTableService {
 
     void deleteTimeTable(Long timetableId) throws Exception;
 
-    void updateWhereRoom(Long roomId);
+    void updateWhereRoom(Long roomId) throws Exception;
 
-    void removeTimetable(Long batchId);
+    void removeTimetable(Long batchId) throws Exception;
 
     List<TimeTableDto> searchTimetable(String keyword);
 

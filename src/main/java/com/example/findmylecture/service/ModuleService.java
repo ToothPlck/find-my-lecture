@@ -20,7 +20,7 @@ public interface ModuleService {
 
     void updateModuleLecturer(Long moduleId, ModuleDto moduleDto) throws Exception;
 
-    void deAssignLecturerFromModule(Long moduleId, String username);
+    void deAssignLecturerFromModule(Long moduleId, String username) throws Exception;
 
     List<ModuleDto> getModulesForTimeTable();
 

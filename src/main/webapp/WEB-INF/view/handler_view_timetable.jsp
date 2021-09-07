@@ -41,9 +41,7 @@
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/handler/view/students">Students</a>
                         <a class="nav-link" style="color: #FFFAF0"
-                           href="${pageContext.request.contextPath}/handler/view/timetable">Timetable : <a
-                                class="nav-link" style="color: #FFFAF0"
-                                href="${pageContext.request.contextPath}/handler/add/timetable">Add</a></a>
+                           href="${pageContext.request.contextPath}/handler/view/timetable">Timetable</a>
                     </div>
                     <div class="navbar-nav">
                         <a class="nav-link" style="color: #ffdf9e"
@@ -62,8 +60,10 @@
     <div style="margin-top: 100px;">
         <form:form modelAttribute="timeTable" method="get">
             <div class="col-lg-12 col-md-12 col-sm-12 container justify-content-center">
-                <h1 style="color: #414141;">Time Table</h1>
-
+                <h2 style="color: #414141; margin-top: 25px;">Time Table <a
+                        href="${pageContext.request.contextPath}/handler/add/timetable"
+                        style="font-size: medium; color: #ffdf9e; background-color: #414141; margin-left: 750px; padding: 5px 10px; text-align: center; text-decoration: none;">Add
+                    Schedule</a></h2>
                 <table class="table" style="width: 100%; margin-top: 25px;">
                     <thead>
                     <tr>
@@ -94,7 +94,7 @@
                                    href="${pageContext.request.contextPath}/handler/update/timetable/${timeTable.timeTableId}">Update</a>
                             </td>
                             <td><a type="button" class="btn btn-outline-danger"
-                                   onclick="confirmDelete('${timetable.timeTableId}')">Delete</a>
+                                   onclick="confirmDelete('${timeTable.timeTableId}')">Delete</a>
                             </td>
                         </tr>
                     </c:forEach>
@@ -148,6 +148,7 @@
     }
 
     function confirmDelete(name) {
+        console.log(name);
         Swal.fire({
             icon: 'question',
             title: 'Sure you want to delete this schedule?',

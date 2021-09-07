@@ -43,10 +43,7 @@
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/admin/view/batches">Batches</a>
                         <a class="nav-link" style="color: #FFFAF0"
-                           href="${pageContext.request.contextPath}/admin/view/modules">Modules :
-                            <a class="nav-link" style="color: #FFFAF0"
-                               href="${pageContext.request.contextPath}/admin/add/module">Add</a>
-                        </a>
+                           href="${pageContext.request.contextPath}/admin/view/modules">Modules</a>
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/admin/view/rooms">Class rooms</a>
                     </div>
@@ -65,18 +62,18 @@
     <div style="margin-top: 80px;">
         <form:form id="formSubmit" modelAttribute="modules" method="get">
             <div class="col-lg-12 col-md-12 col-sm-12 container justify-content-center">
-                <h1 style="color: #414141; margin-top: 25px;">Modules<a
+                <h2 style="color: #414141; margin-top: 25px;">Modules<a
                         href="${pageContext.request.contextPath}/admin/add/module"
                         style="font-size: medium; color: #ffdf9e; background-color: #414141; margin-left: 750px; padding: 5px 10px; text-align: center; text-decoration: none;">Add
-                    new module</a></h1>
+                    new module</a></h2>
                 <div class="table" style="width: 100%; margin-top: 25px;">
                     <table>
                         <thead>
                         <tr>
                             <th style="width: 25%; color: #414141;">Module name</th>
-                            <th style="width: 25%; color: #414141;">Module description</th>
+                            <th style="width: 30%; color: #414141;">Module description</th>
                             <th style="width: 20%; color: #414141;">Lecturer</th>
-                            <th style="width: 20%; color: #414141;">Batches</th>
+                            <th style="width: 15%; color: #414141;">Batches</th>
                             <th style="width: 5%; color: #414141;">Update</th>
                             <th style="width: 5%; color: #414141;">Delete</th>
                         </tr>
@@ -155,10 +152,7 @@
         Swal.fire({
             icon: 'question',
             title: 'Sure you want to delete this module?',
-            text: 'This action cannot be reversed!\nThis action will;\n' +
-                ' 1. Remove the module from the lecturer. \n' +
-                ' 2. Remove the module from any batches that the module has been assigned to.\n' +
-                ' 3. Remove all schedules on the timetable for the module.',
+            text: 'This action cannot be reversed!',
             showCancelButton: true,
             confirmButtonText: `Yes!`,
             cancelButtonText: 'Nope!',

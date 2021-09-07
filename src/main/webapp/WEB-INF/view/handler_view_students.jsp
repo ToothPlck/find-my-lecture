@@ -56,10 +56,10 @@
     </nav>
 </div>
 <div class="container">
-    <div style="margin-top: 80px;">
+    <div style="margin-top: 120px;">
         <form:form id="formSubmit" modelAttribute="students" method="get">
             <div class="col-lg-12 col-md-12 col-sm-12 container justify-content-center">
-                <h1 style="color: #414141; margin-top: 25px;">Lecturers</h1>
+                <h2 style="color: #414141; margin-top: 25px;">Lecturers</h2>
 
                 <table class="table" style="width: 100%; margin-top: 25px;">
                     <thead>

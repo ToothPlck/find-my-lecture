@@ -43,10 +43,7 @@
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/admin/view/batches">Batches</a>
                         <a class="nav-link" style="color: #FFFAF0"
-                           href="${pageContext.request.contextPath}/admin/view/modules">Modules:
-                            <a class="nav-link" style="color: #FFFAF0"
-                               href="${pageContext.request.contextPath}/admin/update/module/${module.moduleId}">${module.moduleName}</a>
-                        </a>
+                           href="${pageContext.request.contextPath}/admin/view/modules">Modules</a>
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/admin/view/rooms">Class rooms</a>
                     </div>
@@ -94,10 +91,10 @@
                 <div class="mb-3 col text-center">
                     <button type="submit" class="btn btn"
                             style="color: floralwhite; border-color: #414141; background-color: #414141">
-                        Update ${module.moduleName}
+                        Update
                     </button>
                 </div>
-                <div class="col text-center">
+                <div class="col text-center mt-2">
                     <a href="${pageContext.request.contextPath}/admin/view/modules"
                        style="color: #414141">< Back</a>
                 </div>

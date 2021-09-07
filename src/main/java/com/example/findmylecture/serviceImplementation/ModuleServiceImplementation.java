@@ -4,11 +4,14 @@ import com.example.findmylecture.dto.ModuleDto;
 import com.example.findmylecture.dto.UserDto;
 import com.example.findmylecture.mailHandler.EmailService;
 import com.example.findmylecture.model.Module;
+import com.example.findmylecture.model.TimeTable;
 import com.example.findmylecture.repository.ModuleRepo;
+import com.example.findmylecture.repository.TimeTableRepo;
 import com.example.findmylecture.service.ModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +23,8 @@ public class ModuleServiceImplementation implements ModuleService {
     private ModuleRepo moduleRepo;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private TimeTableRepo timeTableRepo;
 
     @Override
     public void save(ModuleDto moduleDto) throws Exception {
@@ -101,10 +106,27 @@ public class ModuleServiceImplementation implements ModuleService {
     @Override
     public void deleteModuleByModuleId(Long moduleId) throws Exception {
         Module module = moduleRepo.findModuleByModuleId(moduleId);
-        moduleRepo.deleteById(moduleId);
-        if (module.getUser() != null) {
-            emailService.removeModuleFromLecturer(module.getUser().getEmail(), module.getModuleName());
+
+        List<TimeTable> schedulesWithModule = timeTableRepo.schedulesForModule(module.getModuleId());
+        if (schedulesWithModule.size() > 0) {
+            for (TimeTable schedule : schedulesWithModule) {
+                if ((LocalDate.parse(schedule.getDate().toString()).isAfter(LocalDate.now()))
+                        ||
+                        LocalDate.parse(schedule.getDate().toString()).isEqual(LocalDate.now())) {
+                    throw new Exception("The module has upcoming schedules in the time table! Please update those schedules before removing the module.");
+                }
+            }
         }
+        else if(module.getBatches().size() != 0){
+            throw new Exception("The module is assigned to " + module.getBatches().size() + " batches. Please update the batches before removing the module.");
+        }
+        else {
+            moduleRepo.deleteById(moduleId);
+            if (module.getUser() != null) {
+                emailService.removeModuleFromLecturer(module.getUser().getEmail(), module.getModuleName());
+            }
+        }
+
     }
 
     @Override
@@ -156,21 +178,29 @@ public class ModuleServiceImplementation implements ModuleService {
     }
 
     @Override
-    public void deAssignLecturerFromModule(Long moduleId, String username) {
-        Module module = new Module();
+    public void deAssignLecturerFromModule(Long moduleId, String username) throws Exception {
+        Module module = moduleRepo.getById(moduleId);
 
-        Optional<Module> optionalModule = moduleRepo.findById(moduleId);
-        if (optionalModule.isPresent()) {
-            module = optionalModule.get();
-        }
-
-        if (module.getUser() != null) {
+        List<TimeTable> schedulesWithModule = timeTableRepo.schedulesForModule(module.getModuleId());
+        if (schedulesWithModule.size() > 0) {
+            for (TimeTable schedule : schedulesWithModule) {
+                if ((LocalDate.parse(schedule.getDate().toString()).isAfter(LocalDate.now()))
+                        ||
+                        LocalDate.parse(schedule.getDate().toString()).isEqual(LocalDate.now())) {
+                    throw new Exception("The module has upcoming schedules in the time table! Please update those schedules before de-assigning the lecturer.");
+                }
+            }
+        } else {
             emailService.deAssignLecturerFromModule(module.getUser().getEmail(), module.getModuleName());
+            module.setUser(null);
         }
-
-        module.setUser(null);
-
         moduleRepo.save(module);
+
+//        if (module.getUser() != null) {
+//            emailService.deAssignLecturerFromModule(module.getUser().getEmail(), module.getModuleName());
+//            module.setUser(null);
+//            moduleRepo.save(module);
+//        }
     }
 
     @Override
@@ -190,18 +220,23 @@ public class ModuleServiceImplementation implements ModuleService {
 
     @Override
     public void deAssignLecturerFromModules(String username) throws Exception {
-        Module module = new Module();
 
-        List<Module> moduleList = moduleRepo.findByUsername(username);
-        if (moduleList.size() != 0) {
-            for (Module modules : moduleList) {
-                module.setModuleId(modules.getModuleId());
-                module.setModuleName(modules.getModuleName());
-                module.setModuleDescription(modules.getModuleDescription());
-                module.setBatches(modules.getBatches());
-                module.setTimeTable(module.getTimeTable());
-                module.setUser(null);
-
+        List<Module> modules = moduleRepo.findByUsername(username);
+        if (modules.size() != 0) {
+            for (Module module : modules) {
+                List<TimeTable> schedulesWithModule = timeTableRepo.schedulesForModule(module.getModuleId());
+                if (schedulesWithModule.size() > 0) {
+                    for (TimeTable schedule : schedulesWithModule) {
+                        if ((LocalDate.parse(schedule.getDate().toString()).isAfter(LocalDate.now()))
+                                ||
+                                LocalDate.parse(schedule.getDate().toString()).isEqual(LocalDate.now())) {
+                            throw new Exception("The lecturer has upcoming schedules in the time table! Please update those schedules before removing the lecturer.");
+                        }
+                    }
+                } else {
+                    emailService.deAssignLecturerFromModule(module.getUser().getEmail(), module.getModuleName());
+                    module.setUser(null);
+                }
                 moduleRepo.save(module);
             }
         }

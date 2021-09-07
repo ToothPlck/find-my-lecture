@@ -39,10 +39,7 @@
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/admin/register">Register</a>
                         <a class="nav-link" style="color: #FFFAF0"
-                           href="${pageContext.request.contextPath}/admin/view/lecturers">
-                            Lecturers :<a class="nav-link" style="color: #FFFAF0"
-                                          href="${pageContext.request.contextPath}/admin/update/lecturer/${lecturer.username}">${lecturer.username}</a>
-                        </a>
+                           href="${pageContext.request.contextPath}/admin/view/lecturers">Lecturers</a>
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/admin/view/batches">Batches</a>
                         <a class="nav-link" style="color: #ffdf9e"
@@ -62,10 +59,10 @@
     </nav>
 </div>
 <div class="container">
-    <div style="margin-top: 150px;">
+    <div style="margin-top: 120px;">
         <form:form method="post" id="formSubmit" modelAttribute="lecturer">
-            <div class="col-lg-4 col-md-4 col-sm-4 container justify-content-center">
-                <h1 style="color: #414141;">Update: ${lecturer.username}</h1>
+            <div class="col-lg-5 col-md-5 col-sm-5 container justify-content-center">
+                <h2 style="color: #414141;">Update: ${lecturer.username}</h2>
 
                 <div class="mb-3">
                     <label style="color: #414141;" class="form-label">Update First name</label>
@@ -96,10 +93,10 @@
                 <div class="col text-center">
                     <button type="submit" id="button" class="btn btn"
                             style="color: floralwhite; border-color: #414141; background-color: #414141">
-                        Update ${lecturer.username}
+                        Update
                     </button>
                 </div>
-                <div class="col text-center">
+                <div class="col text-center mt-2">
                     <a href="${pageContext.request.contextPath}/admin/view/lecturers"
                        style="color: #414141">< Back</a>
                 </div>

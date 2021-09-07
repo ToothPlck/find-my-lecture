@@ -49,4 +49,7 @@ public interface TimeTableRepo extends JpaRepository<TimeTable, Long> {
 
     @Query("from TimeTable t where t.module.moduleId=:moduleId and t.Date=:date")
     List<TimeTable> schedulesForModuleAndDate(Long moduleId, Date date);
+
+    @Query("from TimeTable t where t.module.moduleId=:moduleId")
+    List<TimeTable> schedulesForModule(Long moduleId);
 }

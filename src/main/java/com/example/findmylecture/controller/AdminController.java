@@ -362,8 +362,8 @@ public class AdminController {
     @GetMapping("delete/batch/{batchId}")
     public String deleteBatch(@PathVariable(value = "batchId") Long batchId, Model model, Authentication authentication) {
         try {
-            userService.removeBatchFromStudents(batchId);
             timeTableService.removeTimetable(batchId);
+            userService.removeBatchFromStudents(batchId);
             batchService.deleteBatchByBatchId(batchId);
             model.addAttribute("batches", batchService.findAllBatches());
             model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
@@ -451,7 +451,7 @@ public class AdminController {
     }
 
     @GetMapping("update/{moduleId}/lecturer/{username}/de-assign")
-    public String deAssignLecturer(@PathVariable(value = "moduleId") Long moduleId, @PathVariable(value = "username") String username, Authentication authentication, Model model) {
+    public String deAssignLecturer(@PathVariable(value = "moduleId") Long moduleId, @PathVariable(value = "username") String username, Authentication authentication, Model model) throws Exception {
         moduleService.deAssignLecturerFromModule(moduleId, username);
         model.addAttribute("module", moduleService.findModuleByModuleId(moduleId));
         model.addAttribute("lecturers", userService.findAllLecturers());

@@ -39,9 +39,7 @@
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/handler/register">Register</a>
                         <a class="nav-link" style="color: #FFFAF0"
-                           href="${pageContext.request.contextPath}/handler/view/students">Students : <a
-                                class="nav-link" style="color: #FFFAF0"
-                                href="${pageContext.request.contextPath}/handler/update/student/${studentBatch.username}">${studentBatch.username}</a></a>
+                           href="${pageContext.request.contextPath}/handler/view/students">Students</a>
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/handler/view/timetable">Timetable</a>
                     </div>
@@ -60,7 +58,7 @@
     <div style="margin-top: 170px;">
         <form:form method="post" modelAttribute="studentBatch" id="formSubmit">
             <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center">
-                <h1 style="color: #414141;">Update Assigned Batch</h1>
+                <h2 style="color: #414141;">Update Assigned Batch</h2>
                 <label style="color: #414141;" class="form-label">Username</label>
                 <form:input path="username" class="form-control" disabled="true" type="text"/>
 
@@ -87,7 +85,7 @@
                         Update
                     </button>
                 </div>
-                <div class="col text-center">
+                <div class="col text-center mt-2">
                     <a href="${pageContext.request.contextPath}/handler/update/student/${studentBatch.username}"
                        style="color: #414141">< Back</a>
                 </div>

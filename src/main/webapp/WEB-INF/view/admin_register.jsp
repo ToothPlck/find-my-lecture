@@ -154,7 +154,7 @@
 
         const mailFormat = /[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]{2,3}/;
         const nameFormat = /[^a-zA-Z\s]+/;
-        const nicFormat = /^\d+$/;
+        const nicFormat = /^[0-9]{10}$/;
         const nicFormat2 = /^[0-9]{9}V$/;
         const contactFormat = /^\d+$/;
 
@@ -193,7 +193,7 @@
                     "-> Example email format: youremail@email.com",
                 icon: "error",
             });
-        } else if (!nic.match(nicFormat2)) {
+        } else if (!(nic.match(nicFormat2) || nic.match(nicFormat))) {
             event.preventDefault();
             Swal.fire({
                 title: "Error in nic!!!",

@@ -41,10 +41,7 @@
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/admin/view/lecturers">Lecturers</a>
                         <a class="nav-link" style="color: #FFFAF0"
-                           href="${pageContext.request.contextPath}/admin/view/batches">Batches :
-                            <a class="nav-link" style="color: #FFFAF0"
-                               href="${pageContext.request.contextPath}/admin/add/batch">Add</a>
-                        </a>
+                           href="${pageContext.request.contextPath}/admin/view/batches">Batches</a>
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/admin/view/modules">Modules</a>
                         <a class="nav-link" style="color: #ffdf9e"
@@ -65,10 +62,10 @@
     <div style="margin-top: 80px;">
         <form:form id="formSubmit" modelAttribute="batches" method="get">
             <div class="col-lg-12 col-md-12 col-sm-12 container justify-content-center">
-                <h1 style="color: #414141; margin-top: 25px;">Batches <a
+                <h2 style="color: #414141; margin-top: 25px;">Batches <a
                         href="${pageContext.request.contextPath}/admin/add/batch"
                         style="font-size: medium; color: #ffdf9e; background-color: #414141; margin-left: 750px; padding: 5px 10px; text-align: center; text-decoration: none;">Add
-                    new batch</a></h1>
+                    new batch</a></h2>
                 <table class="table" style="width: 100%; margin-top: 25px;">
                     <thead>
                     <tr>

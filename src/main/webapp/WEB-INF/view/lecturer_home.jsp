@@ -63,11 +63,11 @@
                 <table class="table" style="width: 100%; margin-top: 25px;">
                     <thead>
                     <tr>
-                        <th style="width: 15%; color: #414141;">Module</th>
-                        <th style="width: 25%; color: #414141;">Batch/s</th>
+                        <th style="width: 30%; color: #414141;">Module</th>
+                        <th style="width: 20%; color: #414141;">Batch/s</th>
                         <th style="width: 15%; color: #414141;">Date</th>
-                        <th style="width: 15%; color: #414141;">Start time</th>
-                        <th style="width: 15%; color: #414141;">End time</th>
+                        <th style="width: 10%; color: #414141;">Start time</th>
+                        <th style="width: 10%; color: #414141;">End time</th>
                         <th style="width: 15%; color: #414141;">Class room</th>
                     </tr>
                     </thead>

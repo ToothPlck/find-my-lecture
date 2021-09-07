@@ -46,9 +46,7 @@
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/handler/view/students">Students</a>
                         <a class="nav-link" style="color: #FFFAF0"
-                           href="${pageContext.request.contextPath}/handler/view/timetable">Timetable : <a
-                                class="nav-link" style="color: #FFFAF0"
-                                href="${pageContext.request.contextPath}/handler/add/timetable">Add</a></a>
+                           href="${pageContext.request.contextPath}/handler/view/timetable">Timetable</a>
                     </div>
                     <div class="navbar-nav">
                         <a class="nav-link" style="color: #ffdf9e"
@@ -66,23 +64,22 @@
 <div class="container">
     <div style="margin-top: 120px;">
         <form:form id="formSubmit" modelAttribute="timetableForm" method="post">
-            <div class="col-lg-4 col-md-4 col-sm-4 container justify-content-center">
-                <h1 style="color: #414141; margin-bottom: 25px;">Schedule Lecture</h1>
+            <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center">
+                <h2 style="color: #414141;">Schedule Lecture</h2>
                 <div class="mb-3">
                     <label style="color: #414141;" class="form-label">Schedule Date</label>
                     <form:input path="date" id="datepicker" type="text" autocomplete="off" class="form-control"/>
                 </div>
-                <div class="mb-3">
-                    <label style="color: #414141;" class="form-label">Select Start time</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Start time</span>
                     <form:input path="startTime" id="startTime" type="time" class="form-control"/>
-                </div>
-                <div class="mb-3">
-                    <label style="color: #414141;" class="form-label">Select End time</label>
+                    <span class="input-group-text">End time</span>
                     <form:input path="endTme" id="endTime" type="time" class="form-control"/>
                 </div>
                 <div class="mb-3">
                     <label style="color: #414141;" class="form-label">Select a Module</label>
-                    <form:select path="modules" class="form-control">
+                    <form:select id="module" path="modules" class="form-control">
+                        <form:option value="">Select a Module</form:option>
                         <c:forEach items="${modules}" var="module">
                             <form:option cssStyle="color: #414141"
                                          value="${module.moduleId}">${module.moduleName}</form:option>
@@ -91,7 +88,8 @@
                 </div>
                 <div class="mb-3">
                     <label style="color: #414141;" class="form-label">Select a Class room</label>
-                    <form:select path="rooms" class="form-control">
+                    <form:select id="room" path="rooms" class="form-control">
+                        <form:option value="">Select a class room</form:option>
                         <c:forEach items="${rooms}" var="room">
                             <form:option cssStyle="color: #414141"
                                          value="${room.roomId}">${room.roomName}</form:option>
@@ -100,7 +98,7 @@
                 </div>
                 <div class="mb-3">
                     <label style="color: #414141;" class="form-label">Select Batch/s</label>
-                    <form:select path="batches" class="form-control">
+                    <form:select id="batch" path="batches" class="form-control">
                         <c:forEach items="${batches}" var="batches">
                             <form:option cssStyle="color: #414141"
                                          value="${batches.batchId}">${batches.batchCode}</form:option>
@@ -113,7 +111,7 @@
                         Add Schedule
                     </button>
                 </div>
-                <div class="col text-center">
+                <div class="col text-center mt-2">
                     <a href="${pageContext.request.contextPath}/handler/view/timetable"
                        style="color: #414141">< Back</a>
                 </div>
@@ -175,6 +173,9 @@
         const date = $("#datepicker").val();
         const startTime = $("#startTime").val();
         const endTime = $("#endTime").val();
+        const module = $("#module").val();
+        const room = $("#room").val();
+        const batch = $("#batch").val();
 
         if (startTime.length < 1) {
             event.preventDefault();
@@ -195,6 +196,27 @@
             Swal.fire({
                 title: "Error in date!!!",
                 text: "The date cannot be empty!",
+                icon: "error",
+            });
+        } else if (module === "") {
+            event.preventDefault();
+            Swal.fire({
+                title: "Error in module!!!",
+                text: "Please select a module!",
+                icon: "error",
+            });
+        } else if (room === "") {
+            event.preventDefault();
+            Swal.fire({
+                title: "Error in class room!!!",
+                text: "Please select a module!",
+                icon: "error",
+            });
+        } else if (batch == null) {
+            event.preventDefault();
+            Swal.fire({
+                title: "Error in batch!!!",
+                text: "Please select one or more batches!",
                 icon: "error",
             });
         } else {

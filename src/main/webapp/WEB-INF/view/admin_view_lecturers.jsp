@@ -62,16 +62,16 @@
     <div style="margin-top: 80px;">
         <form:form id="formSubmit" modelAttribute="lecturers" method="get">
             <div class="col-lg-12 col-md-12 col-sm-12 container justify-content-center">
-                <h1 style="color: #414141; margin-top: 25px;">Lecturers</h1>
+                <h2 style="color: #414141; margin-top: 25px;">Lecturers</h2>
                 <table class="table" style="width: 100%; margin-top: 25px;">
                     <thead>
                     <tr>
-                        <th style="width: 10%; color: #414141;">Username</th>
-                        <th style="width: 15%; color: #414141;">First name</th>
-                        <th style="width: 18%; color: #414141;">Last name</th>
-                        <th style="width: 17%; color: #414141;">Contact number</th>
+                        <th style="width: 5%; color: #414141;">Username</th>
+                        <th style="width: 10%; color: #414141;">First name</th>
+                        <th style="width: 17%; color: #414141;">Last name</th>
+                        <th style="width: 18%; color: #414141;">Contact number</th>
                         <th style="width: 20%; color: #414141;">Email</th>
-                        <th style="width: 10%; color: #414141;">Modules</th>
+                        <th style="width: 20%; color: #414141;">Modules</th>
                         <th style="width: 5%; color: #414141;">Update</th>
                         <th style="width: 5%; color: #414141;">Delete</th>
                     </tr>

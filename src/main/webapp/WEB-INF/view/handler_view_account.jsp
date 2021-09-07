@@ -58,7 +58,7 @@
     <div style="margin-top: 120px;">
         <form:form modelAttribute="loggedUser" method="get">
             <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center">
-                <h1 style="color: #414141;">${loggedUser.username} - Profile</h1>
+                <h2 style="color: #414141;">${loggedUser.username} - Profile</h2>
                 <div class="mb-3">
                     <label style="color: #414141;" class="form-label">Username</label>
                     <form:input path="username" class="form-control" disabled="true" type="text"/>

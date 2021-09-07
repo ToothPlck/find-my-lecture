@@ -45,11 +45,7 @@
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/admin/view/modules">Modules</a>
                         <a class="nav-link" style="color: #FFFAF0"
-                           href="${pageContext.request.contextPath}/admin/view/rooms">Class
-                            rooms :
-                            <a class="nav-link" style="color: #FFFAF0"
-                               href="${pageContext.request.contextPath}/admin/update/room/${room.roomId}">${room.roomName}</a>
-                        </a>
+                           href="${pageContext.request.contextPath}/admin/view/rooms">Class rooms</a>
                     </div>
                     <div class="navbar-nav">
                         <a class="nav-link" style="color: #ffdf9e"
@@ -66,7 +62,7 @@
     <div style="margin-top: 200px;">
         <form:form id="formSubmit" modelAttribute="room" method="post">
             <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center">
-                <h1 style="color: #414141;">Update Class room : ${room.roomName}</h1>
+                <h2 style="color: #414141;">Update Class room</h2>
                 <div class="mb-3">
                     <label style="color: #414141;" class="form-label">Update Room name</label>
                     <form:input path="roomName" id="roomName" type="text" class="form-control" autofocus="autofocus"/>
@@ -85,7 +81,7 @@
                         Update ${room.roomName}
                     </button>
                 </div>
-                <div class="col text-center">
+                <div class="col text-center mt-2">
                     <a href="${pageContext.request.contextPath}/admin/view/rooms"
                        style="color: #414141">< Back</a>
                 </div>

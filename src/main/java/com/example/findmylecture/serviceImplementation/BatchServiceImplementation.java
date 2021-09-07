@@ -25,27 +25,32 @@ public class BatchServiceImplementation implements BatchService {
 
     @Override
     public void saveBatch(BatchDto batchDto) throws Exception {
-        List<Batch> batchesWithBatchCode = batchRepo.findByBatchCode(batchDto.getBatchCode());
-        if (batchesWithBatchCode.size() != 0) {
-            throw new Exception("Another batch with the entered batch code already exists in the system! Please try again with a different batch code.");
-        } else if (batchDto.getBatchPeriod() < 3 || batchDto.getBatchPeriod() > 60) {
-            throw new Exception("A batches duration can be between minimum three (3) to maximum sixty (60) months!");
-        } else if (LocalDate.parse(batchDto.getIntakeDate()).isBefore(LocalDate.now())) {
-            throw new Exception("The selected Intake date for the batch is set in a previous date! Please select a future date for the Intake date.");
-        } else if (batchDto.getModules().size() > 16) {
-            throw new Exception("The batch has too many modules assigned to it! The max limit of modules for a batch is sixteen (16).");
+        try {
+            List<Batch> batchesWithBatchCode = batchRepo.findByBatchCode(batchDto.getBatchCode());
+            if (batchesWithBatchCode.size() != 0) {
+                throw new Exception("Another batch with the entered batch code already exists in the system! Please try again with a different batch code.");
+            } else if (batchDto.getBatchPeriod() < 3 || batchDto.getBatchPeriod() > 60) {
+                throw new Exception("A batches duration can be between minimum three (3) to maximum sixty (60) months!");
+            } else if (LocalDate.parse(batchDto.getIntakeDate()).isBefore(LocalDate.now())) {
+                throw new Exception("The selected Intake date for the batch is set in a previous date! Please select a future date for the Intake date.");
+            } else if (batchDto.getModules().size() > 16) {
+                throw new Exception("The batch has too many modules assigned to it! The max limit of modules for a batch is sixteen (16).");
+            }
+
+            Batch batch = new Batch();
+
+            batch.setBatchId(batchDto.getBatchId());
+            batch.setBatchCode(batchDto.getBatchCode());
+            batch.setIntakeDate(Date.valueOf(batchDto.getIntakeDate()));
+            batch.setBatchPeriod(batchDto.getBatchPeriod());
+
+            batch.setModules((batchDto.getModules()));
+
+            batchRepo.save(batch);
         }
-
-        Batch batch = new Batch();
-
-        batch.setBatchId(batchDto.getBatchId());
-        batch.setBatchCode(batchDto.getBatchCode());
-        batch.setIntakeDate(Date.valueOf(batchDto.getIntakeDate()));
-        batch.setBatchPeriod(batchDto.getBatchPeriod());
-
-        batch.setModules((batchDto.getModules()));
-
-        batchRepo.save(batch);
+        catch (Exception exception){
+            throw new Exception("An error occurred while adding the batch!");
+        }
     }
 
     @Override
@@ -109,33 +114,38 @@ public class BatchServiceImplementation implements BatchService {
 
     @Override
     public void updateBatch(Long batchId, BatchDto batchDto) throws Exception {
-        List<Batch> batchesWithBatchCode = batchRepo.findByBatchCode(batchDto.getBatchCode());
-        if (batchesWithBatchCode.size() != 0) {
-            for (Batch batchWithBatchCode : batchesWithBatchCode) {
-                if (!batchId.equals(batchWithBatchCode.getBatchId())) {
-                    throw new Exception("Another batch with the entered batch code already exists in the system! Please try again with a different batch code.");
+        try {
+            List<Batch> batchesWithBatchCode = batchRepo.findByBatchCode(batchDto.getBatchCode());
+            if (batchesWithBatchCode.size() != 0) {
+                for (Batch batchWithBatchCode : batchesWithBatchCode) {
+                    if (!batchId.equals(batchWithBatchCode.getBatchId())) {
+                        throw new Exception("Another batch with the entered batch code already exists in the system! Please try again with a different batch code.");
+                    }
                 }
             }
-        }
-        if (batchDto.getBatchPeriod() < 3 || batchDto.getBatchPeriod() > 48) {
-            throw new Exception("A batches duration can be between minimum three (3) to maximum sixty (60) months!");
-        }
-        if (LocalDate.parse(batchDto.getIntakeDate()).isBefore(LocalDate.now())) {
-            throw new Exception("The selected Intake date for the batch is set in a previous date! Please select a future date for the Intake date.");
-        }
+            if (batchDto.getBatchPeriod() < 3 || batchDto.getBatchPeriod() > 48) {
+                throw new Exception("A batches duration can be between minimum three (3) to maximum sixty (60) months!");
+            }
+            if (LocalDate.parse(batchDto.getIntakeDate()).isBefore(LocalDate.now())) {
+                throw new Exception("The selected Intake date for the batch is set in a previous date! Please select a future date for the Intake date.");
+            }
 
-        Batch batch = new Batch();
+            Batch batch = new Batch();
 
-        Optional<Batch> optionalBatch = batchRepo.findById(batchId);
-        if (optionalBatch.isPresent()) {
-            batch = optionalBatch.get();
+            Optional<Batch> optionalBatch = batchRepo.findById(batchId);
+            if (optionalBatch.isPresent()) {
+                batch = optionalBatch.get();
+            }
+
+            batch.setBatchCode(batchDto.getBatchCode());
+            batch.setBatchPeriod(batchDto.getBatchPeriod());
+            batch.setIntakeDate(Date.valueOf(batchDto.getIntakeDate()));
+
+            batchRepo.save(batch);
         }
-
-        batch.setBatchCode(batchDto.getBatchCode());
-        batch.setBatchPeriod(batchDto.getBatchPeriod());
-        batch.setIntakeDate(Date.valueOf(batchDto.getIntakeDate()));
-
-        batchRepo.save(batch);
+        catch (Exception exception){
+            throw new Exception("An unexpected error occurred while updating the batch!");
+        }
 
     }
 

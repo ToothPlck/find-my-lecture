@@ -45,11 +45,7 @@
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/admin/view/modules">Modules</a>
                         <a class="nav-link" style="color: #FFFAF0"
-                           href="${pageContext.request.contextPath}/admin/view/rooms">Class
-                            rooms :
-                            <a class="nav-link" style="color: #FFFAF0"
-                               href="${pageContext.request.contextPath}/admin/add/room">Add</a>
-                        </a>
+                           href="${pageContext.request.contextPath}/admin/view/rooms">Class rooms</a>
                     </div>
                     <div class="navbar-nav">
                         <a class="nav-link" style="color: #ffdf9e"
@@ -63,21 +59,21 @@
     </nav>
 </div>
 <div class="container">
-    <div style="margin-top: 80px;">
+    <div style="margin-top: 120px;">
         <form:form id="formSubmit" modelAttribute="rooms" method="get">
         <div class="col-lg-12 col-md-12 col-sm-12 container justify-content-center">
-            <h1 style="color: #414141;">Class rooms<a href="${pageContext.request.contextPath}/admin/add/room"
-                                                      style="font-size: medium; color: #ffdf9e; background-color: #414141; margin-left: 650px; padding: 5px 10px; text-align: center; text-decoration: none;">Add
-                new class room</a></h1>
+            <h2 style="color: #414141;">Class rooms<a href="${pageContext.request.contextPath}/admin/add/room"
+                                                      style="font-size: medium; color: #ffdf9e; background-color: #414141; margin-left: 700px; padding: 5px 10px; text-align: center; text-decoration: none;">Add
+                new class room</a></h2>
             <div class="table" style="width: 100%; margin-top: 25px;">
                 <table>
                     <thead>
                     <tr>
-                        <th style="width: 20%; color: #414141;">Room name</th>
+                        <th style="width: 15%; color: #414141;">Room name</th>
                         <th style="width: 20%; color: #414141;">Room type</th>
-                        <th style="width: 40%; color: #414141;">Room description</th>
-                        <th style="width: 10%; color: #414141;">Update</th>
-                        <th style="width: 10%; color: #414141;">Delete</th>
+                        <th style="width: 55%; color: #414141;">Room description</th>
+                        <th style="width: 5%; color: #414141;">Update</th>
+                        <th style="width: 5%; color: #414141;">Delete</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -142,7 +138,7 @@
         Swal.fire({
             icon: 'question',
             title: 'Sure you want to delete this classroom?',
-            text: 'This action cannot be reversed!\nThis action will;\n' +
+            text: 'This action cannot be reversed!\nThis action will : \n' +
                 ' 1. Remove all schedules set in the timetable with this classroom.',
             showCancelButton: true,
             confirmButtonText: `Yes!`,

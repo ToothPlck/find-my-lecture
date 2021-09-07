@@ -46,9 +46,7 @@
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/handler/view/students">Students</a>
                         <a class="nav-link" style="color: #FFFAF0"
-                           href="${pageContext.request.contextPath}/handler/view/timetable">Timetable : <a
-                                class="nav-link" style="color: #FFFAF0"
-                                href="${pageContext.request.contextPath}/handler/update/timetable/${timetable.timeTableId}">Update</a></a>
+                           href="${pageContext.request.contextPath}/handler/view/timetable">Timetable</a>
                     </div>
                     <div class="navbar-nav">
                         <a class="nav-link" style="color: #ffdf9e"
@@ -65,23 +63,22 @@
 <div class="container">
     <div style="margin-top: 120px;">
         <form:form id="formSubmit" modelAttribute="timetable" method="post">
-            <div class="col-lg-4 col-md-4 col-sm-4 container justify-content-center">
-                <h1 style="color: #414141; margin-bottom: 25px;">Update Schedule</h1>
+            <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center">
+                <h2 style="color: #414141; margin-bottom: 25px;">Update Schedule</h2>
                 <div class="mb-3">
                     <label style="color: #414141;" class="form-label">Schedule Date :</label>
                     <form:input path="date" id="datepicker" type="text" autocomplete="off" class="form-control"/>
                 </div>
-                <div class="mb-3">
-                    <label style="color: #414141;" class="form-label">Select Start time :</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Start time</span>
                     <form:input path="startTime" id="startTime" type="time" class="form-control"/>
-                </div>
-                <div class="mb-3">
-                    <label style="color: #414141;" class="form-label">Select End time :</label>
+                    <span class="input-group-text">End time</span>
                     <form:input path="endTme" id="endTime" type="time" class="form-control"/>
                 </div>
                 <div class="mb-3">
                     <label style="color: #414141;" class="form-label">Select a Class room :</label>
                     <form:select path="rooms" class="form-control">
+                        <form:option value="${timetable.rooms.roomId}">${timetable.rooms.roomName}</form:option>
                         <c:forEach items="${rooms}" var="room">
                             <form:option cssStyle="color: #414141"
                                          value="${room.roomId}">${room.roomName}</form:option>
@@ -103,7 +100,7 @@
                         Update Schedule
                     </button>
                 </div>
-                <div class="col text-center">
+                <div class="col text-center mt-2">
                     <a href="${pageContext.request.contextPath}/handler/view/timetable"
                        style="color: #414141">< Back</a>
                 </div>

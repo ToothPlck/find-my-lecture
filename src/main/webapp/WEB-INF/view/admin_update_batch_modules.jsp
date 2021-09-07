@@ -41,9 +41,7 @@
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/admin/view/lecturers">Lecturers</a>
                         <a class="nav-link" style="color: #FFFAF0"
-                           href="${pageContext.request.contextPath}/admin/view/batches">Batches :
-                            <a class="nav-link" style="color: #FFFAF0"
-                               href="${pageContext.request.contextPath}/admin/update/batch/${batchModules.batchId}">${batchModules.batchCode}</a></a>
+                           href="${pageContext.request.contextPath}/admin/view/batches">Batches</a>
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/admin/view/modules">Modules</a>
                         <a class="nav-link" style="color: #ffdf9e"
@@ -61,24 +59,24 @@
     </nav>
 </div>
 <div class="container">
-    <div style="margin-top: 120px;">
+    <div style="margin-top: 120px; margin-bottom: 80px;">
         <form:form id="formSubmit" modelAttribute="batchModules" method="post">
-            <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center">
-                <h1 style="color: #414141;">Update Batch : ${batchModules.batchCode}</h1>
+            <div class="col-lg-8 col-md-8 col-sm-8 container justify-content-center">
+                <h2 style="color: #414141;">Update Batch</h2>
                 <div class="table" style="width: 100%; margin-top: 25px;">
                     <table class="table">
                         <thead>
                         <tr>
-                            <th style="width: 40%; color: #414141;">Module</th>
+                            <th style="width: 50%; color: #414141;">Module</th>
                             <th style="width: 40%; color: #414141;">Lecturer</th>
-                            <th style="width: 20%; color: #414141;">De-assign</th>
+                            <th style="width: 10%; color: #414141;">De-assign</th>
                         </tr>
                         </thead>
                         <tbody>
                         <c:forEach items="${batchModules.modules}" var="module">
                             <tr>
                                 <td>${module.moduleName}</td>
-                                <td>${module.user.firstname}</td>
+                                <td>${module.user.firstname} ${module.user.lastname} (${module.user.username})</td>
                                 <td><a type="button" class="btn btn-outline-danger"
                                        href="/admin/update/${batchModules.batchId}/modules/${module.moduleId}/de-assign">
                                     Remove
@@ -89,9 +87,9 @@
                     </table>
                 </div>
                 <br>
-                <label style="color: #414141;" class="form-label">Assign new modules to batch</label>
+                <label style="color: #414141;" class="form-label">Assign new modules to batch :</label>
                 <div class="mb-3 col text-center">
-                    <form:select path="modules" class="form-control" size="4" cssStyle="width: 500px;"
+                    <form:select path="modules" class="form-control" size="4" cssStyle="width: 690px;"
                                  multiple="multiple">
                         <c:forEach items="${allModules}" var="modules">
                             <form:option value="${modules.moduleId}" label="${modules.moduleName}"/>
@@ -105,9 +103,9 @@
                         Update Batch Modules
                     </button>
                 </div>
-                <div class="col text-center">
+                <div class="col text-center mt-2">
                     <a href="${pageContext.request.contextPath}/admin/update/batch/${batchId}"
-                       style="color: #414141">< Back</a>
+                       style="color: #414141;">< Back</a>
                 </div>
             </div>
             <div>

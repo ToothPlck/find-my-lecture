@@ -45,10 +45,7 @@
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/admin/view/lecturers">Lecturers</a>
                         <a class="nav-link" style="color: #FFFAF0"
-                           href="${pageContext.request.contextPath}/admin/view/batches">Batches :
-                            <a class="nav-link" style="color: #FFFAF0"
-                               href="${pageContext.request.contextPath}/admin/add/batch">Add</a>
-                        </a>
+                           href="${pageContext.request.contextPath}/admin/view/batches">Batches</a>
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/admin/view/modules">Modules</a>
                         <a class="nav-link" style="color: #ffdf9e"
@@ -96,7 +93,7 @@
                         Add Batch
                     </button>
                 </div>
-                <div class="col text-center">
+                <div class="col text-center mt-2">
                     <a href="${pageContext.request.contextPath}/admin/view/batches"
                        style="color: #414141">< Back</a>
                 </div>
@@ -129,7 +126,7 @@
 
 
     $(function () {
-        $("#datepicker").datepicker({dateFormat: "yy-mm-dd", minDate: +1, maxDate: "+36M"}).val()
+        $("#datepicker").datepicker({dateFormat: "yy-mm-dd", minDate: +1, maxDate: "+60M"}).val()
     });
 
     window.onload = function () {

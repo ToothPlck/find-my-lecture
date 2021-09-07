@@ -95,9 +95,11 @@ public class TimeTableServiceImplementation implements TimeTableService {
         List<TimeTable> schedulesOnDate = timeTableRepo.findBatchesByDate(Date.valueOf(timeTableDto.getDate()));
 
         for (Batch batch : timeTableDto.getBatches()) {
-//            if (batch.getUsers().size() == 0) {
-//                throw new Exception("The following batch does not have any students assigned to it :" + batch.getBatchCode());
-//            } else {
+            if (!batch.getModules().contains(timeTableDto.getModules())) {
+                throw new Exception("The following batch: " + batch.getBatchCode() +
+                        "cannot have schedules for the following module: "
+                        + timeTableDto.getModules() + "since the module is not assigned to the said batch");
+            }
             for (TimeTable schedule : schedulesOnDate) {
                 if (schedule.getBatches().contains(batch)) {
                     if ((LocalTime.parse(timeTableDto.getStartTime()).isAfter(schedule.getStartTime()))
@@ -122,7 +124,6 @@ public class TimeTableServiceImplementation implements TimeTableService {
             }
         }
 
-//        User lecturer = moduleRepo.findEmailOfLecturerByModuleId(timeTableDto.getModules().getModuleId());
         User lecturer = userRepo.findEmailOfLecturerByModuleId(timeTableDto.getModules().getModuleId());
         List<Module> lecturerModules = moduleRepo.findModulesByUsername(lecturer.getUsername());
 
@@ -243,10 +244,12 @@ public class TimeTableServiceImplementation implements TimeTableService {
             List<TimeTable> schedulesOnDate = timeTableRepo.findBatchesByDate(Date.valueOf(timeTableDto.getDate()));
 
             for (Batch batch : timeTableDto.getBatches()) {
+                if (!batch.getModules().contains(timeTableDto.getModules())) {
+                    throw new Exception("The following batch: " + batch.getBatchCode() +
+                            " cannot have schedules for the following module: "
+                            + timeTableDto.getModules().getModuleName() + " since the module is not assigned to the said batch");
+                }
                 if (!timeTable.getBatches().contains(batch)) {
-//                    if (batch.getUsers().size() == 0) {
-//                        throw new Exception("The following batch does not have any students assigned to it :" + batch.getBatchCode());
-//                    } else {
                     for (TimeTable schedule : schedulesOnDate) {
                         if (schedule != timeTable) {
                             if (schedule.getBatches().contains(batch)) {
@@ -378,53 +381,28 @@ public class TimeTableServiceImplementation implements TimeTableService {
     }
 
     @Override
-    public void updateWhereRoom(Long roomId) {
-        TimeTable timeTable = new TimeTable();
-
-        List<TimeTable> timeTableList = timeTableRepo.findByRoomId(roomId);
-        if (timeTableList.size() != 0) {
-            for (TimeTable timeTables : timeTableList) {
-                timeTable.setTimeTableId(timeTables.getTimeTableId());
-                timeTable.setModule(timeTables.getModule());
-                timeTable.setBatches(timeTables.getBatches());
-                timeTable.setDate(timeTables.getDate());
-                timeTable.setStartTime(timeTables.getStartTime());
-                timeTable.setEndTime(timeTables.getEndTime());
-
-                timeTable.setRoom(null);
-
-                timeTableRepo.save(timeTable);
+    public void updateWhereRoom(Long roomId) throws Exception {
+        List<TimeTable> timeTables = timeTableRepo.findByRoomId(roomId);
+        if (timeTables.size() != 0) {
+            for (TimeTable timeTable : timeTables) {
+                if ((LocalDate.parse(timeTable.getDate().toString()).isAfter(LocalDate.now()))
+                        ||
+                        LocalDate.parse(timeTable.getDate().toString()).isEqual(LocalDate.now())) {
+                    throw new Exception("The classroom has upcoming schedules in the time table! Please update those schedules before removing the classroom.");
+                }
             }
         }
     }
 
     @Override
-    public void removeTimetable(Long batchId) {
+    public void removeTimetable(Long batchId) throws Exception {
         List<TimeTable> schedules = timeTableRepo.findNumberOfBatchesOfTheSession(batchId);
         if (schedules.size() != 0) {
             for (TimeTable timeTable : schedules) {
-                if (timeTable.getBatches().size() < 2) {
-                    timeTableRepo.deleteById(timeTable.getTimeTableId());
-
-                    //send email to all users in the batches
-                    String moduleName = timeTableRepo.getModuleNameOfTimetable(timeTable.getTimeTableId());
-
-                    List<Batch> batchList = timeTableRepo.getBatchesOfTimeTable(timeTable.getTimeTableId());
-                    if (batchList.size() != 0) {
-                        for (Batch batches : batchList) {
-                            List<User> users = batches.getUsers();
-                            for (User user : users) {
-                                emailService.deleteTimetableStudent(user.getEmail(), moduleName);
-                            }
-                        }
-                    }
-
-                    //send email to the lecturer of the module
-                    Module module = timeTableRepo.getModule(timeTable.getTimeTableId());
-                    Long moduleId = module.getModuleId();
-//                    User lecturer = moduleRepo.findEmailOfLecturerByModuleId(moduleId);
-                    User lecturer = userRepo.findEmailOfLecturerByModuleId(moduleId);
-                    emailService.deleteTimetableLecturer(lecturer.getEmail(), moduleName);
+                if ((LocalDate.parse(timeTable.getDate().toString()).isAfter(LocalDate.now()))
+                        ||
+                        LocalDate.parse(timeTable.getDate().toString()).isEqual(LocalDate.now())) {
+                    throw new Exception("The batch has upcoming schedules in the time table! Please update those schedules before removing the batch.");
                 }
             }
         }
@@ -533,7 +511,7 @@ public class TimeTableServiceImplementation implements TimeTableService {
         Batch studentsBatch = student.getBatch();
         String[] thisWeek = week();
 
-        if(studentsBatch != null) {
+        if (studentsBatch != null) {
             for (TimeTable timeTable : timeTableRepo.findSchedulesForBatch(studentsBatch.getBatchId())) {
                 for (String daysOfWeek : thisWeek) {
                     if ((LocalDate.parse(daysOfWeek).isAfter(LocalDate.now())) || LocalDate.parse(daysOfWeek).equals(LocalDate.now())) {

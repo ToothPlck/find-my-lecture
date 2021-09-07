@@ -231,7 +231,7 @@ public class UserServiceImplementation implements UserService {
             userDto.setLastname(user.getLastname());
             userDto.setContactNumber(user.getContactNumber());
             userDto.setEmail(user.getEmail());
-//            userDto.setModules(user.getModules());
+            userDto.setModules(user.getModules());
 
             lecturerList.add(userDto);
         }
@@ -406,27 +406,10 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public void removeBatchFromStudents(Long batchId) throws Exception {
-        User student = new User();
-
         List<User> users = userRepo.findByBatch(batchId);
         if (users.size() != 0) {
-            for (User user : users) {
-                String currentBatchCode = user.getBatch().getBatchCode();
-                String studentEmail = user.getEmail();
-
-                student.setUsername(user.getUsername());
-                student.setFirstname(user.getFirstname());
-                student.setLastname(user.getLastname());
-                student.setEmail(user.getEmail());
-                student.setNic(user.getNic());
-                student.setContactNumber(user.getContactNumber());
-                student.setPassword(user.getPassword());
-                student.setRole(user.getRole());
-                student.setBatch(null);
-
-                userRepo.save(student);
-                emailService.deAssignBatch(currentBatchCode, studentEmail);
-            }
+            throw new Exception("There are students assigned to this batch! " +
+                    "Please de-assign or update the students batches before removing the batch");
         }
     }
 

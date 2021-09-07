@@ -39,9 +39,7 @@
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/handler/register">Register</a>
                         <a class="nav-link" style="color: #FFFAF0"
-                           href="${pageContext.request.contextPath}/handler/view/students">Students : <a
-                                class="nav-link" style="color: #FFFAF0"
-                                href="${pageContext.request.contextPath}/handler/update/student/${student.username}">${student.username}</a></a>
+                           href="${pageContext.request.contextPath}/handler/view/students">Students</a>
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/handler/view/timetable">Timetable</a>
                     </div>
@@ -60,7 +58,7 @@
     <div style="margin-top: 100px;">
         <form:form method="post" modelAttribute="student" id="formSubmit">
             <div class="col-lg-4 col-md-4 col-sm-4 container justify-content-center">
-                <h1 style="color: #414141;">Update: ${student.username}</h1>
+                <h2 style="color: #414141;">Update: ${student.username}</h2>
                 <div class="mb-3">
                     <label style="color: #414141;" class="form-label">Update First name</label>
                     <form:input path="firstname" id="firstname" type="text" maxlength="15" class="form-control"
@@ -95,7 +93,7 @@
                         Update ${student.username}
                     </button>
                 </div>
-                <div class="col text-center">
+                <div class="col text-center mt-2">
                     <a href="${pageContext.request.contextPath}/handler/view/students"
                        style="color: #414141">< Back</a>
                 </div>

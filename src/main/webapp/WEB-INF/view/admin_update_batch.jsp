@@ -45,9 +45,7 @@
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/admin/view/lecturers">Lecturers</a>
                         <a class="nav-link" style="color: #FFFAF0"
-                           href="${pageContext.request.contextPath}/admin/view/batches">Batches
-                            :<a class="nav-link" style="color: #FFFAF0"
-                                href="${pageContext.request.contextPath}/admin/update/batch/${batchId}">${batch.batchCode}</a></a>
+                           href="${pageContext.request.contextPath}/admin/view/batches">Batches</a>
                         <a class="nav-link" style="color: #ffdf9e"
                            href="${pageContext.request.contextPath}/admin/view/modules">Modules</a>
                         <a class="nav-link" style="color: #ffdf9e"
@@ -65,10 +63,10 @@
     </nav>
 </div>
 <div class="container">
-    <div style="margin-top: 120px;">
+    <div style="margin-top: 120px; margin-bottom: 80px;">
         <form:form id="formSubmit" modelAttribute="batch" method="post">
             <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center">
-                <h1 style="color: #414141;">Update Batch : ${batch.batchCode}</h1>
+                <h2 style="color: #414141;">Update Batch : ${batch.batchCode}</h2>
                 <div class="mb-3">
                     <label style="color: #414141;" class="form-label">Update Batch code</label>
                     <form:input path="batchCode" id="batchCode" type="text" class="form-control" autofocus="autofocus"/>
@@ -92,7 +90,6 @@
                            href="${pageContext.request.contextPath}/admin/update/batch/modules/${batch.batchId}">
                             Update modules</a>
                     </div>
-                    <br>
                 </div>
                 <div class="col text-center">
                     <button type="submit" class="btn btn"
@@ -100,7 +97,7 @@
                         Update ${batch.batchCode}
                     </button>
                 </div>
-                <div class="col text-center">
+                <div class="col text-center mt-2">
                     <a href="${pageContext.request.contextPath}/admin/view/batches"
                        style="color: #414141">< Back</a>
                 </div>
