@@ -1,6 +1,7 @@
 package com.example.findmylecture.mobile.mobileController;
 
 import com.example.findmylecture.dto.UserDto;
+import com.example.findmylecture.mobile.mobileService.MobileUserService;
 import com.example.findmylecture.mobile.mobiledto.MobileUserDto;
 import com.example.findmylecture.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,11 @@ import java.util.List;
 public class mobileAdminController {
 
     @Autowired
-    private UserService userService;
+    private MobileUserService mobileUserService;
 
     @GetMapping(value = "view/lecturers", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> viewLecturers() {
-        List<UserDto> userDtoList = userService.findAllLecturers();
+        List<UserDto> userDtoList = mobileUserService.findAllLecturers();
         return ResponseEntity.ok(userDtoList);
     }
 
