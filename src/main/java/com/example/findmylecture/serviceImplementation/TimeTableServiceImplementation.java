@@ -56,6 +56,8 @@ public class TimeTableServiceImplementation implements TimeTableService {
 
         if (LocalTime.parse(timeTableDto.getStartTime()).isAfter(LocalTime.parse(timeTableDto.getEndTme()))) {
             throw new Exception("The schedule end time is set before the schedules start time! Please try again with correct time slots.");
+        } else if (LocalDate.parse(timeTableDto.getDate()).isBefore(LocalDate.now())) {
+            throw new Exception("The selected date for the schedule is set in a previous date! Please select a future date for the schedule.");
         } else {
             LocalTime start = LocalTime.parse(timeTableDto.getStartTime());
             LocalTime end = LocalTime.parse(timeTableDto.getEndTme());
@@ -208,6 +210,8 @@ public class TimeTableServiceImplementation implements TimeTableService {
         if (timeTableDto != null) {
             if (LocalTime.parse(timeTableDto.getStartTime()).isAfter(LocalTime.parse(timeTableDto.getEndTme()))) {
                 throw new Exception("The schedule end time is set before the schedules start time! Please try again with correct time slots.");
+            } else if (LocalDate.parse(timeTableDto.getDate()).isBefore(LocalDate.now())) {
+                throw new Exception("The selected date for the schedule is set in a previous date! Please select a future date for the schedule.");
             } else {
                 LocalTime start = LocalTime.parse(timeTableDto.getStartTime());
                 LocalTime end = LocalTime.parse(timeTableDto.getEndTme());

@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -21,7 +22,7 @@ public class UserServiceTests {
     private String addedUser;
 
     @Test
-    public void testAddUser(){
+    public void testAddUser() {
         UserDto userDto = new UserDto();
         userDto.setFirstname("firstname");
         userDto.setLastname("lastname");
@@ -32,7 +33,7 @@ public class UserServiceTests {
         try {
             userService.saveStudent(userDto);
             addedUser = userService.findByEmail("testAddStudent@email.com");
-        } catch (Exception exception){
+        } catch (Exception exception) {
             saved = false;
         }
 
@@ -41,7 +42,7 @@ public class UserServiceTests {
     }
 
     @Test
-    public void testAddUserWithExistingEmail(){
+    public void testAddUserWithExistingEmail() {
         UserDto userDto = new UserDto();
         userDto.setFirstname("firstname");
         userDto.setLastname("lastname");
@@ -51,15 +52,16 @@ public class UserServiceTests {
 
         try {
             userService.saveStudent(userDto);
-        } catch (Exception exception){
-            if(exception.getMessage().equals("A user with the entered email already exists in the system! Please try again with a different email.")) isTrue = true;
+        } catch (Exception exception) {
+            if (exception.getMessage().equals("A user with the entered email already exists in the system! Please try again with a different email."))
+                isTrue = true;
         }
         assertTrue(isTrue);
         System.out.println("[TEST] Fail to add a user with an existing email [PASSED]");
     }
 
     @Test
-    public void testGetAllStudents(){
+    public void testGetAllStudents() {
         List<UserDto> users = userService.findAllStudents();
 
         boolean isTrue = users.size() > 0;
@@ -69,7 +71,7 @@ public class UserServiceTests {
     }
 
     @Test
-    public void testGetAllLecturers(){
+    public void testGetAllLecturers() {
         List<UserDto> users = userService.findAllLecturers();
 
         boolean isTrue = users.size() > 0;
@@ -79,7 +81,7 @@ public class UserServiceTests {
     }
 
     @Test
-    public void testGetUserByUsername(){
+    public void testGetUserByUsername() {
         UserDto userDto = userService.findByUsername(addedUser);
 
         boolean isTrue = userDto != null;
@@ -96,8 +98,8 @@ public class UserServiceTests {
 
         boolean isTrue = true;
 
-        for(UserDto userDto : users){
-            if(userDto.getUsername().equals(addedUser)){
+        for (UserDto userDto : users) {
+            if (userDto.getUsername().equals(addedUser)) {
                 isTrue = false;
                 break;
             }
