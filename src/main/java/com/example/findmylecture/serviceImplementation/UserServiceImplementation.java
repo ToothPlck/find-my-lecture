@@ -32,7 +32,7 @@ public class UserServiceImplementation implements UserService {
     @Override
     public void save(UserDto userDto) throws Exception {
         if (userRepo.findByEmail(userDto.getEmail()).size() != 0) {
-            throw new Exception("A user with the entered email already exists in the system!\nPlease try again with a different email.");
+            throw new Exception("A user with the entered email already exists in the system! Please try again with a different email.");
         } else if (userRepo.findByNic(userDto.getNic()).size() != 0) {
             throw new Exception("The user with the entered NIC is already registered in the system!");
         } else {
@@ -67,7 +67,7 @@ public class UserServiceImplementation implements UserService {
 
             } else {
                 tempUser = userRepo.findUserByUsername("temp");
-                String usernamePassword = "SU" + tempUser.getNic();
+                String usernamePassword = "SU0" + tempUser.getNic();
                 long tempNic = Long.parseLong(tempUser.getNic()) + 1;
 
                 userRepo.deleteById("temp");
@@ -100,7 +100,7 @@ public class UserServiceImplementation implements UserService {
     @Override
     public void saveStudent(UserDto userDto) throws Exception {
         if (userRepo.findByEmail(userDto.getEmail()).size() != 0) {
-            throw new Exception("A user with the entered email already exists in the system!\nPlease try again with a different email.");
+            throw new Exception("A user with the entered email already exists in the system! Please try again with a different email.");
         } else if (userRepo.findByNic(userDto.getNic()).size() != 0) {
             throw new Exception("The user with the entered NIC is already registered in the system!");
         } else {
@@ -217,6 +217,12 @@ public class UserServiceImplementation implements UserService {
     public Long getUserRole(String name) {
         User user = userRepo.findUserByUsername(name);
         return user.getRole().getRoleId();
+    }
+
+    @Override
+    public String findByEmail(String email) {
+        User user = userRepo.findUserByEmail(email);
+        return user.getUsername();
     }
 
     @Override

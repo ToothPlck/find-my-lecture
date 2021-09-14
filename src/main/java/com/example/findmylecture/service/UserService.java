@@ -35,4 +35,6 @@ public interface UserService {
     UserDto updatable(String name);
 
     Long getUserRole(String name);
+
+    String findByEmail(String email);
 }

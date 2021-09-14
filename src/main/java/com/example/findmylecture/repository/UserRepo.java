@@ -30,4 +30,7 @@ public interface UserRepo extends JpaRepository<User, String> {
 
     @Query("from User u where u.nic=:nic")
     List<User> findByNic(String nic);
+
+    @Query("from User u where u.email=:email")
+    User findUserByEmail(String email);
 }

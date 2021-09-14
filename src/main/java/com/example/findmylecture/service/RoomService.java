@@ -20,4 +20,6 @@ public interface RoomService {
     void deleteRoomByRoomId(Long roomId);
 
     List<RoomDto> getRoomsForTimeTable();
+
+    RoomDto saveClassroom(RoomDto roomDto) throws Exception;
 }

@@ -75,6 +75,25 @@ public class RoomServiceImplementation implements RoomService {
     }
 
     @Override
+    public RoomDto saveClassroom(RoomDto roomDto) throws Exception{
+        List<Room> roomsWithRoomName = roomRepo.findByRoomName(roomDto.getRoomName());
+        if (roomsWithRoomName.size() != 0) {
+            throw new Exception("Another classroom with the entered classroom name exists in the system! Please try again with a different classroom name.");
+        }
+        Room room = new Room();
+
+        room.setRoomId(roomDto.getRoomId());
+        room.setRoomName(roomDto.getRoomName());
+        room.setRoomType(roomDto.getRoomType());
+        room.setRoomDescription(roomDto.getRoomDescription());
+
+        roomRepo.save(room);
+
+        roomDto.setRoomId(room.getRoomId());
+        return roomDto;
+    }
+
+    @Override
     public void deleteRoomByRoomId(Long roomId) {
         roomRepo.deleteById(roomId);
     }
