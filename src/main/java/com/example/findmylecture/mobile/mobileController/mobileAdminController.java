@@ -1,7 +1,6 @@
 package com.example.findmylecture.mobile.mobileController;
 
 import com.example.findmylecture.dto.*;
-import com.example.findmylecture.mobile.mobileService.MobileUserService;
 import com.example.findmylecture.mobile.mobiledto.*;
 import com.example.findmylecture.model.Batch;
 import com.example.findmylecture.model.Module;
@@ -22,8 +21,6 @@ import java.util.List;
 @RequestMapping("/mobile/admin/")
 public class mobileAdminController {
 
-    @Autowired
-    private MobileUserService mobileUserService;
     @Autowired
     private TimeTableService timeTableService;
     @Autowired
@@ -91,8 +88,22 @@ public class mobileAdminController {
 
     @GetMapping(value = "view/lecturers", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> viewLecturers() {
-        List<UserDto> userDtoList = mobileUserService.findAllLecturers();
-        return ResponseEntity.ok(userDtoList);
+        List<UserDto> userDtoList = userService.findAllLecturers();
+        List<MobileUserDto> mobileUserDtoList = new ArrayList<>();
+
+        for (UserDto userDto : userDtoList) {
+            MobileUserDto mobileUserDto = new MobileUserDto();
+
+            mobileUserDto.setUsername(userDto.getUsername());
+            mobileUserDto.setFirstname(userDto.getFirstname());
+            mobileUserDto.setLastname(userDto.getLastname());
+            mobileUserDto.setEmail(userDto.getEmail());
+            mobileUserDto.setContactNumber(userDto.getContactNumber());
+
+            mobileUserDtoList.add(mobileUserDto);
+        }
+
+        return ResponseEntity.ok(mobileUserDtoList);
     }
 
     @PostMapping(value = "add/module", produces = {MediaType.APPLICATION_JSON_VALUE})

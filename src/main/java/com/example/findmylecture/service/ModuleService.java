@@ -27,4 +27,6 @@ public interface ModuleService {
     void deAssignLecturerFromModules(String username) throws Exception;
 
     List<ModuleDto> getModulesForBatch();
+
+    Module findById(Long moduleId);
 }

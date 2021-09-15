@@ -90,6 +90,11 @@ public class ModuleServiceImplementation implements ModuleService {
     }
 
     @Override
+    public Module findById(Long moduleId) {
+        return moduleRepo.getById(moduleId);
+    }
+
+    @Override
     public ModuleDto findModuleByModuleId(Long moduleId) {
         ModuleDto moduleDto = new ModuleDto();
         Module module = moduleRepo.getById(moduleId);
