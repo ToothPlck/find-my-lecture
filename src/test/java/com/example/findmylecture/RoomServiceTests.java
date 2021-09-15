@@ -3,8 +3,7 @@ package com.example.findmylecture;
 import com.example.findmylecture.dto.RoomDto;
 import com.example.findmylecture.model.Room;
 import com.example.findmylecture.service.RoomService;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -14,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest
 public class RoomServiceTests {
 
@@ -23,6 +23,7 @@ public class RoomServiceTests {
     Long addedRoomId;
 
     @Test
+    @Order(1)
     public void testAddClassroom() throws Exception {
         RoomDto roomDto = new RoomDto();
         roomDto.setRoomName("testRoomName");
@@ -36,6 +37,7 @@ public class RoomServiceTests {
     }
 
     @Test
+    @Order(2)
     public void testAddClassroomWithExistingClassroomName() {
         RoomDto roomDto = new RoomDto();
         roomDto.setRoomName("testRoomName");
@@ -54,6 +56,7 @@ public class RoomServiceTests {
     }
 
     @Test
+    @Order(3)
     public void getAllClassrooms() {
         List<RoomDto> roomDtoList = roomService.getRoomsForTimeTable();
 
@@ -64,6 +67,7 @@ public class RoomServiceTests {
     }
 
     @Test
+    @Order(4)
     public void getClassroomById() {
         Room room = roomService.findByRoomId(addedRoomId);
 
@@ -74,6 +78,7 @@ public class RoomServiceTests {
     }
 
     @Test
+    @Order(5)
     public void deleteClassroom() {
         roomService.deleteRoomByRoomId(addedRoomId);
 

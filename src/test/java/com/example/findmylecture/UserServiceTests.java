@@ -2,17 +2,16 @@ package com.example.findmylecture;
 
 import com.example.findmylecture.dto.UserDto;
 import com.example.findmylecture.service.UserService;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest
 public class UserServiceTests {
 
@@ -22,6 +21,7 @@ public class UserServiceTests {
     private String addedUser;
 
     @Test
+    @Order(1)
     public void testAddUser() {
         UserDto userDto = new UserDto();
         userDto.setFirstname("firstname");
@@ -42,6 +42,7 @@ public class UserServiceTests {
     }
 
     @Test
+    @Order(2)
     public void testAddUserWithExistingEmail() {
         UserDto userDto = new UserDto();
         userDto.setFirstname("firstname");
@@ -61,6 +62,7 @@ public class UserServiceTests {
     }
 
     @Test
+    @Order(3)
     public void testGetAllStudents() {
         List<UserDto> users = userService.findAllStudents();
 
@@ -71,6 +73,7 @@ public class UserServiceTests {
     }
 
     @Test
+    @Order(4)
     public void testGetAllLecturers() {
         List<UserDto> users = userService.findAllLecturers();
 
@@ -81,6 +84,7 @@ public class UserServiceTests {
     }
 
     @Test
+    @Order(5)
     public void testGetUserByUsername() {
         UserDto userDto = userService.findByUsername(addedUser);
 
@@ -91,6 +95,7 @@ public class UserServiceTests {
     }
 
     @Test
+    @Order(6)
     public void testDeleteUser() throws Exception {
         userService.deleteUserByUsername(addedUser);
 

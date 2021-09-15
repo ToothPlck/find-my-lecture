@@ -25,6 +25,9 @@ public interface ModuleRepo extends JpaRepository<Module, Long> {
     @Query("from Module m where m.moduleName=:moduleName")
     List<Module> findModuleByModuleName(String moduleName);
 
+    @Query("select m.moduleId from Module m where m.moduleName=:testModuleName")
+    Long findModuleIdByModuleName(String testModuleName);
+
 //    @Query("select m.user from Module m where m.moduleId=:moduleId")
 //    User findEmailOfLecturerByModuleId(Long moduleId);
 }
