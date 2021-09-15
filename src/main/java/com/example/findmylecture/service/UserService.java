@@ -1,6 +1,7 @@
 package com.example.findmylecture.service;
 
 import com.example.findmylecture.dto.UserDto;
+import com.example.findmylecture.mobile.mobiledto.MobileUserDto;
 
 import java.util.List;
 
@@ -37,4 +38,6 @@ public interface UserService {
     Long getUserRole(String name);
 
     String findByEmail(String email);
+
+    void mobileSaveLecturer(MobileUserDto mobileUserDto) throws Exception;
 }

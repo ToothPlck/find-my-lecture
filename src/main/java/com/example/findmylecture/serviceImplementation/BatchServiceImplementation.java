@@ -33,8 +33,10 @@ public class BatchServiceImplementation implements BatchService {
                 throw new Exception("A batches duration can be between minimum three (3) to maximum sixty (60) months!");
             } else if (LocalDate.parse(batchDto.getIntakeDate()).isBefore(LocalDate.now())) {
                 throw new Exception("The selected Intake date for the batch is set in a previous date! Please select a future date for the Intake date.");
-            } else if (batchDto.getModules().size() > 16) {
-                throw new Exception("The batch has too many modules assigned to it! The max limit of modules for a batch is sixteen (16).");
+            } else if (batchDto.getModules() != null) {
+                if (batchDto.getModules().size() > 16) {
+                    throw new Exception("The batch has too many modules assigned to it! The max limit of modules for a batch is sixteen (16).");
+                }
             }
 
             Batch batch = new Batch();
@@ -47,8 +49,7 @@ public class BatchServiceImplementation implements BatchService {
             batch.setModules((batchDto.getModules()));
 
             batchRepo.save(batch);
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             throw new Exception("An error occurred while adding the batch!");
         }
     }
@@ -142,8 +143,7 @@ public class BatchServiceImplementation implements BatchService {
             batch.setIntakeDate(Date.valueOf(batchDto.getIntakeDate()));
 
             batchRepo.save(batch);
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             throw new Exception("An unexpected error occurred while updating the batch!");
         }
 

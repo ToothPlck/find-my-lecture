@@ -2,6 +2,7 @@ package com.example.findmylecture.serviceImplementation;
 
 import com.example.findmylecture.dto.UserDto;
 import com.example.findmylecture.mailHandler.EmailService;
+import com.example.findmylecture.mobile.mobiledto.MobileUserDto;
 import com.example.findmylecture.model.User;
 import com.example.findmylecture.repository.ModuleRepo;
 import com.example.findmylecture.repository.RoleRepo;
@@ -59,7 +60,7 @@ public class UserServiceImplementation implements UserService {
                 userRepo.save(user);
 
                 tempUser.setUsername("temp");
-                tempUser.setNic(Long.toString(tempUsername));
+                tempUser.setNic("0" + tempUsername);
 
                 userRepo.save(tempUser);
 
@@ -67,7 +68,7 @@ public class UserServiceImplementation implements UserService {
 
             } else {
                 tempUser = userRepo.findUserByUsername("temp");
-                String usernamePassword = "SU0" + tempUser.getNic();
+                String usernamePassword = "SU" + tempUser.getNic();
                 long tempNic = Long.parseLong(tempUser.getNic()) + 1;
 
                 userRepo.deleteById("temp");
@@ -139,7 +140,7 @@ public class UserServiceImplementation implements UserService {
                 emailService.studentRegister(user);
 
                 tempUser.setUsername("temp");
-                tempUser.setNic(Long.toString(tempUsername));
+                tempUser.setNic("0" + tempUsername);
 
                 userRepo.save(tempUser);
             } else {
@@ -223,6 +224,74 @@ public class UserServiceImplementation implements UserService {
     public String findByEmail(String email) {
         User user = userRepo.findUserByEmail(email);
         return user.getUsername();
+    }
+
+    @Override
+    public void mobileSaveLecturer(MobileUserDto mobileUserDto) throws Exception {
+        if (userRepo.findByEmail(mobileUserDto.getEmail()).size() != 0) {
+            throw new Exception("A user with the entered email already exists in the system! Please try again with a different email.");
+        } else if (userRepo.findByNic(mobileUserDto.getNic()).size() != 0) {
+            throw new Exception("The user with the entered NIC is already registered in the system!");
+        } else {
+            User user = new User();
+            User tempUser = new User();
+
+            //if no users exists in the database;
+            long userCount = userRepo.count();
+
+            if (userCount == 0) {
+                long usernameNumber = userRepo.count() + 1;
+                long tempUsername = userRepo.count() + 2;
+                String usernamePassword = "SU0" + usernameNumber;
+
+                user.setUsername(usernamePassword);
+                user.setFirstname(mobileUserDto.getFirstname());
+                user.setLastname(mobileUserDto.getLastname());
+                user.setEmail(mobileUserDto.getEmail());
+                user.setNic(mobileUserDto.getNic());
+                user.setContactNumber(mobileUserDto.getContactNumber());
+                user.setPassword(bCryptPasswordEncoder.encode(usernamePassword));
+                user.setRole(roleRepo.findRoleByRoleName("LECTURER"));
+
+                userRepo.save(user);
+
+                tempUser.setUsername("temp");
+                tempUser.setNic("0" + tempUsername);
+
+                userRepo.save(tempUser);
+
+                emailService.staffRegister(user);
+
+            } else {
+                tempUser = userRepo.findUserByUsername("temp");
+                String usernamePassword = "SU" + tempUser.getNic();
+                long tempNic = Long.parseLong(tempUser.getNic()) + 1;
+
+                userRepo.deleteById("temp");
+                User newTempUser = new User();
+
+                user.setUsername(usernamePassword);
+                user.setFirstname(mobileUserDto.getFirstname());
+                user.setLastname(mobileUserDto.getLastname());
+                user.setEmail(mobileUserDto.getEmail());
+                user.setNic(mobileUserDto.getNic());
+                user.setContactNumber(mobileUserDto.getContactNumber());
+                user.setPassword(bCryptPasswordEncoder.encode(usernamePassword));
+                user.setRole(roleRepo.findRoleByRoleName("LECTURER"));
+
+                userRepo.save(user);
+
+                newTempUser.setUsername("temp");
+                if (tempNic < 10)
+                    newTempUser.setNic("0" + tempNic);
+                else
+                    newTempUser.setNic(Long.toString(tempNic));
+
+                userRepo.save(newTempUser);
+
+                emailService.staffRegister(user);
+            }
+        }
     }
 
     @Override
