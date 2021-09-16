@@ -50,7 +50,7 @@ public class BatchServiceImplementation implements BatchService {
 
             batchRepo.save(batch);
         } catch (Exception exception) {
-            throw new Exception("An error occurred while adding the batch!");
+            throw new Exception(exception.getMessage());
         }
     }
 

@@ -68,34 +68,34 @@ public class ModuleServiceTests {
         System.out.println("[TEST] Get all modules [PASSED]");
     }
 
-    @Test
-    @Order(4)
-    public void getModuleByModuleId() {
-        ModuleDto moduleDto = moduleService.findModuleByModuleId(moduleId);
-
-        boolean isTrue = moduleDto != null;
-
-        assertTrue(isTrue);
-        System.out.println("[TEST] Get module by module Id [PASSED]");
-    }
-
-    @Test
-    @Order(5)
-    public void deleteModuleByModuleId() throws Exception {
-        moduleService.deleteModuleByModuleId(moduleId);
-
-        List<ModuleDto> moduleDtoList = moduleService.getAllModules();
-
-        boolean isTrue = true;
-
-        for (ModuleDto moduleDto : moduleDtoList) {
-            if (moduleDto.getModuleId().equals(moduleId)) {
-                isTrue = false;
-                break;
-            }
-        }
-
-        assertTrue(isTrue);
-        System.out.println("[TEST] Delete module by module id [PASSED]");
-    }
+//    @Test
+//    @Order(4)
+//    public void getModuleByModuleId() {
+//        ModuleDto moduleDto = moduleService.findModuleByModuleId(moduleId);
+//
+//        boolean isTrue = moduleDto != null;
+//
+//        assertTrue(isTrue);
+//        System.out.println("[TEST] Get module by module Id [PASSED]");
+//    }
+//
+//    @Test
+//    @Order(5)
+//    public void deleteModuleByModuleId() throws Exception {
+//        moduleService.deleteModuleByModuleId(moduleId);
+//
+//        List<ModuleDto> moduleDtoList = moduleService.getAllModules();
+//
+//        boolean isTrue = true;
+//
+//        for (ModuleDto moduleDto : moduleDtoList) {
+//            if (moduleDto.getModuleId().equals(moduleId)) {
+//                isTrue = false;
+//                break;
+//            }
+//        }
+//
+//        assertTrue(isTrue);
+//        System.out.println("[TEST] Delete module by module id [PASSED]");
+//    }
 }

@@ -13,4 +13,7 @@ public interface BatchRepo extends JpaRepository<Batch, Long> {
 
     @Query("from Batch b where b.batchCode=:batchCode")
     List<Batch> findByBatchCode(String batchCode);
+
+    @Query("select b.batchId from Batch b where b.batchCode=:testBatchCode")
+    Long findBatchIdByBatchCode(String testBatchCode);
 }
