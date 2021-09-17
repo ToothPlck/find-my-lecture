@@ -34,9 +34,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <a class="nav-link" style="color: #FFFAF0" aria-current="page"
-                           href="${pageContext.request.contextPath}/student/home">Home</a>
                         <a class="nav-link" style="color: #ffdf9e" aria-current="page"
+                           href="${pageContext.request.contextPath}/student/home">Home</a>
+                        <a class="nav-link" style="color: #FFFAF0" aria-current="page"
                            href="${pageContext.request.contextPath}/student/view/timetable">Timetable</a>
                     </div>
                     <div class="navbar-nav">
@@ -50,17 +50,11 @@
         </nav>
     </nav>
 </div>
-<div class="container justify-content-center">
-    <div class="container text-center">
-        <label style="margin-top: 100px; color: #414141; font-size: xx-large;">Welcome ${loggedUser.firstname} to
-            FML!</label>
-    </div>
-</div>
 <div class="container">
-    <div style="margin-top: 50px;">
+    <div style="margin-top: 100px;">
         <form:form modelAttribute="schedules" method="get">
             <div class="col-lg-12 col-md-12 col-sm-12 container justify-content-center">
-                <h1 style="color: #414141;">Schedules For The Week</h1>
+                <h1 style="color: #414141;">Time Table</h1>
 
                 <table class="table" style="width: 100%; margin-top: 25px;">
                     <thead>
@@ -100,7 +94,7 @@
             <div class="text-center p-3" style="color: #998d88">
                 © 2020 Copyright:
                 <a style="color: #998d88;" class="text-center p-3"
-                   href="${pageContext.request.contextPath}/student/home">Find
+                   href="${pageContext.request.contextPath}/student/view/timetable">Find
                     My Lecture</a>
             </div>
         </footer>

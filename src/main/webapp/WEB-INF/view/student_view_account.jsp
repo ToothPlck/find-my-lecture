@@ -36,6 +36,8 @@
                     <div class="navbar-nav">
                         <a class="nav-link" style="color: #ffdf9e" aria-current="page"
                            href="${pageContext.request.contextPath}/student/home">Home</a>
+                        <a class="nav-link" style="color: #ffdf9e" aria-current="page"
+                           href="${pageContext.request.contextPath}/student/view/timetable">Timetable</a>
                     </div>
                     <div class="navbar-nav">
                         <a class="nav-link" style="color: #FFFAF0"

@@ -6,7 +6,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>FML - Time Tables</title>
+    <title>FML -Time Tables</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -25,7 +25,7 @@
     <nav class="navbar fixed-top" style="background-color: #414141">
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="${pageContext.request.contextPath}/student/home"
+                <a class="navbar-brand" href="${pageContext.request.contextPath}/lecturer/home"
                    style="margin-right: 45px; color: #FFFAF0;">Find My Lecture : ${loggedUser.firstname}</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
@@ -34,14 +34,14 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <a class="nav-link" style="color: #FFFAF0" aria-current="page"
-                           href="${pageContext.request.contextPath}/student/home">Home</a>
                         <a class="nav-link" style="color: #ffdf9e" aria-current="page"
-                           href="${pageContext.request.contextPath}/student/view/timetable">Timetable</a>
+                           href="${pageContext.request.contextPath}/lecturer/home">Home</a>
+                        <a class="nav-link" style="color: #FFFAF0" aria-current="page"
+                           href="${pageContext.request.contextPath}/lecturer/view/timetable">Timetable</a>
                     </div>
                     <div class="navbar-nav">
                         <a class="nav-link" style="color: #ffdf9e"
-                           href="${pageContext.request.contextPath}/student/view/account">My Account</a>
+                           href="${pageContext.request.contextPath}/lecturer/view/account">My Account</a>
                         <a class="nav-link" style="color: #ffdf9e; cursor: pointer" onclick="logout()">Logout</a><a
                             href="${pageContext.request.contextPath}/logout" id="logout"></a>
                     </div>
@@ -50,17 +50,11 @@
         </nav>
     </nav>
 </div>
-<div class="container justify-content-center">
-    <div class="container text-center">
-        <label style="margin-top: 100px; color: #414141; font-size: xx-large;">Welcome ${loggedUser.firstname} to
-            FML!</label>
-    </div>
-</div>
 <div class="container">
-    <div style="margin-top: 50px;">
+    <div style="margin-top: 100px;">
         <form:form modelAttribute="schedules" method="get">
             <div class="col-lg-12 col-md-12 col-sm-12 container justify-content-center">
-                <h1 style="color: #414141;">Schedules For The Week</h1>
+                <h1 style="color: #414141;">Time table</h1>
 
                 <table class="table" style="width: 100%; margin-top: 25px;">
                     <thead>
@@ -100,7 +94,7 @@
             <div class="text-center p-3" style="color: #998d88">
                 © 2020 Copyright:
                 <a style="color: #998d88;" class="text-center p-3"
-                   href="${pageContext.request.contextPath}/student/home">Find
+                   href="${pageContext.request.contextPath}/lecturer/home">Find
                     My Lecture</a>
             </div>
         </footer>

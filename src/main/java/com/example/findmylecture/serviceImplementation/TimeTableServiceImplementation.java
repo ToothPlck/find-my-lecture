@@ -248,10 +248,10 @@ public class TimeTableServiceImplementation implements TimeTableService {
             List<TimeTable> schedulesOnDate = timeTableRepo.findBatchesByDate(Date.valueOf(timeTableDto.getDate()));
 
             for (Batch batch : timeTableDto.getBatches()) {
-                if (!batch.getModules().contains(timeTableDto.getModules())) {
+                if (!batch.getModules().contains(timeTable.getModule())) {
                     throw new Exception("The following batch: " + batch.getBatchCode() +
                             " cannot have schedules for the following module: "
-                            + timeTableDto.getModules().getModuleName() + " since the module is not assigned to the said batch");
+                            + timeTable.getModule().getModuleName() + " since the module is not assigned to the said batch");
                 }
                 if (!timeTable.getBatches().contains(batch)) {
                     for (TimeTable schedule : schedulesOnDate) {

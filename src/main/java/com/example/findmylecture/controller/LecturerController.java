@@ -30,6 +30,14 @@ public class LecturerController {
         return "lecturer_home";
     }
 
+    //====================================================================================================view timetable
+    @GetMapping("view/timetable")
+    public String timetable(Model model, Authentication authentication){
+        model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
+        model.addAttribute("schedules", timeTableService.getTimeTable());
+        return "lecturer_timetable";
+    }
+
     //======================================================================================================view account
     @GetMapping("view/account")
     public String viewAccount(Model model, Authentication authentication) {
