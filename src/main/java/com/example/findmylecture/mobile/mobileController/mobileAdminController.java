@@ -88,6 +88,7 @@ public class mobileAdminController {
 
     @GetMapping(value = "view/lecturers", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> viewLecturers() {
+        System.out.println("lecturers");
         List<UserDto> userDtoList = userService.findAllLecturers();
         List<MobileUserDto> mobileUserDtoList = new ArrayList<>();
 
@@ -102,14 +103,14 @@ public class mobileAdminController {
 
             mobileUserDtoList.add(mobileUserDto);
         }
-
+        System.out.println(mobileUserDtoList);
         return ResponseEntity.ok(mobileUserDtoList);
     }
 
     @PostMapping(value = "add/module", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> addModule(@RequestBody MobileModuleDto mobileModuleDto) throws Exception {
         ModuleDto moduleDto = new ModuleDto();
-        moduleDto.setModuleId(mobileModuleDto.getModuleId());
+//        moduleDto.setModuleId(mobileModuleDto.getModuleId());
         moduleDto.setModuleName(mobileModuleDto.getModuleName());
         moduleDto.setModuleDescription(mobileModuleDto.getModuleDescription());
         moduleService.save(moduleDto);
@@ -118,6 +119,7 @@ public class mobileAdminController {
 
     @GetMapping(value = "view/modules", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> viewModules() {
+        System.out.println("modules");
         List<ModuleDto> moduleDtoList = moduleService.getAllModules();
         List<MobileModuleDto> mobileModuleDtoList = new ArrayList<>();
 
@@ -139,6 +141,7 @@ public class mobileAdminController {
 
             mobileModuleDtoList.add(mobileModuleDto);
         }
+        System.out.println(mobileModuleDtoList);
         return ResponseEntity.ok(mobileModuleDtoList);
     }
 
@@ -157,6 +160,7 @@ public class mobileAdminController {
 
     @GetMapping(value = "view/batches", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> viewBatches() {
+        System.out.println("batches");
         List<BatchDto> batchDtoList = batchService.findAllAssignableBatches();
         List<MobileBatchDto> mobileBatchDtoList = new ArrayList<>();
 
@@ -180,9 +184,9 @@ public class mobileAdminController {
                 }
             }
             mobileBatchDto.setMobileModuleDto(mobileModuleDtoList);
-
             mobileBatchDtoList.add(mobileBatchDto);
         }
+        System.out.println(mobileBatchDtoList);
         return ResponseEntity.ok(mobileBatchDtoList);
     }
 
@@ -201,6 +205,7 @@ public class mobileAdminController {
 
     @GetMapping(value = "view/rooms", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> viewRooms() {
+        System.out.println("rooms");
         List<Room> roomList = roomService.findAllRooms();
         List<MobileRoomDto> mobileRoomDtoList = new ArrayList<>();
 
@@ -214,6 +219,7 @@ public class mobileAdminController {
 
             mobileRoomDtoList.add(mobileRoomDto);
         }
+        System.out.println(mobileRoomDtoList);
         return ResponseEntity.ok(mobileRoomDtoList);
     }
 }

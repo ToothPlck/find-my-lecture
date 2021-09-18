@@ -33,6 +33,7 @@ public class mobileHandlerController {
 
     @GetMapping(value = "/timetable/today", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> viewSchedulesForToday() {
+        System.out.println("timetable");
         List<TimeTableDto> timeTableDtoList = timeTableService.schedulesForToday();
         List<MobileBatchDto> mobileBatchDtoList = new ArrayList<>();
 
@@ -75,6 +76,7 @@ public class mobileHandlerController {
 
             mobileTimeTableDtoList.add(mobileTimeTableDto);
         }
+        System.out.println(mobileTimeTableDtoList);
         return ResponseEntity.ok(mobileTimeTableDtoList);
     }
 
@@ -95,6 +97,7 @@ public class mobileHandlerController {
 
     @GetMapping(value = "view/students", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> viewStudents() {
+        System.out.println("students");
         List<UserDto> userDtoList = userService.findAllStudents();
         List<MobileUserDto> mobileUserDtoList = new ArrayList<>();
 
@@ -109,7 +112,7 @@ public class mobileHandlerController {
 
             mobileUserDtoList.add(mobileUserDto);
         }
-
+        System.out.println(mobileUserDtoList);
         return ResponseEntity.ok(mobileUserDtoList);
     }
 

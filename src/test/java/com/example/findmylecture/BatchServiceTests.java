@@ -69,17 +69,6 @@ public class BatchServiceTests {
         assertTrue(isTrue);
         System.out.println("[TEST] Get all batches [PASSED]");
     }
-//
-//    @Test
-//    @Order(4)
-//    public void getBatchByBatchId() {
-//        BatchDto batchDto = batchService.findBatchByBatchId(batchId);
-//
-//        boolean isTrue = batchDto != null;
-//
-//        assertTrue(isTrue);
-//        System.out.println("[TEST] Get batch by batch Id [PASSED]");
-//    }
 
     @Test
     @Order(5)
