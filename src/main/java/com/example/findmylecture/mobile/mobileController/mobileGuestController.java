@@ -15,7 +15,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 @RequestMapping("/mobile/")
 public class mobileGuestController {
 
@@ -28,7 +30,7 @@ public class mobileGuestController {
     @PostMapping(value = "login", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> login(@RequestBody MobileUserDto mobileUserDto) throws Exception {
         authenticate(mobileUserDto.getUsername(), mobileUserDto.getPassword());
-        UserDto userDto = userService.findByUsername(mobileUserDto.getUsername());
+        UserDto userDto = userService.findMobileUser(mobileUserDto.getUsername());
 
         MobileUserDto userResponse = new MobileUserDto();
 

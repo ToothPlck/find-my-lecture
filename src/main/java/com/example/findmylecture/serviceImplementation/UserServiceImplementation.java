@@ -295,6 +295,23 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    public UserDto findMobileUser(String username) {
+        UserDto userDto = new UserDto();
+        User user = userRepo.findUserByUsername(username);
+
+        userDto.setUsername(user.getUsername());
+        userDto.setFirstname(user.getFirstname());
+        userDto.setLastname(user.getLastname());
+        userDto.setContactNumber(user.getContactNumber());
+        userDto.setEmail(user.getEmail());
+        userDto.setBatch(user.getBatch());
+        userDto.setModules(user.getModules());
+        userDto.setRole(user.getRole());
+
+        return userDto;
+    }
+
+    @Override
     public List<UserDto> findAllLecturers() {
         List<UserDto> lecturerList = new ArrayList<>();
 

@@ -40,4 +40,6 @@ public interface UserService {
     String findByEmail(String email);
 
     void mobileSaveLecturer(MobileUserDto mobileUserDto) throws Exception;
+
+    UserDto findMobileUser(String username);
 }
