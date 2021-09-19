@@ -23,14 +23,12 @@ public class UserDetailsServiceImplementation implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.findUserByUsername(username);
-        if(user == null){
+        if (user == null) {
             throw new UsernameNotFoundException(String.format("%s not found", username));
-        }
-        else{
+        } else {
             ArrayList<GrantedAuthority> grantedAuthorities = new ArrayList<>();
             grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().getRoleId().toString().toUpperCase(Locale.ROOT)));
-            UserAuthentication userAuthentication  = new UserAuthentication(grantedAuthorities, user.getUsername(), user.getPassword(),true,true,true,true);
-            return userAuthentication;
+            return new UserAuthentication(grantedAuthorities, user.getUsername(), user.getPassword(), true, true, true, true);
         }
     }
 }

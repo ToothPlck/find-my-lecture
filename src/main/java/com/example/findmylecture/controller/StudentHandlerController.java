@@ -242,12 +242,10 @@ public class StudentHandlerController {
     }
 
     //=================================================================================================search time table
-    @GetMapping("search/timetable")
-    public String searchTimeTable(Model model, Authentication authentication, HttpServletRequest request) {
+    @GetMapping("search/timetable/{search}")
+    public String searchTimeTable(@PathVariable(value = "search")String search, Model model, Authentication authentication) {
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
-        String keyword = request.getParameter("keyword");
-        System.out.println(keyword + "\n\n\n\n\n\n" + request);
-        model.addAttribute("timeTable", timeTableService.searchTimetable(keyword));
+        model.addAttribute("timeTable", timeTableService.searchTimetable(search));
         model.addAttribute("error", "");
         model.addAttribute("success", "");
         return "handler_view_timetable";

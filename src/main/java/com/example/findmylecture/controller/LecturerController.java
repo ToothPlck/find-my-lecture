@@ -7,10 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/lecturer/")
@@ -35,6 +32,14 @@ public class LecturerController {
     public String timetable(Model model, Authentication authentication){
         model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
         model.addAttribute("schedules", timeTableService.getTimeTable());
+        return "lecturer_timetable";
+    }
+
+    //=================================================================================================search time table
+    @GetMapping("search/timetable/{search}")
+    public String searchTimeTable(@PathVariable(value = "search")String search, Model model, Authentication authentication) {
+        model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
+        model.addAttribute("schedules", timeTableService.searchTimetable(search));
         return "lecturer_timetable";
     }
 

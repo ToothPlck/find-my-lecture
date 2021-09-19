@@ -55,7 +55,10 @@
         <form:form modelAttribute="schedules" method="get">
             <div class="col-lg-12 col-md-12 col-sm-12 container justify-content-center">
                 <h1 style="color: #414141;">Time Table</h1>
-
+                <div class="mt-5">
+                    <input type="text" name="search" id="search" placeholder="Search...">
+                    <button type="button" id="searchButton" onclick="searchFunction()" style="color: #ffdf9e; background-color: #414141;">Search</button>
+                </div>
                 <table class="table" style="width: 100%; margin-top: 25px;">
                     <thead>
                     <tr>
@@ -115,5 +118,21 @@
                 document.getElementById('logout').click();
             }
         })
+    }
+
+    function searchFunction() {
+        console.log("here");
+        const searchBy = $("#search").val();
+        console.log(searchBy);
+
+        if (searchBy === "") {
+            Swal.fire({
+                title: "Empty search!",
+                text: "Please enter something to search!",
+                icon: "error",
+            });
+        } else {
+            window.location.href = '/student/search/timetable/' + searchBy;
+        }
     }
 </script>

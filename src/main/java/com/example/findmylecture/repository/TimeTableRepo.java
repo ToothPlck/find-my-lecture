@@ -32,8 +32,8 @@ public interface TimeTableRepo extends JpaRepository<TimeTable, Long> {
     @Query("select t.module from TimeTable t where t.timeTableId=:timetableId")
     Module getModule(Long timetableId);
 
-    @Query("from TimeTable t where t.module.moduleName like:keyword")
-    List<TimeTable> findByKeyword(@Param("keyword") String keyword);
+    @Query("from TimeTable t where t.module.moduleName like %:keyword% or t.room.roomName like %:keyword%")
+    List<TimeTable> findByKeyword(String keyword);
 
     @Query("from TimeTable t where t.room.roomId=:roomId and t.Date=:date")
     List<TimeTable> findByClassroomAndDate(Long roomId, Date date);

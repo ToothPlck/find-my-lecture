@@ -100,7 +100,7 @@ public class TimeTableServiceImplementation implements TimeTableService {
             if (!batch.getModules().contains(timeTableDto.getModules())) {
                 throw new Exception("The following batch: " + batch.getBatchCode() +
                         "cannot have schedules for the following module: "
-                        + timeTableDto.getModules() + "since the module is not assigned to the said batch");
+                        + timeTableDto.getModules().getModuleName() + "since the module is not assigned to the said batch");
             }
             for (TimeTable schedule : schedulesOnDate) {
                 if (schedule.getBatches().contains(batch)) {
@@ -415,8 +415,8 @@ public class TimeTableServiceImplementation implements TimeTableService {
     @Override
     public List<TimeTableDto> searchTimetable(String keyword) {
         List<TimeTableDto> timeTableDtoList = new ArrayList<>();
-        System.out.println(keyword + "\n\n\n\n\n\n");
         for (TimeTable timeTable : timeTableRepo.findByKeyword(keyword)) {
+
             if (LocalDate.parse(timeTable.getDate().toString()).isAfter(LocalDate.now().minusDays(1))) {
                 TimeTableDto timeTableDto = new TimeTableDto();
 

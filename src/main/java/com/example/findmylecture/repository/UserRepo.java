@@ -1,6 +1,5 @@
 package com.example.findmylecture.repository;
 
-import com.example.findmylecture.model.Batch;
 import com.example.findmylecture.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

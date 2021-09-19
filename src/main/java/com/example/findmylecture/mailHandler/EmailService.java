@@ -2,7 +2,6 @@ package com.example.findmylecture.mailHandler;
 
 import com.example.findmylecture.dto.UserDto;
 import com.example.findmylecture.model.Module;
-import com.example.findmylecture.model.TimeTable;
 import com.example.findmylecture.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;

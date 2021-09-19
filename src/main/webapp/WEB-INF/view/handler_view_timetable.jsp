@@ -64,6 +64,10 @@
                         href="${pageContext.request.contextPath}/handler/add/timetable"
                         style="font-size: medium; color: #ffdf9e; background-color: #414141; margin-left: 750px; padding: 5px 10px; text-align: center; text-decoration: none;">Add
                     Schedule</a></h2>
+                <div class="mt-5">
+                    <input type="text" name="search" id="search" placeholder="Search...">
+                    <button type="button" id="searchButton" onclick="searchFunction()" style="color: #ffdf9e; background-color: #414141;">Search</button>
+                </div>
                 <table class="table" style="width: 100%; margin-top: 25px;">
                     <thead>
                     <tr>
@@ -144,6 +148,22 @@
                 showConfirmButton: false,
                 timer: 3000
             });
+        }
+    }
+
+    function searchFunction(){
+        console.log("here");
+        const searchBy = $("#search").val();
+        console.log(searchBy);
+
+        if(searchBy === ""){
+            Swal.fire({
+                title: "Empty search!",
+                text: "Please enter something to search!",
+                icon: "error",
+            });
+        } else {
+            window.location.href = '/handler/search/timetable/' + searchBy;
         }
     }
 
