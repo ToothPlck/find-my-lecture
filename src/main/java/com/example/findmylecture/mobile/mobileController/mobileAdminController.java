@@ -81,6 +81,7 @@ public class mobileAdminController {
 
     @PostMapping(value = "add/lecturer", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> lecturerRegister(@RequestBody MobileUserDto mobileUserDto) throws Exception {
+        System.out.println("\n Add lecturer \n");
         userService.mobileSaveLecturer(mobileUserDto);
         return ResponseEntity.ok().build();
     }
@@ -109,6 +110,7 @@ public class mobileAdminController {
 
     @PostMapping(value = "add/module", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> addModule(@RequestBody MobileModuleDto mobileModuleDto) throws Exception {
+        System.out.println("\n Add MODULE \n");
         ModuleDto moduleDto = new ModuleDto();
 //        moduleDto.setModuleId(mobileModuleDto.getModuleId());
         moduleDto.setModuleName(mobileModuleDto.getModuleName());
@@ -147,6 +149,7 @@ public class mobileAdminController {
 
     @PostMapping(value = "add/batch", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> addBatch(@RequestBody MobileBatchDto mobileBatchDto) throws Exception {
+        System.out.println("\n Add BATCH \n");
         BatchDto batchDto = new BatchDto();
 
         batchDto.setBatchCode(mobileBatchDto.getBatchCode());
@@ -192,6 +195,7 @@ public class mobileAdminController {
 
     @PostMapping(value = "add/room", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> addRoom(@RequestBody MobileRoomDto mobileRoomDto) throws Exception {
+        System.out.println("\n Add ROOM \n");
         RoomDto roomDto = new RoomDto();
 
         roomDto.setRoomName(mobileRoomDto.getRoomName());

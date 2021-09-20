@@ -34,7 +34,6 @@ public class mobileGuestController {
 
         MobileUserDto userResponse = new MobileUserDto();
 
-        //convert role into roleDto
         MobileRoleDto mobileRoleDto = new MobileRoleDto();
         Role role = userDto.getRole();
         mobileRoleDto.setRoleId(role.getRoleId());

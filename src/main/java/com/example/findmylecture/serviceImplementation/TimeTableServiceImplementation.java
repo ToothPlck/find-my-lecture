@@ -509,7 +509,7 @@ public class TimeTableServiceImplementation implements TimeTableService {
     }
 
     @Override
-    public List<TimeTableDto> studentsSchedulesForThisWeek(String username) { //throw exception if studentsBatch = null
+    public List<TimeTableDto> studentsSchedulesForThisWeek(String username) {
         List<TimeTableDto> timeTableDtoList = new ArrayList<>();
         User student = userRepo.findUserByUsername(username);
         Batch studentsBatch = student.getBatch();
