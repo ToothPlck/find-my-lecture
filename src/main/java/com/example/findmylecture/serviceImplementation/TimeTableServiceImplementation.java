@@ -6,7 +6,6 @@ import com.example.findmylecture.model.Batch;
 import com.example.findmylecture.model.Module;
 import com.example.findmylecture.model.TimeTable;
 import com.example.findmylecture.model.User;
-import com.example.findmylecture.repository.BatchRepo;
 import com.example.findmylecture.repository.ModuleRepo;
 import com.example.findmylecture.repository.TimeTableRepo;
 import com.example.findmylecture.repository.UserRepo;
@@ -26,8 +25,6 @@ public class TimeTableServiceImplementation implements TimeTableService {
 
     @Autowired
     private TimeTableRepo timeTableRepo;
-    @Autowired
-    private BatchRepo batchRepo;
     @Autowired
     private EmailService emailService;
     @Autowired
@@ -480,7 +477,7 @@ public class TimeTableServiceImplementation implements TimeTableService {
     }
 
     @Override
-    public List<TimeTableDto> lecturersSchedulesForThisWeek(String username) { //throw exception if the lecturerModules.size = 0
+    public List<TimeTableDto> lecturersSchedulesForThisWeek(String username) {
         List<TimeTableDto> timeTableDtoList = new ArrayList<>();
         List<Module> lecturerModules = moduleRepo.findModulesByUsername(username);
         String[] thisWeek = week();

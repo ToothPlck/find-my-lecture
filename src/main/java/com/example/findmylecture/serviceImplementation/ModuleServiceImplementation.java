@@ -1,7 +1,6 @@
 package com.example.findmylecture.serviceImplementation;
 
 import com.example.findmylecture.dto.ModuleDto;
-import com.example.findmylecture.dto.UserDto;
 import com.example.findmylecture.mailHandler.EmailService;
 import com.example.findmylecture.model.Module;
 import com.example.findmylecture.model.TimeTable;
@@ -200,12 +199,6 @@ public class ModuleServiceImplementation implements ModuleService {
             module.setUser(null);
         }
         moduleRepo.save(module);
-
-//        if (module.getUser() != null) {
-//            emailService.deAssignLecturerFromModule(module.getUser().getEmail(), module.getModuleName());
-//            module.setUser(null);
-//            moduleRepo.save(module);
-//        }
     }
 
     @Override

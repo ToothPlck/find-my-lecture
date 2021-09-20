@@ -29,9 +29,9 @@ public class mobileStudentController {
     private TimeTableService timeTableService;
 
     @GetMapping(value = "/timetable/all", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> viewSchedulesForToday(Authentication authentication) {
+    public ResponseEntity<?> viewSchedules() {
 
-        List<TimeTableDto> timeTableDtoList = timeTableService.studentsSchedulesForThisWeek(authentication.getName());
+        List<TimeTableDto> timeTableDtoList = timeTableService.getTimeTable();
         List<MobileBatchDto> mobileBatchDtoList = new ArrayList<>();
 
         List<MobileTimeTableDto> mobileTimeTableDtoList = new ArrayList<>();

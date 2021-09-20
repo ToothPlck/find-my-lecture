@@ -1,6 +1,5 @@
 package com.example.findmylecture.mobile.mobileController;
 
-import com.example.findmylecture.dto.RoleDto;
 import com.example.findmylecture.dto.UserDto;
 import com.example.findmylecture.mobile.mobiledto.MobileRoleDto;
 import com.example.findmylecture.mobile.mobiledto.MobileUserDto;

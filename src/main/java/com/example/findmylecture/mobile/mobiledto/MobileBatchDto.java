@@ -1,7 +1,5 @@
 package com.example.findmylecture.mobile.mobiledto;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.util.List;
 
 public class MobileBatchDto {

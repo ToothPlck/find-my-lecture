@@ -4,7 +4,6 @@ import com.example.findmylecture.dto.BatchDto;
 import com.example.findmylecture.model.Batch;
 import com.example.findmylecture.model.Module;
 import com.example.findmylecture.repository.BatchRepo;
-import com.example.findmylecture.repository.ModuleRepo;
 import com.example.findmylecture.service.BatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +19,6 @@ public class BatchServiceImplementation implements BatchService {
 
     @Autowired
     private BatchRepo batchRepo;
-    @Autowired
-    private ModuleRepo moduleRepo;
 
     @Override
     public void saveBatch(BatchDto batchDto) throws Exception {
