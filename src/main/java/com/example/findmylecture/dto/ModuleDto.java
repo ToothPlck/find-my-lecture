@@ -4,7 +4,6 @@ import com.example.findmylecture.model.Batch;
 import com.example.findmylecture.model.TimeTable;
 import com.example.findmylecture.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ModuleDto {

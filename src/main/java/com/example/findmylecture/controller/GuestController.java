@@ -1,6 +1,5 @@
 package com.example.findmylecture.controller;
 
-import com.example.findmylecture.dto.UserDto;
 import com.example.findmylecture.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -29,9 +28,6 @@ public class GuestController {
         Long userDto = userService.getUserRole(authentication.getName());
 
         if (userDto == Long.parseLong("3")) {
-//            model.addAttribute("loggedUser", userService.findByUsername(authentication.getName()));
-//            model.addAttribute("schedules", timeTableService.schedulesForToday());
-//            return "admin_home";
             return "redirect:/admin/home";
         }
         if (userDto == Long.parseLong("4")) {

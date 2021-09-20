@@ -3,8 +3,6 @@ package com.example.findmylecture.dto;
 import com.example.findmylecture.model.Batch;
 import com.example.findmylecture.model.Module;
 import com.example.findmylecture.model.Role;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserDto {

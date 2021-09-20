@@ -1,8 +1,6 @@
 package com.example.findmylecture.dto;
 
 import com.example.findmylecture.model.User;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class RoleDto {

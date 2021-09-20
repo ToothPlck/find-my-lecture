@@ -5,8 +5,6 @@ import com.example.findmylecture.model.TimeTable;
 import com.example.findmylecture.model.User;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class BatchDto {
